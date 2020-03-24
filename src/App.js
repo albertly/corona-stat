@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useEffect } from 'react';
+import axios from 'axios';
+
+import Dashboard from './dashboard/Dashboard';
+import { ContextEventsProvider } from './shared/context';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    axios.defaults.baseURL = process.env.REACT_APP_SOURCE_URL;
+    console.log("REACT_APP_SOURCE_URL", process.env.REACT_APP_SOURCE_URL);
+    return (
+        <>
+            <ContextEventsProvider>
+                <Dashboard/>
+            </ContextEventsProvider>
+        </>
+    )
 }
 
 export default App;
