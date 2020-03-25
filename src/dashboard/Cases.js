@@ -22,44 +22,57 @@ const useStyles = makeStyles((theme) => ({
   container: {
     maxHeight: 440,
   },
+  cell_long: {
+    fontSize: "10px",
+    width: 600,
+    minWidth: 1,
+    backgroundColor: '#ee82ee'
+
+  },
+  cell_short: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "11px",
+      width: 20,
+    },    
+  },
 }));
 
-export default function Cases({data}) {
+export default function Cases({ data }) {
   const classes = useStyles();
   return (
     <React.Fragment>
       <Title>Confirmed Cases by Country</Title>
       <TableContainer className={classes.container}>
-      <Table stickyHeader aria-label="sticky table" size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Country</TableCell>
-            <TableCell>Total Cases</TableCell>
-            <TableCell>New Cases</TableCell>
-            <TableCell>Total Deaths</TableCell>
-            <TableCell>New Deaths</TableCell>
-            <TableCell align="right">Total Recovered</TableCell>
-            <TableCell>Active</TableCell>
-            <TableCell>Serious</TableCell>
-            <TableCell>Total Per 1 m</TableCell>            
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row) => (
-            <TableRow key={row.country}>
-              <TableCell>{row.country}</TableCell>
-              <TableCell>{row.total}</TableCell>
-              <TableCell>{row.new}</TableCell>
-              <TableCell>{row.totalDeaths}</TableCell>
-              <TableCell>{row.newDeaths}</TableCell>
-              <TableCell align="right">{row.totalRecovered}</TableCell>
-              <TableCell>{row.active}</TableCell>
-              <TableCell>{row.serious}</TableCell>
-              <TableCell>{row.totCasesPer1m}</TableCell>
+        <Table stickyHeader aria-label="sticky table" size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.cell_short}>Country</TableCell>
+              <TableCell className={classes.cell_short}>Total Cases</TableCell>
+              <TableCell className={classes.cell_short}>New Cases</TableCell>
+              <TableCell className={classes.cell_short}>Total Deaths</TableCell>
+              <TableCell className={classes.cell_short}>New Deaths</TableCell>
+              <TableCell className={classes.cell_short}>Total Recovered</TableCell>
+              <TableCell className={classes.cell_short}>Active</TableCell>
+              <TableCell className={classes.cell_short}>Serious</TableCell>
+              <TableCell className={classes.cell_short}>Per 1 m</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {data.map((row) => (
+              <TableRow key={row.country}>
+                <TableCell className={classes.cell_short}>{row.country}</TableCell>
+                <TableCell className={classes.cell_short}>{row.total}</TableCell>
+                <TableCell className={classes.cell_short}>{row.new}</TableCell>
+                <TableCell className={classes.cell_short}>{row.totalDeaths}</TableCell>
+                <TableCell className={classes.cell_short}>{row.newDeaths}</TableCell>
+                <TableCell className={classes.cell_short}>{row.totalRecovered}</TableCell>
+                <TableCell className={classes.cell_short}>{row.active}</TableCell>
+                <TableCell className={classes.cell_short}>{row.serious}</TableCell>
+                <TableCell className={classes.cell_short}>{row.totCasesPer1m}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </TableContainer>
       {/* <div className={classes.seeMore}>
         <Link color="primary" href="#" onClick={preventDefault}>
