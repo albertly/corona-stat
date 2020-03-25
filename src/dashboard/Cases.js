@@ -29,9 +29,18 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#ee82ee'
 
   },
-  cell_short: {
+  cell_short: {    
+    [theme.breakpoints.down("xl")]: {
+      fontSize: "20px",
+    }, 
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "18px",
+    }, 
+    [theme.breakpoints.down("md")]: {
+      fontSize: "16px",
+    }, 
     [theme.breakpoints.down("sm")]: {
-      fontSize: "11px",
+      fontSize: "12px",
       width: 20,
     },    
   },
