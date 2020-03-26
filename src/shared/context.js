@@ -4,6 +4,9 @@ import axios from 'axios';
 const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
 const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 
+const GET_STAT_SUCCESS = 'GET_STAT_SUCCESS';
+const GET_STAT_FAILURE = 'GET_STAT_FAILURE';
+
 
 const EventsContext = React.createContext();
 
@@ -61,7 +64,8 @@ const reducer = (state, action) => {
 
         case GET_EVENTS_FAILURE:
             return { ...state, currentEvent: {}, errorMessage: action.error }
-
+        
+        
         default:
             return state;
     }
