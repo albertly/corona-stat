@@ -5,9 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
 
-function preventDefault(event) {
-    event.preventDefault();
-}
 
 const useStyles = makeStyles({
     depositContext: {
@@ -25,7 +22,7 @@ export default function News({ data }) {
               
             {state.delta.map((row) => (
                   <Typography component="p" variant="h6">
-                            {`${row.country} ${row.new} (${row.newOld})`} 
+                            {`${row.country} ${row.new ? row.new : 0} (${row.newOld ? row.newOld : 0})`} 
                   </Typography>
             ))}
             <p></p>

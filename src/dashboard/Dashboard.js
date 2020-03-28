@@ -137,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [darkTheme_, setDarkTheme_] = React.useState(false);
+  const [darkTheme_, setDarkTheme_] = React.useState( localStorage.getItem('darkTheme') === 'true');
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -158,7 +158,9 @@ export default function Dashboard() {
   );
 
   const handleThemeChange = event => {
+    localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true' );
     setDarkTheme_( !darkTheme_ );
+    
   };
 
   return (
