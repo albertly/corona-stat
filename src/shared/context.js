@@ -78,6 +78,7 @@ const getEventsAction = async (dispatch) => {
     let response = {};
     try {
         response = await axios.get('');
+        console.log('response', response);
         dispatch({ type: GET_EVENTS_SUCCESS, payload: response.data });
     }
     catch (ex) {
