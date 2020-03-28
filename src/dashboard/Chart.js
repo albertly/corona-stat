@@ -2,7 +2,7 @@ import React, { useState, useEffect  } from 'react';
 import axios from 'axios';
 
 import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Tooltip } from 'recharts';
 import Title from './Title';
 
 // // Generate Sales Data
@@ -37,16 +37,16 @@ export default function Chart() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get('prob');
-
+      const today = new Date();
+      const result = await axios.get(`prob/${today.getFullYear()+'-'+(today.getMonth()+1).pad()+'-'+today.getUTCDate()}`);
       const graphData = result.data.map(e => (
           { 
             time: e.probeTime,
-            amount: parseInt(e.newCases)
+            amount: parseInt(e.newCases.replace(/[^\d\.\-eE+]/g, ""))
           }
         )
       )
-
+      
       setData(graphData);
     };
     fetchData();
@@ -72,10 +72,11 @@ export default function Chart() {
               position="left"
               style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
             >
-              Sales ($)
+              Cases
             </Label>
           </YAxis>
-          <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
+          <Tooltip />
+          <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={true} />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>
