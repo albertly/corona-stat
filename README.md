@@ -31,7 +31,29 @@ https://codesandbox.io/s/l48vjmk3om
 
 How to fetch data with React Hooks?
 https://www.robinwieruch.de/react-hooks-fetch-data
+https://codesandbox.io/s/jvvkoo8pq3
 
+How to query documents in MongoDB that fall within a specified date range using Mongoose and Node.
+https://dev.to/itz_giddy/how-to-query-documents-in-mongodb-that-fall-within-a-specified-date-range-using-mongoose-and-node-524a
+https://stackoverflow.com/questions/40332455/mongoose-query-by-date/40332542
+
+
+Auto-generating Swagger Documentation for your Node API
+https://medium.com/@dlowkeen/auto-generating-swagger-documentation-for-your-node-api-c806cedbdd3e
+Can Swagger autogenerate its yaml based on existing express routes?
+https://stackoverflow.com/questions/31300756/can-swagger-autogenerate-its-yaml-based-on-existing-express-routes
+
+
+REST Services for Typescript
+https://github.com/thiagobustamante/typescript-rest
+https://github.com/vrudikov/typescript-rest-boilerplate
+
+recharts
+http://recharts.org/en-US/examples
+
+
+VS Code - Debugger for Chrome
+https://github.com/microsoft/vscode-chrome-debug/blob/master/README.md
 
 
 ### `yarn build`

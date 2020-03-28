@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import axios from 'axios';
 
 import { EventsContext, getEventsAction } from './shared/context';
 import Cases from './dashboard/Cases';
