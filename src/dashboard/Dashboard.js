@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-let ws;
+
 const URL = process.env.REACT_APP_WS_URL 
 export default function Dashboard() {
 
@@ -141,7 +141,7 @@ export default function Dashboard() {
   useEffect(() => {
     console.log('in useEffect');
 
-    ws = new WebSocket(URL);
+    const ws = new WebSocket(URL);
     console.log('connected', ws);
     ws.onopen = () => {
       console.log('my msg');
