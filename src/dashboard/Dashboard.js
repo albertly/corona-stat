@@ -129,6 +129,7 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
+let ws;
 const URL = process.env.REACT_APP_WS_URL 
 export default function Dashboard() {
 
@@ -140,7 +141,7 @@ export default function Dashboard() {
   useEffect(() => {
     console.log('in useEffect');
 
-    const ws = new WebSocket(URL);
+    ws = new WebSocket(URL);
     console.log('connected', ws);
     ws.onopen = () => {
       console.log('my msg');
@@ -153,12 +154,13 @@ export default function Dashboard() {
     };
     ws.onclose = () => {
       ws.close();
+      console.log("ws close");
     };
 
     return () => {
       //ws.close();
     };
-  });
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);
