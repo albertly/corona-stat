@@ -5,40 +5,16 @@ import { useTheme } from '@material-ui/core/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Tooltip } from 'recharts';
 import Title from './Title';
 
-// // Generate Sales Data
-// function createData(time, amount) {
-//   return { time, amount };
-// }
 
-// const data = [
-//   createData('00:00', 0),
-//   createData('01:30', 50),
-//   createData('03:00', 300),
-//   createData('04:30', 400),
-//   createData('06:00', 600),
-//   createData('07:30', 650),
-//   createData('09:00', 800),
-//   // createData('10:30', 1200),
-//   // createData('12:00', 1500),
-//   // createData('13:30', 1780),
-//   // createData('15:00', 2000),
-//   // createData('16:30', 2200),
-//   // createData('18:00', 2400),
-//   // createData('19:30', 2400),
-//   // createData('21:00', 2400),
-//   // createData('22:30', 2700),
-//   // createData('24:00', 3700),
-// ];
-
-export default function Chart() {
+export default function Chart({refreshGraph, onRefreshGraph}) {
   const theme = useTheme();
 
-  const [data, setData] = useState({ hits: [] });
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const today = new Date();
-      const result = await axios.get(`prob/${today.getFullYear()+'-'+(today.getMonth()+1).pad()+'-'+today.getUTCDate()}`);
+      const result = await axios.get(`prob/${today.getFullYear()+'-'+(today.getMonth()+1).pad()+'-'+today.getDate()}`);
       const graphData = result.data.map(e => (
           { 
             time: e.probeTime,
@@ -46,14 +22,19 @@ export default function Chart() {
           }
         )
       )
-      
+      onRefreshGraph();
+      console.log('graphData', graphData);
       setData(graphData);
     };
-    fetchData();
-  }, []);
+    if (refreshGraph) 
+    {
+      fetchData();
+    }
+  }, [refreshGraph]);
 
-  return (
+  return (       
     <React.Fragment>
+      {console.log("Refreshing ")} 
       <Title>Today</Title>
       <ResponsiveContainer>
         <LineChart

@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
 
 import Dashboard from './dashboard/Dashboard';
 import { ContextEventsProvider } from './shared/context';
@@ -14,10 +14,8 @@ function App() {
 
     return (
         <>
-            <ContextEventsProvider>
-           
+            <ContextEventsProvider>           
                     <Dashboard />
- 
             </ContextEventsProvider>
         </>
     )

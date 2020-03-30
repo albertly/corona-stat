@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,7 +20,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import Checkbox from '@material-ui/core/Checkbox';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
@@ -31,7 +30,6 @@ import Deposits from './Deposits';
 import Counter from '../counter';
 import News from './News';
 
-import Favorite from '@material-ui/icons/Favorite';
 
 function Copyright() {
   return (
@@ -128,22 +126,48 @@ const useStyles = makeStyles((theme) => ({
   switchBase1: {
     display:'none'
   },
-  track: {
-    display:'none'
-  }
   
 }));
 
+const URL = process.env.REACT_APP_WS_URL 
 export default function Dashboard() {
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [darkTheme_, setDarkTheme_] = React.useState( localStorage.getItem('darkTheme') === 'true');
+  const [refreshGraph, setRefreshGraph] =   React.useState( true );
+
+  useEffect(() => {
+    console.log('in useEffect');
+
+    const ws = new WebSocket(URL);
+    console.log('connected', ws);
+    ws.onopen = () => {
+      console.log('my msg');
+      ws.send('my msg');
+    };
+    ws.onmessage = (event) => {
+     // const response = JSON.parse(event.data);
+      setRefreshGraph(true);
+      console.log('ws onmessage', event.data);
+    };
+    ws.onclose = () => {
+      ws.close();
+    };
+
+    return () => {
+      //ws.close();
+    };
+  });
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const handleRefreshGraph = () => {
+    setRefreshGraph(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -178,12 +202,7 @@ export default function Dashboard() {
             >
               <MenuIcon />
             </IconButton>
-            {/* https://media.giphy.com/media/MCAFTO4btHOaiNRO1k/giphy.gif
-                                                                  https://media.giphy.com/media/Xedr8hgTJHToVio0z0/giphy.gif
-                                                                  https://media.giphy.com/media/Ek37RlpWPR6Vi/giphy.gif
-                                                                  https://media.giphy.com/media/S8m47FJKbh2ihD6Mi3/giphy.gif
-                                                                  https://media.giphy.com/media/dVuyBgq2z5gVBkFtDc/giphy.gif */}
-            {/* <Avatar alt="Remy Sharp" className={classes.large} src="coronavirus-1.gif" /> */}
+
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
 
               COVID-19 CORONAVIRUS PANDEMIC
@@ -197,7 +216,6 @@ export default function Dashboard() {
                   root: classes.root,
                   switchBase: classes.switchBase,
                   thumb: classes.thumb,
-                  track: classes.track,
                   checked: classes.checked,
                 }}/>}
               label={`Change to ${darkTheme_? "light" : "dark"}`}
@@ -215,6 +233,8 @@ export default function Dashboard() {
             paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
           }}
           open={open}
+          onClose={handleDrawerClose}
+          onOpen={handleDrawerOpen}
         >
           <div className={classes.toolbarIcon}>
             <IconButton onClick={handleDrawerClose}>
@@ -239,7 +259,7 @@ export default function Dashboard() {
               {/* Chart */}
               <Grid item xs={12} md={8} lg={6}>
                 <Paper className={fixedHeightPaper}>
-                  <Chart />
+                  <Chart refreshGraph={refreshGraph} onRefreshGraph={handleRefreshGraph}/>
                 </Paper>
               </Grid>
               {/* News */}

@@ -8,7 +8,6 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import MailIcon from '@material-ui/icons/Mail';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 import AssignmentIcon from '@material-ui/icons/Assignment';
