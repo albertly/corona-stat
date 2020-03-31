@@ -30,6 +30,49 @@ import Deposits from './Deposits';
 import Counter from '../counter';
 import News from './News';
 
+import PropTypes from 'prop-types';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import Fab from '@material-ui/core/Fab';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Zoom from '@material-ui/core/Zoom';
+
+function ScrollTop(props) {
+  const { children, window } = props;
+  const classes = useStyles();
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+    disableHysteresis: false,
+    threshold: 10,
+  });
+
+  const handleClick = event => {
+    const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
+
+    if (anchor) {
+      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+  console.log('trigger', trigger);
+  return (
+    <Zoom in={trigger}>
+      <div onClick={handleClick} role="presentation" className={classes.root1} >
+        {children}
+      </div>
+    </Zoom>
+  );
+}
+
+ScrollTop.propTypes = {
+  children: PropTypes.element.isRequired,
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+};
 
 function Copyright() {
   return (
@@ -47,6 +90,11 @@ function Copyright() {
 const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
+  root1: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
   root: {
     display: 'flex',
   },
@@ -131,7 +179,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const URL = process.env.REACT_APP_WS_URL 
-export default function Dashboard() {
+export default function Dashboard(props) {
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -191,7 +239,7 @@ export default function Dashboard() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <div className={classes.root}>
+      {/* <div className={classes.root}> */}
         <CssBaseline />
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar variant="dense" className={classes.toolbar}>
@@ -248,8 +296,8 @@ export default function Dashboard() {
           <Divider />
           <List>{secondaryListItems}</List>
         </SwipeableDrawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
+        {/* <main className={classes.content}> */}
+          <div className={classes.appBarSpacer} id="back-to-top-anchor"/>
           <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={4}>
               {/* Totals */}
@@ -281,8 +329,20 @@ export default function Dashboard() {
               <Copyright />
             </Box>
           </Container>
-        </main>
-      </div>
+
+
+      <ScrollTop {...props}>
+        <Fab color="secondary" size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTop>
+
+      {/* </main> */}
+
+
+{/* </div> */}
     </ThemeProvider>
+
+
   );
 }
