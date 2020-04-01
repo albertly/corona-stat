@@ -4,9 +4,7 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import EnhancedTableHead from '../shared/EnhancedTableHead';
 
 import Title from './Title';
@@ -30,29 +28,38 @@ function getComparator(order, orderBy) {
 
 function stableSort(array, comparator) {
   console.log('In stableSort',);
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  let total; 
+  const stabilizedThis = array.reduce(function(result, o) {
+    if (o.country !== 'Total:') {
+      result.push(o);
+    }
+    else {
+      total = o;
+    }
+    return result;
+  }, []).map((el, index) => [el, index]);
+  
+  //const stabilizedThis = array.filter(el => el.country !== 'Total:').map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  console.log('stabilizedThis', stabilizedThis.map((el) => el[0]));
+
+  if (total) {
+    stabilizedThis.unshift([total, 0]);
+  }
+  
   return stabilizedThis.map((el) => el[0]);
+
 }
 
 const useStyles = makeStyles((theme) => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
   container: {
     maxHeight: 440,
   },
-  cell_long: {
-    fontSize: "10px",
-    width: 600,
-    minWidth: 1,
-    backgroundColor: '#ee82ee'
-
+  total_cell: {
+    backgroundColor: theme.palette.primary.light,
   },
   cell_short: {    
     [theme.breakpoints.down("xl")]: {
@@ -81,8 +88,6 @@ export default function Cases({ data }) {
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('total');
   const [selected, setSelected] = useState([]);
-  const [page, setPage] = React.useState(0);
-  //const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -98,6 +103,7 @@ export default function Cases({ data }) {
     }
     setSelected([]);
   };
+  const colorForTotal = index => `${ index === 0 ? classes.total_cell : {}} ${classes.cell_short}`;
 
   return (
     <React.Fragment>
@@ -113,19 +119,6 @@ export default function Cases({ data }) {
               onRequestSort={handleRequestSort}
               rowCount={data.length}
             />
-          {/* <TableHead>
-            <TableRow>
-              <TableCell className={classes.cell_short}>Country</TableCell>
-              <TableCell className={classes.cell_short}>Total Cases</TableCell>
-              <TableCell className={classes.cell_short}>New Cases</TableCell>
-              <TableCell className={classes.cell_short}>Total Deaths</TableCell>
-              <TableCell className={classes.cell_short}>New Deaths</TableCell>
-              <TableCell className={classes.cell_short}>Total Recovered</TableCell>
-              <TableCell className={classes.cell_short}>Active</TableCell>
-              <TableCell className={classes.cell_short}>Serious</TableCell>
-              <TableCell className={classes.cell_short}>Per 1 m</TableCell>
-            </TableRow>
-          </TableHead> */}
           <TableBody>
             { 
              stableSort( data.map(row => {
@@ -140,35 +133,30 @@ export default function Cases({ data }) {
                 serious: +(row.serious.replace(/[^\d\.\-eE+]/g, "")),
                 totCasesPer1m: +(row.totCasesPer1m.replace(/[^\d\.\-eE+]/g, ""))
               }
-            })
-               , getComparator(order, orderBy))
-            //    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            }),
+             getComparator(order, orderBy))
               .map((row, index) => {
               const labelId = `enhanced-table-checkbox-${index}`;
               return (
               <TableRow key={row.country}>
-                <TableCell className={`${classes.tableCell} ${classes.cell_short}`} component="th" id={labelId} scope="row" padding="none">
+                <TableCell className={`${classes.tableCell} ${colorForTotal(index)}`} component="th" id={labelId} scope="row" padding="none">
                         {row.country}
                 </TableCell>
-                <TableCell className={classes.cell_short}>{row.total}</TableCell>
-                <TableCell className={classes.cell_short}>{row.new}</TableCell>
-                <TableCell className={classes.cell_short}>{row.totalDeaths}</TableCell>
-                <TableCell className={classes.cell_short}>{row.newDeaths}</TableCell>
-                <TableCell className={classes.cell_short}>{row.totalRecovered}</TableCell>
-                <TableCell className={classes.cell_short}>{row.active}</TableCell>
-                <TableCell className={classes.cell_short}>{row.serious}</TableCell>
-                <TableCell className={classes.cell_short}>{row.totCasesPer1m}</TableCell>
+                
+                <TableCell className={colorForTotal(index)}>{row.total}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.new}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.totalDeaths}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.newDeaths}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.totalRecovered}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.active}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.serious}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.totCasesPer1m}</TableCell>
               </TableRow>
               )
             })}
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          See more orders
-        </Link>
-      </div> */}
     </React.Fragment>
   );
 }
