@@ -86,6 +86,18 @@ https://dev.to/sirwanafifi/websocket-and-react-58an
 
 https://github.com/websockets/ws
 
+https://socket.io/
+https://github.com/socketio/socket.io-client
+
+Websocket client implementation for auto reconnect
+https://github.com/websockets/ws/wiki/Websocket-client-implementation-for-auto-reconnect
+
+reconnecting-websocket
+https://www.npmjs.com/package/reconnecting-websocket
+
+https://www.npmjs.com/package/ws-reconnect
+https://github.com/joewalnes/reconnecting-websocket
+
 //////////////
 axios-cache-adapter
 https://www.npmjs.com/package/axios-cache-adapter
