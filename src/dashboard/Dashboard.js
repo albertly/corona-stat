@@ -36,6 +36,8 @@ import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Zoom from '@material-ui/core/Zoom';
 
+//import WebSocketClient from '../shared/WebSocket';
+import appInfo from '../../package.json';
 function ScrollTop(props) {
   const { children, window } = props;
   const classes = useStyles();
@@ -55,7 +57,7 @@ function ScrollTop(props) {
       anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
-  console.log('trigger', trigger);
+
   return (
     <Zoom in={trigger}>
       <div onClick={handleClick} role="presentation" className={classes.root1} >
@@ -74,12 +76,14 @@ ScrollTop.propTypes = {
   window: PropTypes.func,
 };
 
+
 function Copyright() {
+  console.log(appInfo.version);
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Corona Statistics v1.0.2
+        Corona Statistics v{appInfo.version}
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -177,6 +181,12 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
+function getRandomInt(min, max) {
+
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * ((max > 120 ? 120 : max )- min + 1)) + min;
+}
 
 const URL = process.env.REACT_APP_WS_URL 
 export default function Dashboard(props) {
@@ -188,22 +198,38 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     console.log('in useEffect');
+    let ws;
+    let counter = 0;
 
-    const ws = new WebSocket(URL);
-    console.log('connected', ws);
-    ws.onopen = () => {
-      console.log('my msg');
-      ws.send('my msg');
-    };
-    ws.onmessage = (event) => {
-     // const response = JSON.parse(event.data);
-      setRefreshGraph(true);
-      console.log('ws onmessage', event.data);
-    };
-    ws.onclose = () => {
-      ws.close();
-      console.log("ws close");
-    };
+    function Connect (ws) {
+      if (counter > 50000) {
+        return;
+      }
+      ws = new WebSocket(URL);
+      //ws.open(URL);
+      console.log('connected', ws, counter);
+
+      ws.onopen = () => {
+        counter = 0;
+        console.log('my msg');
+        ws.send('my msg');
+      };
+
+      ws.onmessage = (event) => {
+       // const response = JSON.parse(event.data);
+        setRefreshGraph(true);
+        console.log('ws onmessage', event.data);
+      };
+
+      ws.onclose = () => {
+        counter +=1;
+        setTimeout( () => Connect(ws), 1000 * getRandomInt(1,counter));
+        console.log("ws close");
+      };
+
+    }
+
+    Connect(ws);
 
     return () => {
       //ws.close();

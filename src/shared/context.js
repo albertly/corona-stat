@@ -34,7 +34,7 @@ function compareArr(new_, old_) {
             else {
                 res.push({ ...obj, newOld: oldObj.new });
             }
-            console.log('!!!-', obj.country, `${obj.new}(${oldObj.new})`);            
+            //console.log('!!!-', obj.country, `${obj.new}(${oldObj.new})`);            
         }
     });
 
@@ -78,7 +78,7 @@ const getEventsAction = async (dispatch) => {
     let response = {};
     try {
         response = await axios.get('');
-        console.log('response', response);
+        //console.log('response', response);
         dispatch({ type: GET_EVENTS_SUCCESS, payload: response.data });
     }
     catch (ex) {
