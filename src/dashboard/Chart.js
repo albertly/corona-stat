@@ -33,9 +33,8 @@ export default function Chart({refreshGraph, onRefreshGraph}) {
   }, [refreshGraph]);
 
   return (       
-    <React.Fragment>
-      {console.log("Refreshing ")} 
-      <Title>Today</Title>
+    <React.Fragment>      
+      <Title>{  new Date().toUTCString() } </Title>
       <ResponsiveContainer>
         <LineChart
           data={data}
