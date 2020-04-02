@@ -14,33 +14,33 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button onClick={() => alert('not implemented yet')}>
       <ListItemIcon>
         <Tooltip title="Dashboard"><DashboardIcon aria-label="Dashboard" /></Tooltip>
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => alert('not implemented yet')}>
       <ListItemIcon>
-        <MailIcon />
+      <Tooltip title="Subscribe"><MailIcon /></Tooltip>
       </ListItemIcon>
       <ListItemText primary="Subscribe" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => alert('not implemented yet')}>
       <ListItemIcon>
-        <UnsubscribeIcon />
+      <Tooltip title="Unsubscribe"><UnsubscribeIcon /></Tooltip>
       </ListItemIcon>
       <ListItemText primary="Unsubscribe" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => alert('not implemented yet')}>
       <ListItemIcon>
-        <BarChartIcon />
+      <Tooltip title="Reports"><BarChartIcon /></Tooltip>
       </ListItemIcon>
       <ListItemText primary="Reports" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => alert('not implemented yet')}>
       <ListItemIcon>
-        <AddLocationIcon />
+      <Tooltip title="Add to watch list"><AddLocationIcon /></Tooltip>
       </ListItemIcon>
       <ListItemText primary="Add to watch list" />
     </ListItem>
@@ -52,21 +52,21 @@ export const secondaryListItems = (
     <ListSubheader inset>Saved reports</ListSubheader>
     <ListItem button>
       <ListItemIcon>
-        <BookmarkIcon />
+      <Tooltip title="Current month"><BookmarkIcon /></Tooltip>
       </ListItemIcon>
       <ListItemText primary="Current month" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+      <Tooltip title="Last quarter"><AssignmentIcon /></Tooltip>
       </ListItemIcon>
       <ListItemText primary="Last quarter" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+      <Tooltip title="Year-end"><AssignmentIcon /></Tooltip>
       </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Year-end" />
     </ListItem>
   </div>
 );

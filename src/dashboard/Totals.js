@@ -16,7 +16,7 @@ import Title from './Title';
 //   },
 // });
 
-export default function Deposits() {
+export default function Totals() {
   const { state, dispatch } = useContext(EventsContext);
  // const classes = useStyles();
   return (
@@ -25,13 +25,13 @@ export default function Deposits() {
       <Typography component="p" variant="h6">
         {state.total}
       </Typography>
-      <Title>New Today Total:</Title>
+      <Title>New Cases Today:</Title>
       <Typography component="p" variant="h6" >
         {state.new}
       </Typography>
-      <Title>Deaths:</Title>
+      <Title>New Deaths Deaths:</Title>
       <Typography component="p" variant="h6">
-        13,697
+        {state.deaths}
       </Typography>
 
     </React.Fragment>

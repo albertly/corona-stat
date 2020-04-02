@@ -11,7 +11,7 @@ const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 const EventsContext = React.createContext();
 
 
-const initialState = { events: [], delta: [], total: '', new: '', currentEvent: {}, errorMessage: '' };
+const initialState = { events: [], delta: [], total: '', new: '', deaths: '', currentEvent: {}, errorMessage: '' };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -38,9 +38,7 @@ function compareArr(new_, old_) {
         }
     });
 
-    return { res,
-             new: newTotal, 
-             total};
+    return { res };
 }
 
 //ToDo: getEventsAction should mark start action and not allow to run axios when marked.
@@ -50,7 +48,7 @@ const reducer = (state, action) => {
     switch (action.type) {
         case GET_EVENTS_SUCCESS:
 
-            const { res: delta, newTotal, total } = compareArr(action.payload, state.events);
+            const { res: delta } = compareArr(action.payload, state.events);
             
             if (delta.length) {
                    
@@ -59,6 +57,7 @@ const reducer = (state, action) => {
                          delta:  [...delta, ...state.delta].slice(0, 10),
                          total:  action.payload[action.payload.length - 1].total, //total ? total : state.total,
                          new:    action.payload[action.payload.length - 1].new ,  //newTotal ? newTotal : state.new,
+                         deaths: action.payload[action.payload.length - 1].newDeaths,
                         errorMessage: '' };
             }
 

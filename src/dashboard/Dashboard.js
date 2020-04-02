@@ -26,7 +26,7 @@ import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
-import Deposits from './Deposits';
+import Totals from './Totals';
 import Counter from '../counter';
 import News from './News';
 
@@ -329,7 +329,7 @@ export default function Dashboard(props) {
               {/* Totals */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper className={fixedHeightPaper}>
-                  <Deposits />
+                  <Totals />
                 </Paper>
               </Grid>
               {/* Chart */}
