@@ -4,6 +4,8 @@ import axios from 'axios';
 const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
 const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 
+const GET_YESTERDAY_EVENTS_SUCCESS = 'GET_YESTERDAY_EVENTS_SUCCESS';
+const GET_YESTERDAY_EVENTS_FAILURE = 'GET_YESTERDAY_EVENTS_FAILURE';
 // const GET_STAT_SUCCESS = 'GET_STAT_SUCCESS';
 // const GET_STAT_FAILURE = 'GET_STAT_FAILURE';
 
@@ -11,7 +13,7 @@ const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 const EventsContext = React.createContext();
 
 
-const initialState = { events: [], delta: [], total: '', new: '', deaths: '', currentEvent: {}, errorMessage: '' };
+const initialState = { events: [], delta: [], total: '', new: '', deaths: '', currentEvent: {}, eventsYesterday: [], errorMessage: '' };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -46,6 +48,15 @@ function compareArr(new_, old_) {
 const reducer = (state, action) => {
 
     switch (action.type) {
+        case GET_YESTERDAY_EVENTS_SUCCESS:
+            
+            if (true) {
+                   
+                return { ...state,
+                         eventsYesterday: action.payload,
+                         errorMessage: '' };
+            }
+
         case GET_EVENTS_SUCCESS:
 
             const { res: delta } = compareArr(action.payload, state.events);
@@ -60,7 +71,7 @@ const reducer = (state, action) => {
                          deaths: action.payload[action.payload.length - 1].newDeaths,
                         errorMessage: '' };
             }
-
+        case GET_YESTERDAY_EVENTS_FAILURE:
         case GET_EVENTS_FAILURE:
             return { ...state, currentEvent: {}, errorMessage: action.error }
         
@@ -72,6 +83,17 @@ const reducer = (state, action) => {
     return state;
 };
 
+const getYesterdayEventsAction = async (dispatch) => {
+    let response = {};
+    try {
+        response = await axios.get('/yesterday');
+        //console.log('response', response);
+        dispatch({ type: GET_YESTERDAY_EVENTS_SUCCESS, payload: response.data });
+    }
+    catch (ex) {
+        dispatch({ type: GET_YESTERDAY_EVENTS_FAILURE, error: 'Get Yesterday Events Error' });
+    }
+}
 
 const getEventsAction = async (dispatch) => {
     let response = {};
@@ -98,5 +120,6 @@ function ContextEventsProvider(props) {
 export {
     EventsContext,
     ContextEventsProvider,
-    getEventsAction
+    getEventsAction,
+    getYesterdayEventsAction
 };

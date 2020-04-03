@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 440,
   },
   total_cell: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: 'grey', 
   },
   cell_short: {    
     [theme.breakpoints.down("xl")]: {

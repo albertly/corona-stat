@@ -1,6 +1,6 @@
 {
   "name": "corona-stat",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.7",
@@ -12,6 +12,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
+    "react-swipeable-views": "^0.13.9",
     "recharts": "^1.8.5",
     "ws": "^7.2.3"
   },
