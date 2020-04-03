@@ -107,7 +107,7 @@ export default function Cases({ data }) {
 
   return (
     <React.Fragment>
-      <Title>Confirmed Cases by Country</Title>
+      {/* <Title>Confirmed Cases</Title> */}
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table" size="small">
         <EnhancedTableHead
@@ -124,6 +124,14 @@ export default function Cases({ data }) {
              stableSort( data.map(row => {
               return {                
                 country: row.country,
+                totalD: row.total,
+                newD: row.new,
+                totalDeathsD: row.totalDeaths,
+                newDeathsD: row.newDeaths,
+                totalRecoveredD: row.totalRecovered,
+                activeD: row.active,
+                seriousD: row.serious,
+                totCasesPer1mD: row.totCasesPer1m,
                 total: +(row.total.replace(/[^\d\.\-eE+]/g, "")),
                 new: +(row.new.replace(/[^\d\.\-eE+]/g, "")),
                 totalDeaths: +(row.totalDeaths.replace(/[^\d\.\-eE+]/g, "")),
@@ -131,7 +139,7 @@ export default function Cases({ data }) {
                 totalRecovered: +(row.totalRecovered.replace(/[^\d\.\-eE+]/g, "")),
                 active: +(row.active.replace(/[^\d\.\-eE+]/g, "")),
                 serious: +(row.serious.replace(/[^\d\.\-eE+]/g, "")),
-                totCasesPer1m: +(row.totCasesPer1m.replace(/[^\d\.\-eE+]/g, ""))
+                totCasesPer1m: +(row.totCasesPer1m.replace(/[^\d\.\-eE+]/g, "")),
               }
             }),
              getComparator(order, orderBy))
@@ -143,14 +151,14 @@ export default function Cases({ data }) {
                         {row.country}
                 </TableCell>
                 
-                <TableCell className={colorForTotal(index)}>{row.total}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.new}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.totalDeaths}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.newDeaths}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.totalRecovered}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.active}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.serious}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.totCasesPer1m}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.totalD}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.newD}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.totalDeathsD}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.newDeathsD}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.totalRecoveredD}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.activeD}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.seriousD}</TableCell>
+                <TableCell className={colorForTotal(index)}>{row.totCasesPer1mD}</TableCell>
               </TableRow>
               )
             })}

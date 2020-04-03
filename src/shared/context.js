@@ -60,7 +60,7 @@ const reducer = (state, action) => {
         case GET_EVENTS_SUCCESS:
 
             const { res: delta } = compareArr(action.payload, state.events);
-            
+            console.log('payload', action.payload);
             if (delta.length) {
                    
                 return { ...state,

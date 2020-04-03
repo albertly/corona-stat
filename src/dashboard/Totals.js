@@ -25,11 +25,11 @@ export default function Totals() {
       <Typography component="p" variant="h6">
         {state.total}
       </Typography>
-      <Title>New Cases Today:</Title>
+      <Title>New Cases:</Title>
       <Typography component="p" variant="h6" >
         {state.new}
       </Typography>
-      <Title>New Deaths Deaths:</Title>
+      <Title>New Deaths:</Title>
       <Typography component="p" variant="h6">
         {state.deaths}
       </Typography>
