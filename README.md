@@ -1,6 +1,7 @@
 
-##Screens
-![Test Image 4](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/browser.jpg)
+## Screens
+Web Page in Chrome
+![Web Page in Chrome](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/browser.jpg)
 
 
 ## Resources
