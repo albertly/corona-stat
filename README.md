@@ -1,8 +1,10 @@
 
 ## Screens
 Web Page in Chrome
-![Web Page in Chrome](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/browser.jpg)
+![Web Page](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/browser.jpg)
 
+Desktop Application (Windows 10)
+![Desktop](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/desktop.jpg)
 
 ## Resources
 
@@ -129,17 +131,6 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
 ### Analyzing the Bundle Size
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
@@ -156,6 +147,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/ad
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
