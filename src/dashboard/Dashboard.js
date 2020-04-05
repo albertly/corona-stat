@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -11,12 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import SwipeableViews from 'react-swipeable-views';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -26,20 +19,15 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { mainListItems, secondaryListItems } from './listItems';
-import Chart from './Chart';
-import Totals from './Totals';
-import Counter from '../counter';
-import Yesterday from '../yesterday';
-import News from './News';
-import Copyright from './Copyright';
-import TabPanel from './TabPanel';
-import ScrollTop from './ScrollTop';
-
-import { getRandomInt } from '../shared/utils';
-
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+
+import { mainListItems, secondaryListItems } from './listItems';
+import ScrollTop from './ScrollTop';
+import Main from './Main/Main';
+import { getRandomInt } from '../shared/utils';
+
+
 
 const drawerWidth = 200;
 
@@ -121,17 +109,15 @@ const useStyles = makeStyles((theme) => ({
   switchBase1: {
     display: 'none'
   },
-
 }));
 
 const URL = process.env.REACT_APP_WS_URL;
 
 export default function Dashboard(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [darkTheme_, setDarkTheme_] = React.useState(localStorage.getItem('darkTheme') === 'true');
-  const [refreshGraph, setRefreshGraph] = React.useState(true);
-  const [value, setValue] = React.useState(0);
+  const [open, setOpen] = useState(false);
+  const [darkTheme_, setDarkTheme_] = useState(localStorage.getItem('darkTheme') === 'true');
+  const [refreshGraph, setRefreshGraph] = useState(true);
 
   useEffect(() => {
     console.log('in useEffect');
@@ -153,7 +139,6 @@ export default function Dashboard(props) {
       };
 
       ws.onmessage = (event) => {
-        // const response = JSON.parse(event.data);
         setRefreshGraph(true);
         console.log('ws onmessage', event.data);
       };
@@ -182,13 +167,6 @@ export default function Dashboard(props) {
   const handleRefreshGraph = () => {
     setRefreshGraph(false);
   };
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const darkTheme = React.useMemo(
     () =>
@@ -203,7 +181,6 @@ export default function Dashboard(props) {
   const handleThemeChange = event => {
     localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true');
     setDarkTheme_(!darkTheme_);
-
   };
 
   return (
@@ -223,7 +200,6 @@ export default function Dashboard(props) {
           </IconButton>
 
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-
             COVID-19 CORONAVIRUS PANDEMIC
           </Typography>
           <FormGroup row>
@@ -265,58 +241,10 @@ export default function Dashboard(props) {
         <Divider />
         <List>{secondaryListItems}</List>
       </SwipeableDrawer>
-      {/* <main className={classes.content}> */}
+
       <div className={classes.appBarSpacer} id="back-to-top-anchor" />
-      <Container maxWidth="lg" className={classes.container}>
-        <Grid container spacing={4}>
-          {/* Totals */}
-          <Grid item xs={12} md={4} lg={3}>
-            <Paper className={fixedHeightPaper}>
-              <Totals />
-            </Paper>
-          </Grid>
-          {/* Chart */}
-          <Grid item xs={12} md={8} lg={6}>
-            <Paper className={fixedHeightPaper}>
-              <Chart refreshGraph={refreshGraph} onRefreshGraph={handleRefreshGraph} />
-            </Paper>
-          </Grid>
-          {/* News */}
-          <Grid item xs={12} md={4} lg={3}>
-            <Paper className={fixedHeightPaper}>
-              <News />
-            </Paper>
-          </Grid>
-          {/* Recent Orders */}
-          <Grid item xs={12}>
-            {/* <Paper className={classes.paper1}> */}
-            <Tabs
-              value={value}
-              indicatorColor="primary"
-              textColor="primary"
-              onChange={handleChange}
-              aria-label="disabled tabs example">
-              <Tab label="Now" />
-              <Tab label="Yesterday" />
-            </Tabs>
-            <SwipeableViews
-              index={value}
-              animateTransitions={false}
-              onChangeIndex={handleChangeIndex}>
-              <TabPanel value={value} index={0}>
-                <Counter />
-              </TabPanel>
-              <TabPanel value={value} index={1}>
-                <Yesterday />
-              </TabPanel>
-            </SwipeableViews>
-            {/* </Paper> */}
-          </Grid>
-        </Grid>
-        <Box pt={4}>
-          <Copyright />
-        </Box>
-      </Container>
+
+      <Main classes={classes} refreshGraph={refreshGraph} handleRefreshGraph={handleRefreshGraph} />
 
       <ScrollTop {...props}>
         <Fab color="secondary" size="small" aria-label="scroll back to top">

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 
-import appInfo from '../../package.json';
+import appInfo from '../../../package.json';
 
 export default function Copyright() {
     console.log(appInfo.version);

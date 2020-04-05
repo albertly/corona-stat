@@ -5,9 +5,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
-import EnhancedTableHead from '../shared/EnhancedTableHead';
+import EnhancedTableHead from '../../EnhancedTableHead';
 
-import Title from './Title';
+import Title from '../../Title';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {

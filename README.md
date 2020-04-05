@@ -6,6 +6,9 @@ Web Page in Chrome
 Desktop Application (Windows 10)
 ![Desktop](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/desktop.jpg)
 
+Android App.
+![Desktop](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/android.jpg)
+
 ## Resources
 
 https://github.com/mars/create-react-app-buildpack

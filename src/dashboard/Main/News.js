@@ -1,9 +1,9 @@
 import React, { useContext  } from 'react';
-import { EventsContext } from '../shared/context';
+import { EventsContext } from '../../shared/context';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Title from './Title';
+import Title from '../Title';
 
 
 const useStyles = makeStyles({

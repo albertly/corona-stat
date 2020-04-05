@@ -2,9 +2,9 @@ import React, { useContext  } from 'react';
 //import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import { EventsContext } from '../shared/context';
+import { EventsContext } from '../../shared/context';
 
-import Title from './Title';
+import Title from '../Title';
 
 // function preventDefault(event) {
 //   event.preventDefault();
