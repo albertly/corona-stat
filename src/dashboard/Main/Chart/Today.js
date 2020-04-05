@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 
-import { EventsContext, getEventsAction } from '../../shared/context';
-import Cases from './Cases/Cases';
-import useInterval from '../../shared/utils';
+import { EventsContext, getEventsAction } from '../../../shared/context';
+import Cases from '../Cases/Cases';
+import useInterval from '../../../shared/utils';
 
 
 function Today() {

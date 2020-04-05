@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 
-import { EventsContext, getYesterdayEventsAction } from '../../shared/context';
-import Cases from './Cases/Cases';
+import { EventsContext, getYesterdayEventsAction } from '../../../shared/context';
+import Cases from '../Cases/Cases';
 
 
 function Yesterday() {

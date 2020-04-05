@@ -8,10 +8,10 @@ import SwipeableViews from 'react-swipeable-views';
 import Box from '@material-ui/core/Box';
 import clsx from 'clsx';
 
-import Chart from './Cases/Chart';
+import Chart from './Chart/Chart';
 import Totals from './Totals';
-import Counter from './Today';
-import Yesterday from './yesterday';
+import Counter from './Chart/Today';
+import Yesterday from './Chart/yesterday';
 import News from './News';
 import Copyright from './Copyright';
 import TabPanel from './TabPanel';
