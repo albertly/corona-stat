@@ -11,6 +11,12 @@ import { useEffect, useRef } from "react";
     }
 })();
 
+export function getRandomInt(min, max) {
+
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * ((max > 120 ? 120 : max) - min + 1)) + min;
+}
 
 function useInterval(callback, delay) {
     const savedCallback = useRef();

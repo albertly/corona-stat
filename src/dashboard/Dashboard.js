@@ -17,7 +17,6 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -33,76 +32,18 @@ import Totals from './Totals';
 import Counter from '../counter';
 import Yesterday from '../yesterday';
 import News from './News';
+import Copyright from './Copyright';
+import TabPanel from './TabPanel';
+import ScrollTop from './ScrollTop';
 
-import PropTypes from 'prop-types';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import { getRandomInt } from '../shared/utils';
+
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import Zoom from '@material-ui/core/Zoom';
-
-//import WebSocketClient from '../shared/WebSocket';
-import appInfo from '../../package.json';
-function ScrollTop(props) {
-  const { children, window } = props;
-  const classes = useStyles();
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-    disableHysteresis: false,
-    threshold: 10,
-  });
-
-  const handleClick = event => {
-    const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
-
-    if (anchor) {
-      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  };
-
-  return (
-    <Zoom in={trigger}>
-      <div onClick={handleClick} role="presentation" className={classes.root1} >
-        {children}
-      </div>
-    </Zoom>
-  );
-}
-
-ScrollTop.propTypes = {
-  children: PropTypes.element.isRequired,
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
-
-
-function Copyright() {
-  console.log(appInfo.version);
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Corona Statistics v{appInfo.version}
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
-  root1: {
-    position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
   root: {
     display: 'flex',
   },
@@ -123,14 +64,6 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  // appBarShift: {
-  //   marginLeft: drawerWidth,
-  //   width: `calc(100% - ${drawerWidth}px)`,
-  //   transition: theme.transitions.create(['width', 'margin'], {
-  //     easing: theme.transitions.easing.sharp,
-  //     duration: theme.transitions.duration.enteringScreen,
-  //   }),
-  // },
   menuButton: {
     marginRight: 36,
   },
@@ -191,31 +124,9 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function getRandomInt(min, max) {
+const URL = process.env.REACT_APP_WS_URL;
 
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * ((max > 120 ? 120 : max) - min + 1)) + min;
-}
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={0}>{children}</Box>}
-    </Typography>
-  );
-}
-const URL = process.env.REACT_APP_WS_URL
 export default function Dashboard(props) {
-
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [darkTheme_, setDarkTheme_] = React.useState(localStorage.getItem('darkTheme') === 'true');
@@ -384,11 +295,8 @@ export default function Dashboard(props) {
               indicatorColor="primary"
               textColor="primary"
               onChange={handleChange}
-              aria-label="disabled tabs example"
-            >
-              <Tab label="Now" >
-
-              </Tab>
+              aria-label="disabled tabs example">
+              <Tab label="Now" />
               <Tab label="Yesterday" />
             </Tabs>
             <SwipeableViews
@@ -410,19 +318,12 @@ export default function Dashboard(props) {
         </Box>
       </Container>
 
-
       <ScrollTop {...props}>
         <Fab color="secondary" size="small" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />
         </Fab>
       </ScrollTop>
 
-      {/* </main> */}
-
-
-      {/* </div> */}
     </ThemeProvider>
-
-
   );
 }
