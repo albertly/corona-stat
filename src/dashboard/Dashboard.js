@@ -25,6 +25,8 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { mainListItems, secondaryListItems } from './listItems';
 import ScrollTop from './ScrollTop';
 import Main from './Main/Main';
+import DailyCases from './Graph/DailyCases';
+
 import { getRandomInt } from '../shared/utils';
 
 const URL = process.env.REACT_APP_WS_URL;
@@ -163,6 +165,7 @@ export default function Dashboard(props) {
           <Route exact path="/" render={() => (
             <Main classes={classes} refreshGraph={refreshGraph} handleRefreshGraph={handleRefreshGraph} />)
           } />
+          <Route exact path="/graph" component={DailyCases} />
           <Route component={Error404} />
 
         </Switch>
