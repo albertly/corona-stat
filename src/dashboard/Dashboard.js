@@ -22,7 +22,7 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-import { mainListItems, secondaryListItems } from './listItems';
+import { MainListItems, secondaryListItems } from './listItems';
 import ScrollTop from './ScrollTop';
 import Main from './Main/Main';
 import DailyCases from './Graph/DailyCases';
@@ -32,10 +32,13 @@ import { getRandomInt } from '../shared/utils';
 const URL = process.env.REACT_APP_WS_URL;
 
 export default function Dashboard(props) {
+  //const hist = useHistory();
   const classes = makeStyles();
   const [open, setOpen] = useState(false);
   const [darkTheme_, setDarkTheme_] = useState(localStorage.getItem('darkTheme') === 'true');
   const [refreshGraph, setRefreshGraph] = useState(true);
+
+  
 
   useEffect(() => {
     let ws;
@@ -154,7 +157,7 @@ export default function Dashboard(props) {
             </IconButton>
           </div>
           <Divider />
-          <List>{mainListItems}</List>
+          <List><MainListItems handleDrawerClose={handleDrawerClose}/></List>
           <Divider />
           <List>{secondaryListItems}</List>
         </SwipeableDrawer>
