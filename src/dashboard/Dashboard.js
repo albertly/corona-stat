@@ -168,7 +168,9 @@ export default function Dashboard(props) {
           <Route exact path="/" render={() => (
             <Main classes={classes} refreshGraph={refreshGraph} handleRefreshGraph={handleRefreshGraph} />)
           } />
-          <Route exact path="/graph" component={DailyCases} />
+          <Route exact path="/graph" render={() => (
+            <DailyCases classes={classes}  />)
+          } />
           <Route component={Error404} />
 
         </Switch>
