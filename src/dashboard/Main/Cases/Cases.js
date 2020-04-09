@@ -1,10 +1,14 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
+
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+
 import EnhancedTableHead from './EnhancedTableHead';
 
 import Title from '../../Title';
@@ -27,9 +31,9 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-  console.log('In stableSort',);
-  let total; 
-  const stabilizedThis = array.reduce(function(result, o) {
+  console.log('In stableSort');
+  let total;
+  const stabilizedThis = array.reduce(function (result, o) {
     if (o.country !== 'Total:') {
       result.push(o);
     }
@@ -38,7 +42,7 @@ function stableSort(array, comparator) {
     }
     return result;
   }, []).map((el, index) => [el, index]);
-  
+
   //const stabilizedThis = array.filter(el => el.country !== 'Total:').map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -49,7 +53,7 @@ function stableSort(array, comparator) {
   if (total) {
     stabilizedThis.unshift([total, 0]);
   }
-  
+
   return stabilizedThis.map((el) => el[0]);
 
 }
@@ -59,22 +63,22 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 440,
   },
   total_cell: {
-    backgroundColor: 'grey', 
+    backgroundColor: 'grey',
   },
-  cell_short: {    
+  cell_short: {
     [theme.breakpoints.down("xl")]: {
       fontSize: "18px",
-    }, 
+    },
     [theme.breakpoints.down("lg")]: {
       fontSize: "18px",
-    }, 
+    },
     [theme.breakpoints.down("md")]: {
       fontSize: "16px",
-    }, 
+    },
     [theme.breakpoints.down("sm")]: {
       fontSize: "12px",
       width: 20,
-    },    
+    },
   },
   tableCell: {
     width: 70,
@@ -103,65 +107,67 @@ export default function Cases({ data }) {
     }
     setSelected([]);
   };
-  const colorForTotal = index => `${ index === 0 ? classes.total_cell : {}} ${classes.cell_short}`;
+  const colorForTotal = index => `${index === 0 ? classes.total_cell : {}} ${classes.cell_short}`;
 
   return (
     <React.Fragment>
       {/* <Title>Confirmed Cases</Title> */}
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table" size="small">
-        <EnhancedTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={data.length}
-            />
+          <EnhancedTableHead
+            classes={classes}
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={handleSelectAllClick}
+            onRequestSort={handleRequestSort}
+            rowCount={data.length}
+          />
           <TableBody>
-            { 
-             stableSort( data.map(row => {
-              return {                
-                country: row.country,
-                totalD: row.total,
-                newD: row.new,
-                totalDeathsD: row.totalDeaths,
-                newDeathsD: row.newDeaths,
-                totalRecoveredD: row.totalRecovered,
-                activeD: row.active,
-                seriousD: row.serious,
-                totCasesPer1mD: row.totCasesPer1m,
-                total: +(row.total.replace(/[^\d\.\-eE+]/g, "")),
-                new: +(row.new.replace(/[^\d\.\-eE+]/g, "")),
-                totalDeaths: +(row.totalDeaths.replace(/[^\d\.\-eE+]/g, "")),
-                newDeaths: +(row.newDeaths.replace(/[^\d\.\-eE+]/g, "")),
-                totalRecovered: +(row.totalRecovered.replace(/[^\d\.\-eE+]/g, "")),
-                active: +(row.active.replace(/[^\d\.\-eE+]/g, "")),
-                serious: +(row.serious.replace(/[^\d\.\-eE+]/g, "")),
-                totCasesPer1m: +(row.totCasesPer1m.replace(/[^\d\.\-eE+]/g, "")),
-              }
-            }),
-             getComparator(order, orderBy))
-              .map((row, index) => {
-              const labelId = `enhanced-table-checkbox-${index}`;
-              return (
-              <TableRow key={row.country}>
-                <TableCell className={`${classes.tableCell} ${colorForTotal(index)}`} component="th" id={labelId} scope="row" padding="none">
+            {
+              stableSort(data.map(row => {
+                return {
+                  country: row.country,
+                  totalD: row.total,
+                  newD: row.new,
+                  totalDeathsD: row.totalDeaths,
+                  newDeathsD: row.newDeaths,
+                  totalRecoveredD: row.totalRecovered,
+                  activeD: row.active,
+                  seriousD: row.serious,
+                  totCasesPer1mD: row.totCasesPer1m,
+                  total: +(row.total.replace(/[^\d\.\-eE+]/g, "")),
+                  new: +(row.new.replace(/[^\d\.\-eE+]/g, "")),
+                  totalDeaths: +(row.totalDeaths.replace(/[^\d\.\-eE+]/g, "")),
+                  newDeaths: +(row.newDeaths.replace(/[^\d\.\-eE+]/g, "")),
+                  totalRecovered: +(row.totalRecovered.replace(/[^\d\.\-eE+]/g, "")),
+                  active: +(row.active.replace(/[^\d\.\-eE+]/g, "")),
+                  serious: +(row.serious.replace(/[^\d\.\-eE+]/g, "")),
+                  totCasesPer1m: +(row.totCasesPer1m.replace(/[^\d\.\-eE+]/g, "")),
+                }
+              }),
+                getComparator(order, orderBy))
+                .map((row, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  return (
+                    <TableRow key={row.country}>
+                      <TableCell className={`${classes.tableCell} ${colorForTotal(index)}`} component="th" id={labelId} scope="row" padding="none">
+                        <Link component={RouterLink} to={`graph/${row.country}`}>
                         {row.country}
-                </TableCell>
-                
-                <TableCell className={colorForTotal(index)}>{row.totalD}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.newD}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.totalDeathsD}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.newDeathsD}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.totalRecoveredD}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.activeD}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.seriousD}</TableCell>
-                <TableCell className={colorForTotal(index)}>{row.totCasesPer1mD}</TableCell>
-              </TableRow>
-              )
-            })}
+                        </Link>
+                      </TableCell>
+
+                      <TableCell className={colorForTotal(index)}>{row.totalD}</TableCell>
+                      <TableCell className={colorForTotal(index)}>{row.newD}</TableCell>
+                      <TableCell className={colorForTotal(index)}>{row.totalDeathsD}</TableCell>
+                      <TableCell className={colorForTotal(index)}>{row.newDeathsD}</TableCell>
+                      <TableCell className={colorForTotal(index)}>{row.totalRecoveredD}</TableCell>
+                      <TableCell className={colorForTotal(index)}>{row.activeD}</TableCell>
+                      <TableCell className={colorForTotal(index)}>{row.seriousD}</TableCell>
+                      <TableCell className={colorForTotal(index)}>{row.totCasesPer1mD}</TableCell>
+                    </TableRow>
+                  )
+                })}
           </TableBody>
         </Table>
       </TableContainer>

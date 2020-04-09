@@ -30,7 +30,7 @@ export default function Chart({refreshGraph, onRefreshGraph}) {
     {
       fetchData();
     }
-  });
+  }, [refreshGraph]);
 
   return (       
     <React.Fragment>      
