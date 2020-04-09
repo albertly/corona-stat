@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import Container from '@material-ui/core/Container';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
 import Title from '../Title';
 
-export default function DailyCases() {
+export default function DailyCases(props) {
+    const { classes } = props;
     const [data, setData] = useState('');
 
     useEffect(() => {
@@ -27,6 +29,7 @@ export default function DailyCases() {
 
     return data ? (
         <React.Fragment>
+             <Container maxWidth="lg" className={classes.container}>
             <Title>Daily New Cases (worldwide)</Title>
             <ResponsiveContainer width={'99%'} height={300}>
                 <BarChart data={data}
@@ -39,7 +42,7 @@ export default function DailyCases() {
                     <Bar dataKey="data" fill="#8884d8" />
                 </BarChart >
             </ResponsiveContainer>
-
+            </Container>
         </React.Fragment>
     ) : (
             <>

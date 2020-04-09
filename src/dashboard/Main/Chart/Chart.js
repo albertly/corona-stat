@@ -26,11 +26,11 @@ export default function Chart({refreshGraph, onRefreshGraph}) {
       console.log('graphData', graphData);
       setData(graphData);
     };
-    if (refreshGraph) 
+    if (refreshGraph || data.length == 0 ) 
     {
       fetchData();
     }
-  }, [refreshGraph]);
+  });
 
   return (       
     <React.Fragment>      
