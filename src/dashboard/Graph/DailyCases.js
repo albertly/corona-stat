@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Container from '@material-ui/core/Container';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
+import { EventsContext } from '../../shared/context';
 import Title from '../Title';
+import   '../../shared/utils';
 
 export default function DailyCases(props) {
+    const { state, _ } = useContext(EventsContext);
     const { classes } = props;
     const [data, setData] = useState('');
 
@@ -17,11 +20,15 @@ export default function DailyCases(props) {
                 graphData.push(
                     {
                         name: element,
-                        data: result.data.series[0].data[index]
+                        cases: result.data.series[0].data[index]
                     }
                 );
             });
-
+            const today = new Date();
+            graphData.push ({
+               name: `${today.getUTCMonthNameShort()} ${today.getUTCDate()}`,
+               cases: +(state.new.replace(/[^\d\.\-eE+]/g, "")) 
+            })
             setData(graphData);
         };
         fetchData();
@@ -38,8 +45,8 @@ export default function DailyCases(props) {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="data" fill="#8884d8" />
+                    <Tooltip itemStyle={{color:'red'}} contentStyle={{color:'red'}} />
+                    <Bar dataKey="cases" fill="#8884d8" />
                 </BarChart >
             </ResponsiveContainer>
             </Container>

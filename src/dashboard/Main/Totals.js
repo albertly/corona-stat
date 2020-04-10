@@ -17,7 +17,7 @@ import Title from '../Title';
 // });
 
 export default function Totals() {
-  const { state, dispatch } = useContext(EventsContext);
+  const { state, _ } = useContext(EventsContext);
  // const classes = useStyles();
   return (
     <React.Fragment>

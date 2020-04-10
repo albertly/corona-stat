@@ -54,7 +54,6 @@ export default function Dashboard(props) {
 
       ws.onopen = () => {
         counter = 0;
-        console.log('my msg');
         ws.send('my msg');
       };
 
@@ -168,7 +167,7 @@ export default function Dashboard(props) {
           <Route exact path="/" render={() => (
             <Main classes={classes} refreshGraph={refreshGraph} handleRefreshGraph={handleRefreshGraph} />)
           } />
-          <Route exact path="/graph/:country" render={() => (
+          <Route exact path="/graph/:country?" render={() => (
             <DailyCases classes={classes}  />)
           } />
           <Route component={Error404} />
