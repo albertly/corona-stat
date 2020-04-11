@@ -5,11 +5,12 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
-
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 
 import EnhancedTableHead from './EnhancedTableHead';
+
+import { getFlagByCountryName } from '../../../shared/utils';
 
 import Title from '../../Title';
 
@@ -109,6 +110,20 @@ export default function Cases({ data }) {
   };
   const colorForTotal = index => `${index === 0 ? classes.total_cell : {}} ${classes.cell_short}`;
 
+  const Flag = name => {
+    const code = getFlagByCountryName(name);
+    if (code) {
+      return (
+        <img alt={name} src={`img/flags/3x2/${code}.svg`} style={{
+          "width": "1em",
+          "height": "2em",
+          "marginRight": "0.2em",
+        }} />
+      )
+    }
+    return <></>;
+  }
+
   return (
     <React.Fragment>
       {/* <Title>Confirmed Cases</Title> */}
@@ -152,8 +167,17 @@ export default function Cases({ data }) {
                   return (
                     <TableRow key={row.country}>
                       <TableCell className={`${classes.tableCell} ${colorForTotal(index)}`} component="th" id={labelId} scope="row" padding="none">
+
                         <Link component={RouterLink} to={`graph/${row.country}`}>
-                        {row.country}
+                          <span style={{ "display": "flex", "alignItems": "center", "justifyContent": "start" }}>
+                            {/* <Flags.US title="United States" style={{
+                              "width": "1em",
+                              "height": "2em",
+                              "marginRight": "0.2em",
+                            }} /> */}
+                            {Flag(row.country)}
+                            {row.country}
+                          </span>
                         </Link>
                       </TableCell>
 

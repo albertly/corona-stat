@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+import {countryCodes} from './CountryCodes';
+
 (function () {
   if (!Number.prototype.pad) {
     console.log('in iffi .')
@@ -30,6 +32,14 @@ import { useEffect, useRef } from "react";
 
 })();
 
+export function getFlagByCountryName(name) {
+  const index = countryCodes.findIndex(item => item.Name === name );
+  if (index !== -1) {
+    return countryCodes[index].Code
+  }
+  return '';
+
+}
 export function getRandomInt(min, max) {
 
   min = Math.ceil(min);
