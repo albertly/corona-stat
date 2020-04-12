@@ -33,7 +33,7 @@ function Today() {
   useInterval(() => {
     getEventsAction(dispatch);
 
-    setDelay(30);
+    setDelay(50);
   }, delay * 1000);
   
   console.log('state.events', state.events);
