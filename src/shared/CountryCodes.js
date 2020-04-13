@@ -944,7 +944,8 @@ export const countryCodes =
         },
         {
             "Code": "US",
-            "Name": "USA"
+            "Name": "USA",
+            "Name1": "us"
         },
         {
             "Code": "UM",

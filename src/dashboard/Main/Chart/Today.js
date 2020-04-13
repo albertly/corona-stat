@@ -33,10 +33,9 @@ function Today() {
   useInterval(() => {
     getEventsAction(dispatch);
 
-    setDelay(50);
+    setDelay(60);
   }, delay * 1000);
   
-  console.log('state.events', state.events);
   if (!state.events.length) {
     return (
       <div className={classes.root}>

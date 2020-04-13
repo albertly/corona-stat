@@ -25,14 +25,12 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  console.log('sorting', order, orderBy);
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 function stableSort(array, comparator) {
-  console.log('In stableSort');
   let total;
   const stabilizedThis = array.reduce(function (result, o) {
     if (o.country !== 'Total:') {
@@ -168,13 +166,8 @@ export default function Cases({ data }) {
                     <TableRow key={row.country}>
                       <TableCell className={`${classes.tableCell} ${colorForTotal(index)}`} component="th" id={labelId} scope="row" padding="none">
 
-                        <Link component={RouterLink} to={`graph/${row.country}`}>
+                        <Link component={RouterLink} to={`graph/${row.country}/${row.new}`} color='textPrimary'>
                           <span style={{ "display": "flex", "alignItems": "center", "justifyContent": "start" }}>
-                            {/* <Flags.US title="United States" style={{
-                              "width": "1em",
-                              "height": "2em",
-                              "marginRight": "0.2em",
-                            }} /> */}
                             {Flag(row.country)}
                             {row.country}
                           </span>

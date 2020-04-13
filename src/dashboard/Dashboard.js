@@ -168,8 +168,8 @@ export default function Dashboard(props) {
             <Main classes={classes} refreshGraph={refreshGraph} handleRefreshGraph={handleRefreshGraph} />)
           } />
           
-          <Route exact path="/graph/:country?" render={(props) => (
-            <DailyCases classes={classes}  country={props.match.params.country} />)
+          <Route exact path="/graph/:country?/:new?" render={(props) => (
+            <DailyCases classes={classes}  country={props.match.params.country} _new={props.match.params.new}/>)
           } />
           <Route component={Error404} />
 

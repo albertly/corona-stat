@@ -23,7 +23,6 @@ export default function Chart({refreshGraph, onRefreshGraph}) {
         )
       )
       onRefreshGraph();
-      console.log('graphData', graphData);
       setData(graphData);
     };
     if (refreshGraph || data.length == 0 ) 

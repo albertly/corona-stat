@@ -35,8 +35,7 @@ function compareArr(new_, old_) {
             }
             else {
                 res.push({ ...obj, newOld: oldObj.new });
-            }
-            //console.log('!!!-', obj.country, `${obj.new}(${oldObj.new})`);            
+            }         
         }
     });
 
@@ -60,7 +59,6 @@ const reducer = (state, action) => {
         case GET_EVENTS_SUCCESS:
 
             const { res: delta } = compareArr(action.payload, state.events);
-            console.log('payload', action.payload);
             if (delta.length) {
                    
                 return { ...state,
@@ -87,7 +85,6 @@ const getYesterdayEventsAction = async (dispatch) => {
     let response = {};
     try {
         response = await axios.get('/yesterday');
-        //console.log('response', response);
         dispatch({ type: GET_YESTERDAY_EVENTS_SUCCESS, payload: response.data });
     }
     catch (ex) {
@@ -99,7 +96,6 @@ const getEventsAction = async (dispatch) => {
     let response = {};
     try {
         response = await axios.get('');
-        //console.log('response', response);
         dispatch({ type: GET_EVENTS_SUCCESS, payload: response.data });
     }
     catch (ex) {

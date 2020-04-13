@@ -4,7 +4,6 @@ import {countryCodes} from './CountryCodes';
 
 (function () {
   if (!Number.prototype.pad) {
-    console.log('in iffi .')
     Number.prototype.pad = function (size) {
       var s = String(this);
       while (s.length < (size || 2)) { s = "0" + s; }
