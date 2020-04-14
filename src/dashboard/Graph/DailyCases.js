@@ -34,8 +34,9 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function DailyCases(props) {
     const { state, _ } = useContext(EventsContext);
-    let { classes, country, _new } = props;
+    let { classes, country, _new, death } = props;
     const [data, setData] = useState('');
+    const [dataDeath, setDataDeath] = useState('');
 
     if (country === 'Total:') country = '';
 
@@ -60,6 +61,26 @@ export default function DailyCases(props) {
             })
 
             setData(graphData);
+
+            const graphDataDeath = [];
+            if (result.data[1].xAxis) {
+                result.data[1].xAxis.categories.forEach((element, index) => {
+                    graphDataDeath.push(
+                        {
+                            name: element,
+                            cases: result.data[1].series[0].data[index]
+                        }
+                    );
+                });
+            }
+
+            graphDataDeath.push({
+                 name: todayFormated,
+                 cases: !country ? 0 : death
+             })
+
+            setDataDeath(graphDataDeath);
+
         };
         fetchData();
     }, []);
@@ -88,6 +109,30 @@ export default function DailyCases(props) {
                     </Bar>
                 </BarChart >
             </ResponsiveContainer>
+
+
+            <span style={{ "display": "flex", "alignItems": "center", "justifyContent": "start" }}>
+                <Title>Daily New Death</Title>
+            </span>
+
+            <ResponsiveContainer width={'99%'} height={300}>
+                <BarChart data={dataDeath}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }
+                    }>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip itemStyle={{ color: 'red' }} contentStyle={{ color: 'red' }} content={<CustomTooltip />} />
+                    <Bar dataKey="cases" fill="#8884d8" >
+                        {
+                            data.map((entry, index) => (
+                                <Cell cursor="pointer" fill={index === data.length - 1 ? '#82ca9d' : 'red'} key={`cell-${index}`} />
+                            ))
+                        }
+                    </Bar>
+                </BarChart >
+            </ResponsiveContainer>
+            
         </Container>
     ) : (
             <>

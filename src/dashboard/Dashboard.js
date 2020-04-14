@@ -168,9 +168,12 @@ export default function Dashboard(props) {
             <Main classes={classes} refreshGraph={refreshGraph} handleRefreshGraph={handleRefreshGraph} />)
           } />
           
-          <Route exact path="/graph/:country?/:new?" render={(props) => (
-            <DailyCases classes={classes}  country={props.match.params.country} _new={props.match.params.new}/>)
-          } />
+          <Route exact path="/graph/:country?/:new?/:death?/" render={(props) => (
+            <DailyCases classes={classes}  
+                country={props.match.params.country}
+                _new={props.match.params.new}
+                death={props.match.params.death}/>
+              )}/>
           <Route component={Error404} />
 
         </Switch>

@@ -153,7 +153,7 @@ export default function Cases({ data }) {
                     <TableRow key={row.country}>
                       <TableCell className={`${classes.tableCell} ${colorForTotal(index)}`} component="th" id={labelId} scope="row" padding="none">
 
-                        <Link component={RouterLink} to={`graph/${row.country}/${row.new}`} color='textPrimary'>
+                        <Link component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}`} color='textPrimary'>
                           <span style={{ "display": "flex", "alignItems": "center", "justifyContent": "start" }}>
                             {Flag(row.country)}
                             {row.country}
