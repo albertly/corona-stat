@@ -54,7 +54,7 @@ export default function Chart({refreshGraph, onRefreshGraph}) {
               Cases
             </Label>
           </YAxis>
-          <Tooltip />
+          <Tooltip itemStyle={{ color: 'red' }} contentStyle={{ color: 'red' }}/>
           <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={true} />
         </LineChart>
       </ResponsiveContainer>

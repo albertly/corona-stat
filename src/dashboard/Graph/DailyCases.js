@@ -4,30 +4,33 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveCo
 import axios from 'axios';
 import { EventsContext } from '../../shared/context';
 import Title from '../Title';
-import '../../shared/utils';
+import { getAlternativeCountryName, Flag } from '../../shared/utils';
+import './DailyCases.css';
 
 const today = new Date();
 const todayFormated = `${today.getUTCMonthNameShort()} ${today.getUTCDate()}`;
 
 const CustomTooltip = ({ active, payload, label }) => {
     const pstyle = {
-       margin: '0px',
-       padding: '1px',
-       color: 'red',
-       fontWeight: 'bold',
-       fontSize: 'medium'
+        margin: '0px',
+        padding: '2px',
+        color: 'red',
+        fontWeight: 'bold',
+        fontSize: 'medium'
     };
+
+
     if (active && payload[0]) {
-      return (
-        <div className="custom-tooltip">
-          <p className="label" style={pstyle}>{`${label} ${label === todayFormated ? 'Today': ''}`}</p>
-          <p className="label" style={pstyle}>{`Cases : ${payload[0].value}`}</p>
-        </div>
-      );
+        return (
+            <div className="custom-tooltip filter">
+                <p className="label" style={pstyle}>{`${label} ${label === todayFormated ? 'Today' : ''}`}</p>
+                <p className="label" style={pstyle}>{`Cases : ${payload[0].value}`}</p>
+            </div>
+        );
     }
-  
+
     return null;
-  };
+};
 
 export default function DailyCases(props) {
     const { state, _ } = useContext(EventsContext);
@@ -38,14 +41,14 @@ export default function DailyCases(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get(`/graph/${country ? country : ''}`);
+            const result = await axios.get(`/graph/${country ? getAlternativeCountryName(country) : ''}`);
             const graphData = [];
-            if (result.data.xAxis) {
-                result.data.xAxis.categories.forEach((element, index) => {
+            if (result.data[0].xAxis) {
+                result.data[0].xAxis.categories.forEach((element, index) => {
                     graphData.push(
                         {
                             name: element,
-                            cases: result.data.series[0].data[index]
+                            cases: result.data[0].series[0].data[index]
                         }
                     );
                 });
@@ -63,7 +66,11 @@ export default function DailyCases(props) {
 
     return data ? (
         <Container maxWidth="lg" className={classes.container}>
-            <Title>Daily New Cases ({country ? country : 'worldwide'})</Title>
+            <span style={{ "display": "flex", "alignItems": "center", "justifyContent": "start" }}>
+                <Title>Daily New Cases ({country ? country : 'worldwide'} )</Title>
+                {Flag(country, false)}
+            </span>
+
             <ResponsiveContainer width={'99%'} height={300}>
                 <BarChart data={data}
                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }
@@ -71,11 +78,11 @@ export default function DailyCases(props) {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Tooltip itemStyle={{ color: 'red' }} contentStyle={{ color: 'red' }} content={<CustomTooltip/>} />
+                    <Tooltip itemStyle={{ color: 'red' }} contentStyle={{ color: 'red' }} content={<CustomTooltip />} />
                     <Bar dataKey="cases" fill="#8884d8" >
                         {
                             data.map((entry, index) => (
-                                <Cell cursor="pointer" fill={index === data.length-1 ? '#82ca9d' : '#8884d8'} key={`cell-${index}`} />
+                                <Cell cursor="pointer" fill={index === data.length - 1 ? '#82ca9d' : '#8884d8'} key={`cell-${index}`} />
                             ))
                         }
                     </Bar>

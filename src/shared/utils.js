@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
-import {countryCodes} from './CountryCodes';
+import { countryCodes } from './CountryCodes';
 
 (function () {
   if (!Number.prototype.pad) {
@@ -11,34 +11,70 @@ import {countryCodes} from './CountryCodes';
     }
   }
   if (!Date.prototype.getUTCMonthName) {
-  Date.locale = {
-    en: {
-      month_names: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    }
-  };
-  Date.prototype.getUTCMonthName = function (lang = 'en') {
-    lang = lang && (lang in Date.locale) ? lang : 'en';
-    return Date.locale[lang].month_names[this.getUTCMonth()];
-  };
+    Date.locale = {
+      en: {
+        month_names: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      }
+    };
+    Date.prototype.getUTCMonthName = function (lang = 'en') {
+      lang = lang && (lang in Date.locale) ? lang : 'en';
+      return Date.locale[lang].month_names[this.getUTCMonth()];
+    };
 
-  Date.prototype.getUTCMonthNameShort = function (lang= 'en') {
-    lang = lang && (lang in Date.locale) ? lang : 'en';
-    return Date.locale[lang].month_names_short[this.getUTCMonth()];
-  };
-}
+    Date.prototype.getUTCMonthNameShort = function (lang = 'en') {
+      lang = lang && (lang in Date.locale) ? lang : 'en';
+      return Date.locale[lang].month_names_short[this.getUTCMonth()];
+    };
+  }
 
 
 })();
 
+export const Flag = (name, small = true) => {
+  const code = getFlagByCountryName(name);
+
+  let width = "1em",
+    height = "2em",
+    marginRight = "0.2em",
+    marginLeft = "0.0em";
+
+  if (!small) {
+    width = "2em";
+    height = "3em";
+    marginRight = "0em";
+    marginLeft = "1em";
+  }
+
+  if (code) {
+    return (
+      <img alt={name} src={`/img/flags/3x2/${code}.svg`} style={{
+        width,
+        height,
+        marginRight,
+        marginLeft
+      }} />
+    )
+  }
+  return <></>;
+}
+
+export function getAlternativeCountryName(name) {
+  const index = countryCodes.findIndex(item => item.Name === name);
+  if (index !== -1) {
+    return countryCodes[index].Name1 ? countryCodes[index].Name1 : name;
+  }
+  return '';
+}
+
 export function getFlagByCountryName(name) {
-  const index = countryCodes.findIndex(item => item.Name === name );
+  const index = countryCodes.findIndex(item => item.Name === name);
   if (index !== -1) {
     return countryCodes[index].Code
   }
   return '';
-
 }
+
 export function getRandomInt(min, max) {
 
   min = Math.ceil(min);

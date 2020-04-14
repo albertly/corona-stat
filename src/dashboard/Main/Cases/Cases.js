@@ -10,7 +10,7 @@ import Link from '@material-ui/core/Link';
 
 import EnhancedTableHead from './EnhancedTableHead';
 
-import { getFlagByCountryName } from '../../../shared/utils';
+import { Flag } from '../../../shared/utils';
 
 import Title from '../../Title';
 
@@ -108,19 +108,6 @@ export default function Cases({ data }) {
   };
   const colorForTotal = index => `${index === 0 ? classes.total_cell : {}} ${classes.cell_short}`;
 
-  const Flag = name => {
-    const code = getFlagByCountryName(name);
-    if (code) {
-      return (
-        <img alt={name} src={`img/flags/3x2/${code}.svg`} style={{
-          "width": "1em",
-          "height": "2em",
-          "marginRight": "0.2em",
-        }} />
-      )
-    }
-    return <></>;
-  }
 
   return (
     <React.Fragment>

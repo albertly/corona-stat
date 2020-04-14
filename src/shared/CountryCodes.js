@@ -38,7 +38,8 @@ export const countryCodes =
         },
         {
             "Code": "AG",
-            "Name": "Antigua and Barbuda"
+            "Name": "Antigua and Barbuda",
+            "Name1": "antigua-and-barbuda"
         },
         {
             "Code": "AR",
@@ -114,7 +115,8 @@ export const countryCodes =
         },
         {
             "Code": "BA",
-            "Name": "Bosnia and Herzegovina"
+            "Name": "Bosnia and Herzegovina",
+            "Name1": "bosnia-and-herzegovina"
         },
         {
             "Code": "BW",
@@ -142,7 +144,8 @@ export const countryCodes =
         },
         {
             "Code": "BF",
-            "Name": "Burkina Faso"
+            "Name": "Burkina Faso",
+            "Name1": "burkina-faso"
         },
         {
             "Code": "BI",
@@ -162,15 +165,18 @@ export const countryCodes =
         },
         {
             "Code": "CV",
-            "Name": "Cabo Verde"
+            "Name": "Cabo Verde",
+            "Name1": "cabo-verde"
         },
         {
             "Code": "KY",
-            "Name": "Cayman Islands"
+            "Name": "Cayman Islands",
+            "Name1": "cayman-islands"
         },
         {
             "Code": "CF",
-            "Name": "CAR"
+            "Name": "CAR",
+            "Name1": "central-african-republic"
         },
         {
             "Code": "TD",
@@ -214,11 +220,13 @@ export const countryCodes =
         },
         {
             "Code": "CR",
-            "Name": "Costa Rica"
+            "Name": "Costa Rica",
+            "Name1": "costa-rica"
         },
         {
             "Code": "CI",
-            "Name": "Ivory Coast"
+            "Name": "Ivory Coast",
+            "Name1": "cote-d-ivoire"
         },
         {
             "Code": "HR",
@@ -254,7 +262,8 @@ export const countryCodes =
         },
         {
             "Code": "DO",
-            "Name": "Dominican Republic"
+            "Name": "Dominican Republic",
+            "Name1": "dominican-republic"
         },
         {
             "Code": "EC",
@@ -266,11 +275,13 @@ export const countryCodes =
         },
         {
             "Code": "SV",
-            "Name": "El Salvador"
+            "Name": "El Salvador",
+            "Name1": "el-salvador"
         },
         {
             "Code": "GQ",
-            "Name": "Equatorial Guinea"
+            "Name": "Equatorial Guinea",
+            "Name": "equatorial-guinea"
         },
         {
             "Code": "ER",
@@ -286,11 +297,13 @@ export const countryCodes =
         },
         {
             "Code": "FK",
-            "Name": "Falkland Islands"
+            "Name": "Falkland Islands",
+            "Name1": "falkland-islands-malvinas"
         },
         {
             "Code": "FO",
-            "Name": "Faeroe Islands"
+            "Name": "Faeroe Islands",
+            "Name1": "faeroe-islands"
         },
         {
             "Code": "FJ",
@@ -306,11 +319,13 @@ export const countryCodes =
         },
         {
             "Code": "GF",
-            "Name": "French Guiana"
+            "Name": "French Guiana",
+            "Name1": "french-guiana"
         },
         {
             "Code": "PF",
-            "Name": "French Polynesia"
+            "Name": "French Polynesia",
+            "Name1": "french-polynesia"
         },
         {
             "Code": "TF",
@@ -374,7 +389,8 @@ export const countryCodes =
         },
         {
             "Code": "GW",
-            "Name": "Guinea-Bissau"
+            "Name": "Guinea-Bissau",
+            "Name1": "guinea-bissau"
         },
         {
             "Code": "GY",
@@ -390,7 +406,8 @@ export const countryCodes =
         },
         {
             "Code": "VA",
-            "Name": "Vatican City"
+            "Name": "Vatican City",
+            "Name1": "holy-see"
         },
         {
             "Code": "HN",
@@ -398,7 +415,8 @@ export const countryCodes =
         },
         {
             "Code": "HK",
-            "Name": "Hong Kong"
+            "Name": "Hong Kong",
+            "Name1": "china-hong-kong-sar"
         },
         {
             "Code": "HU",
@@ -430,7 +448,8 @@ export const countryCodes =
         },
         {
             "Code": "IM",
-            "Name": "Isle of Man"
+            "Name": "Isle of Man",
+            "Name1": "isle-of-man"
         },
         {
             "Code": "IL",
@@ -527,7 +546,8 @@ export const countryCodes =
         },
         {
             "Code": "MK",
-            "Name": "North Macedonia"
+            "Name": "North Macedonia",
+            "Name1":  "macedonia"
         },
         {
             "Code": "MG",
@@ -631,11 +651,13 @@ export const countryCodes =
         },
         {
             "Code": "NC",
-            "Name": "New Caledonia"
+            "Name": "New Caledonia",
+            "Name1": "new-caledonia"
         },
         {
             "Code": "NZ",
-            "Name": "New Zealand"
+            "Name": "New Zealand",
+            "Name1": "new-zealand"
         },
         {
             "Code": "NI",
@@ -687,7 +709,8 @@ export const countryCodes =
         },
         {
             "Code": "PG",
-            "Name": "Papua New Guinea"
+            "Name": "Papua New Guinea",
+            "Name1": "papua-new-guinea"
         },
         {
             "Code": "PY",
@@ -739,7 +762,8 @@ export const countryCodes =
         },
         {
             "Code": "BL",
-            "Name": "Saint Barthélemy"
+            "Name": "St. Barth",
+            "Name": "saint-barthelemy"
         },
         {
             "Code": "SH",
@@ -747,11 +771,13 @@ export const countryCodes =
         },
         {
             "Code": "KN",
-            "Name": "Saint Kitts and Nevis"
+            "Name": "Saint Kitts and Nevis",
+            "Name1": "saint-kitts-and-nevis"
         },
         {
             "Code": "LC",
-            "Name": "Saint Lucia"
+            "Name": "Saint Lucia",
+            "Name1": "saint-lucia"
         },
         {
             "Code": "MF",
@@ -759,11 +785,13 @@ export const countryCodes =
         },
         {
             "Code": "PM",
-            "Name": "Saint Pierre Miquelon"
+            "Name": "Saint Pierre Miquelon",
+            "Name1": "saint-pierre-and-miquelon"
         },
         {
             "Code": "VC",
-            "Name": "St. Vincent Grenadines"
+            "Name": "St. Vincent Grenadines",
+            "Name1": "saint-vincent-and-the-grenadines"
         },
         {
             "Code": "WS",
@@ -771,15 +799,18 @@ export const countryCodes =
         },
         {
             "Code": "SM",
-            "Name": "San Marino"
+            "Name": "San Marino",
+            "Name1": "san-marino"
         },
         {
             "Code": "ST",
-            "Name": "Sao Tome and Principe"
+            "Name": "Sao Tome and Principe",
+            "Name1": "sao-tome-and-principe"
         },
         {
             "Code": "SA",
-            "Name": "Saudi Arabia"
+            "Name": "Saudi Arabia",
+            "Name1": "saudi-arabia"
         },
         {
             "Code": "SN",
@@ -795,7 +826,8 @@ export const countryCodes =
         },
         {
             "Code": "SL",
-            "Name": "Sierra Leone"
+            "Name": "Sierra Leone",
+            "Name1": "sierra-leone"
         },
         {
             "Code": "SG",
@@ -803,7 +835,8 @@ export const countryCodes =
         },
         {
             "Code": "SX",
-            "Name": "Sint Maarten"
+            "Name": "Sint Maarten",
+            "Name1": "sint-maarten"
         },
         {
             "Code": "SK",
@@ -823,7 +856,8 @@ export const countryCodes =
         },
         {
             "Code": "ZA",
-            "Name": "South Africa"
+            "Name": "South Africa",
+            "Name1": "south-africa"
         },
         {
             "Code": "GS",
@@ -831,7 +865,8 @@ export const countryCodes =
         },
         {
             "Code": "SS",
-            "Name": "South Sudan"
+            "Name": "South Sudan",
+            "Name1": "south-sudan"
         },
         {
             "Code": "ES",
@@ -839,7 +874,8 @@ export const countryCodes =
         },
         {
             "Code": "LK",
-            "Name": "Sri Lanka"
+            "Name": "Sri Lanka",
+            "Name1": "sri-lanka"
         },
         {
             "Code": "SD",
@@ -903,7 +939,8 @@ export const countryCodes =
         },
         {
             "Code": "TT",
-            "Name": "Trinidad and Tobago"
+            "Name": "Trinidad and Tobago",
+            "Name1": "trinidad-and-tobago"
         },
         {
             "Code": "TN",
@@ -919,7 +956,8 @@ export const countryCodes =
         },
         {
             "Code": "TC",
-            "Name": "Turks and Caicos"
+            "Name": "Turks and Caicos",
+            "Name1": "turks-and-caicos-islands"
         },
         {
             "Code": "TV",
@@ -973,7 +1011,8 @@ export const countryCodes =
         },
         {
             "Code": "VG",
-            "Name": "British Virgin Islands"
+            "Name": "British Virgin Islands",
+            "Name1": "british-virgin-islands"
         },
         {
             "Code": "VI",
