@@ -9,7 +9,10 @@ Desktop Application (Windows 10)
 ![Desktop](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/desktop.jpg)
 
 Android App.
-![Desktop](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/android.jpg)
+![Android](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/android.jpg)
+
+Stat. by country
+![Android](https://raw.githubusercontent.com/albertly/corona-stat/master/doc/images/ByCountry.jpg)
 
 ## Resources
 
