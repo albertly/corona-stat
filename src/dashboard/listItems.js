@@ -13,8 +13,21 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
+import WatchList from './WatchList';
 
 export function MainListItems( {handleDrawerClose}) {
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState('');
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+    handleDrawerClose();
+  };
 
   let history = useHistory();
 
@@ -49,12 +62,13 @@ export function MainListItems( {handleDrawerClose}) {
         </ListItemIcon>
         <ListItemText primary="Reports" />
       </ListItem>
-      <ListItem button onClick={() => alert('not implemented yet')}>
+      <ListItem button onClick={handleClickOpen}>
         <ListItemIcon>
           <Tooltip title="Add to watch list"><AddLocationIcon /></Tooltip>
         </ListItemIcon>
         <ListItemText primary="Add to watch list" />
       </ListItem>
+      <WatchList open={open} onClose={handleClose} />
     </div>
   )
 };
