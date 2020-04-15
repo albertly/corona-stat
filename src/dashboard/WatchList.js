@@ -1,5 +1,4 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useRef } from 'react';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,24 +8,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { blue } from '@material-ui/core/colors';
 import { countryCodes } from '../shared/CountryCodes';
-import { getAlternativeCountryName, Flag } from '../shared/utils';
+import { Flag } from '../shared/utils';
 
-const useStyles = makeStyles({
-  avatar: {
-    backgroundColor: blue[100],
-    color: blue[600],
-  },
-});
 
 export default function WatchList(props) {
-  const classes = useStyles();
   const { onClose, selectedValue, open } = props;
-
-  // const handleClose = () => {
-  //   onClose(selectedValue);
-  // };
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -36,8 +23,9 @@ export default function WatchList(props) {
     onClose(value);
   };
 
-  const descriptionElementRef = React.useRef(null);
-  React.useEffect(() => {
+  const descriptionElementRef = useRef(null);
+  
+  useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {
@@ -48,8 +36,6 @@ export default function WatchList(props) {
 
   return (
     <div>
-      {/* <Button onClick={handleClickOpen('paper')}>scroll=paper</Button>
-      <Button onClick={handleClickOpen('body')}>scroll=body</Button> */}
       <Dialog
         open={open}
         onClose={handleClose}

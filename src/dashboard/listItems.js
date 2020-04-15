@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -15,9 +15,10 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import WatchList from './WatchList';
 
-export function MainListItems( {handleDrawerClose}) {
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState('');
+export function MainListItems({ handleDrawerClose }) {
+  const history = useHistory();
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,12 +30,10 @@ export function MainListItems( {handleDrawerClose}) {
     handleDrawerClose();
   };
 
-  let history = useHistory();
-
-    const handleClick = (link) => {
-      handleDrawerClose();
-      history.push(link);
-    }
+  const handleClick = (link) => {
+    handleDrawerClose();
+    history.push(link);
+  }
 
   return (
     <div>
