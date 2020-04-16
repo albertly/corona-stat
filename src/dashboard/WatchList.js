@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,17 +14,35 @@ import { Flag } from '../shared/utils';
 
 export default function WatchList(props) {
   const { onClose, selectedValue, open } = props;
+  const [countries, setCountries] = useState({});
 
   const handleClose = () => {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = (value) => {
-    onClose(value);
-  };
-
   const descriptionElementRef = useRef(null);
-  
+
+  const handleChange = event => {
+    const c = {...countries, [event.target.name]: event.target.checked};
+    setCountries(c);
+    localStorage.setItem('countries', JSON.stringify(c));
+  }
+
+  useEffect(() => {
+    const countriesStr = localStorage.getItem('countries');
+    if (!countriesStr) {
+      const c = {};
+      countryCodes.map(e => {
+        c[e.Name] = false;
+      })
+      setCountries(c);
+      localStorage.setItem('countries', JSON.stringify(c));
+    } else {
+      setCountries(JSON.parse(countriesStr));
+    }
+
+  }, []);
+
   useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
@@ -35,7 +53,7 @@ export default function WatchList(props) {
   }, [open]);
 
   return (
-    <div>
+    <>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -59,8 +77,10 @@ export default function WatchList(props) {
                 <ListItemText primary={e.Name} />
 
                 <Checkbox
-                  defaultChecked={false}
                   color="primary"
+                  checked={countries[e.Name]}
+                  onChange={handleChange}
+                  name={e.Name}
                   inputProps={{ 'aria-label': 'secondary checkbox' }}
                 />
               </ListItem>
@@ -70,13 +90,10 @@ export default function WatchList(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
+            Close
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
