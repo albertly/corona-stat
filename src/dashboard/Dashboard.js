@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Router, Switch, Redirect, Route, BrowserRouter } from 'react-router-dom';
 import Error404 from './Error/Error404';
 import clsx from 'clsx';
@@ -18,6 +18,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Popover from '@material-ui/core/Popover';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -27,6 +28,8 @@ import ScrollTop from './ScrollTop';
 import Main from './Main/Main';
 import DailyCases from './Graph/DailyCases';
 
+import { EventsContext, getEventsAction } from '../shared/context';
+
 import { getRandomInt } from '../shared/utils';
 
 const URL = process.env.REACT_APP_WS_URL;
@@ -35,10 +38,40 @@ export default function Dashboard(props) {
   //const hist = useHistory();
   const classes = makeStyles();
   const [open, setOpen] = useState(false);
+  const { state, dispatch } = useContext(EventsContext);
   const [darkTheme_, setDarkTheme_] = useState(localStorage.getItem('darkTheme') === 'true');
   const [refreshGraph, setRefreshGraph] = useState(true);
+  const [change, setChange] = useState(0);
+  const [changeText, setChangeText] = useState([]);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  
+  useEffect(() => {
+    const countriesStr = localStorage.getItem('countries');
+    let countries = {};
+    let num = 0;
+    let changeArr = [];
+    if (countriesStr) {
+      countries = JSON.parse(countriesStr);
+      Object.keys(countries).map(k => {
+        if (countries[k]) {
+          const index = state.change.findIndex(e => e.country === k);
+          if (index !== -1) {
+            console.log("Found change ", k, state.change[index]);
+            num += 1;
+            changeArr.push(state.change[index])
+          }
+        }
+      })
+      if (num) {
+        num = change + num;
+        setChange(num);
+        const arr = [...changeText, ...changeArr]
+        setChangeText(arr);
+        console.log('changeText', arr)
+      }
+
+    }
+  }, [state.delta])
 
   useEffect(() => {
     let ws;
@@ -86,6 +119,9 @@ export default function Dashboard(props) {
   const handleRefreshGraph = () => {
     setRefreshGraph(false);
   };
+  const handleResetChange = (event) => {
+    setAnchorEl(event.currentTarget);
+  }
 
   const darkTheme = React.useMemo(
     () =>
@@ -102,6 +138,13 @@ export default function Dashboard(props) {
     setDarkTheme_(!darkTheme_);
   };
 
+  const openPopover = Boolean(anchorEl);
+  const idPopover = openPopover ? 'simple-popover' : undefined;
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+    setChange(0);
+    setChangeText([]);
+  }
   return (
     <BrowserRouter>
       <ThemeProvider theme={darkTheme}>
@@ -135,11 +178,31 @@ export default function Dashboard(props) {
                 label={`Change to ${darkTheme_ ? "light" : "dark"}`}
               />
             </FormGroup>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
+
+            <IconButton color="inherit" onClick={handleResetChange}>
+              <Badge badgeContent={change} color="secondary">
+                <NotificationsIcon aria-describedby={idPopover} />
               </Badge>
             </IconButton>
+            <Popover id={idPopover} open={openPopover} onClose={handleClosePopover} anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
+              {changeText.map(row => (
+             
+                <Typography key={`${row.country}-${row.new ? row.new : 0}`} variant="caption" display="block" gutterBottom>
+                   {`${row.country} ${row.new ? row.new : 0} (${row.newOld ? row.newOld : 0})`} 
+                </Typography>
+              
+              ))}
+            </Popover>
+
           </Toolbar>
         </AppBar>
         <SwipeableDrawer
@@ -156,7 +219,7 @@ export default function Dashboard(props) {
             </IconButton>
           </div>
           <Divider />
-          <List><MainListItems handleDrawerClose={handleDrawerClose}/></List>
+          <List><MainListItems handleDrawerClose={handleDrawerClose} /></List>
           <Divider />
           <List>{secondaryListItems}</List>
         </SwipeableDrawer>
@@ -167,13 +230,13 @@ export default function Dashboard(props) {
           <Route exact path="/" render={() => (
             <Main classes={classes} refreshGraph={refreshGraph} handleRefreshGraph={handleRefreshGraph} />)
           } />
-          
+
           <Route exact path="/graph/:country?/:new?/:death?/" render={(props) => (
-            <DailyCases classes={classes}  
-                country={props.match.params.country}
-                _new={props.match.params.new}
-                death={props.match.params.death}/>
-              )}/>
+            <DailyCases classes={classes}
+              country={props.match.params.country}
+              _new={props.match.params.new}
+              death={props.match.params.death} />
+          )} />
           <Route component={Error404} />
 
         </Switch>

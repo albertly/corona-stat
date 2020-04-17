@@ -12,7 +12,6 @@ import EnhancedTableHead from './EnhancedTableHead';
 
 import { Flag } from '../../../shared/utils';
 
-import Title from '../../Title';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
