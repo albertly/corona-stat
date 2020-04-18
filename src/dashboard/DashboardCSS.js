@@ -3,7 +3,32 @@ import { makeStyles } from '@material-ui/core/styles';
 const drawerWidth = 200;
 
 export default theme => {
-    return makeStyles((theme) => ({
+    
+    return makeStyles((theme) => { 
+
+     return ({
+        rootTabs: {
+            display: "flex",
+            minHeight: 22,
+            overflow: "hidden",
+          },
+
+            rootTab: {
+              border: 0,
+              height: 20,
+              fontSize: "12px",
+              padding: "0px",
+              margin: "3px",
+              minHeight: 20
+            },
+
+            labelTab: {
+              textTransform: 'none',
+              fontSize: "10px",
+              padding: "0px",
+              merging: "0px"
+            },
+
         root: {
             display: 'flex',
         },
@@ -53,7 +78,10 @@ export default theme => {
                 width: theme.spacing(9),
             },
         },
-        appBarSpacer: theme.mixins.toolbar,
+        appBarSpacer: {
+            padding: theme.spacing(1),
+            margin: theme.spacing(1),
+            },
         content: {
             flexGrow: 1,
             height: '100vh',
@@ -76,10 +104,10 @@ export default theme => {
             flexDirection: 'column',
         },
         fixedHeight: {
-            height: 240,
+            height: 200,
         },
         switchBase1: {
             display: 'none'
         },
-    }))();
+    })})();
 }

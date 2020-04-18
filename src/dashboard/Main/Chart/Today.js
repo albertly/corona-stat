@@ -31,7 +31,7 @@ function Today() {
   const classes = useStyles();
 
   useInterval(() => {
-    getEventsAction(dispatch);
+    getEventsAction(dispatch, state);
 
     setDelay(60);
   }, delay * 1000);

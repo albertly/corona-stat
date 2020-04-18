@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -13,15 +13,27 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
+import WatchList from './WatchList';
 
-export function MainListItems( {handleDrawerClose}) {
+export function MainListItems({ handleDrawerClose }) {
+  const history = useHistory();
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
 
-  let history = useHistory();
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    const handleClick = (link) => {
-      handleDrawerClose();
-      history.push(link);
-    }
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+    handleDrawerClose();
+  };
+
+  const handleClick = (link) => {
+    handleDrawerClose();
+    history.push(link);
+  }
 
   return (
     <div>
@@ -49,36 +61,14 @@ export function MainListItems( {handleDrawerClose}) {
         </ListItemIcon>
         <ListItemText primary="Reports" />
       </ListItem>
-      <ListItem button onClick={() => alert('not implemented yet')}>
+      <ListItem button onClick={handleClickOpen}>
         <ListItemIcon>
           <Tooltip title="Add to watch list"><AddLocationIcon /></Tooltip>
         </ListItemIcon>
         <ListItemText primary="Add to watch list" />
       </ListItem>
+      <WatchList open={open} onClose={handleClose} />
     </div>
   )
 };
 
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <Tooltip title="Current month"><BookmarkIcon /></Tooltip>
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <Tooltip title="Last quarter"><AssignmentIcon /></Tooltip>
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <Tooltip title="Year-end"><AssignmentIcon /></Tooltip>
-      </ListItemIcon>
-      <ListItemText primary="Year-end" />
-    </ListItem>
-  </div>
-);

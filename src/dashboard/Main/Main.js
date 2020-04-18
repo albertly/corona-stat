@@ -32,7 +32,7 @@ export default function Main(props) {
 
     return (
         <Container maxWidth="lg" className={classes.container}>
-            <Grid container spacing={4}>
+            <Grid container spacing={1}>
                 {/* Totals */}
                 <Grid item xs={12} md={4} lg={3}>
                     <Paper className={fixedHeightPaper}>
@@ -59,9 +59,24 @@ export default function Main(props) {
                         indicatorColor="primary"
                         textColor="primary"
                         onChange={handleChange}
-                        aria-label="disabled tabs example">
-                        <Tab label="Now" />
-                        <Tab label="Yesterday" />
+                        aria-label="disabled tabs example"
+                        classes={{
+                            root: classes.rootTabs, // class name, e.g. `classes-nesting-root-x`
+                          
+                        }}
+                    >
+                        <Tab size="small" label="Now" 
+                            classes={{
+                                root: classes.rootTab, // class name, e.g. `classes-nesting-root-x`
+                                label: classes.labelTab, // class name, e.g. `classes-nesting-label-x`
+                            }}
+                        />
+                        <Tab size="small" label="Yesterday" 
+                            classes={{
+                                root: classes.rootTab, // class name, e.g. `classes-nesting-root-x`
+                                label: classes.labelTab, // class name, e.g. `classes-nesting-label-x`
+                            }}
+                        />
                     </Tabs>
                     <SwipeableViews
                         index={value}

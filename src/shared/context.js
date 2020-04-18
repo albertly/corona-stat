@@ -6,6 +6,8 @@ const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 
 const GET_YESTERDAY_EVENTS_SUCCESS = 'GET_YESTERDAY_EVENTS_SUCCESS';
 const GET_YESTERDAY_EVENTS_FAILURE = 'GET_YESTERDAY_EVENTS_FAILURE';
+
+const NOP = 'NOP';
 // const GET_STAT_SUCCESS = 'GET_STAT_SUCCESS';
 // const GET_STAT_FAILURE = 'GET_STAT_FAILURE';
 
@@ -13,7 +15,7 @@ const GET_YESTERDAY_EVENTS_FAILURE = 'GET_YESTERDAY_EVENTS_FAILURE';
 const EventsContext = React.createContext();
 
 
-const initialState = { events: [], delta: [], total: '', new: '', deaths: '', currentEvent: {}, eventsYesterday: [], errorMessage: '' };
+const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '', eventsYesterday: [], errorMessage: '' };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -57,23 +59,18 @@ const reducer = (state, action) => {
             }
 
         case GET_EVENTS_SUCCESS:
-
-            const { res: delta } = compareArr(action.payload, state.events);
-            if (delta.length) {
-                   
+                const {payload, delta} = action.payload;   
                 return { ...state,
-                         events: action.payload,
+                         events: payload,
                          delta:  [...delta, ...state.delta].slice(0, 10),
-                         total:  action.payload[action.payload.length - 1].total, //total ? total : state.total,
-                         new:    action.payload[action.payload.length - 1].new ,  //newTotal ? newTotal : state.new,
-                         deaths: action.payload[action.payload.length - 1].newDeaths,
+                         change: delta, // names !!!
+                         total:  payload[payload.length - 1].total, 
+                         new:    payload[payload.length - 1].new ,  
+                         deaths: payload[payload.length - 1].newDeaths,
                         errorMessage: '' };
-            }
         case GET_YESTERDAY_EVENTS_FAILURE:
         case GET_EVENTS_FAILURE:
-            return { ...state, currentEvent: {}, errorMessage: action.error }
-        
-        
+            return { ...state, errorMessage: action.error }
         default:
             return state;
     }
@@ -92,11 +89,17 @@ const getYesterdayEventsAction = async (dispatch) => {
     }
 }
 
-const getEventsAction = async (dispatch) => {
+const getEventsAction = async (dispatch, state) => {
     let response = {};
     try {
         response = await axios.get('');
-        dispatch({ type: GET_EVENTS_SUCCESS, payload: response.data });
+        const { res: delta } = compareArr(response.data, state.events);
+        if (delta.length) {
+           dispatch({ type: GET_EVENTS_SUCCESS, payload: { payload: response.data,
+                                                           delta  }});
+        } else {
+            dispatch({ type: NOP, payload: null})
+        } 
     }
     catch (ex) {
         dispatch({ type: GET_EVENTS_FAILURE, error: 'Get Events Error' });

@@ -19,9 +19,8 @@ export default function News({ data }) {
         <React.Fragment>
             <Title>News:</Title>
             <marquee direction="down" behavior="scroll" scrollamount="1">
-              
             {state.delta.map((row) => (
-                  <Typography key={`${row.country}${row.new}` } component="p" variant="h6">
+                  <Typography key={`${row.country}${row.new}` } variant="subtitle1" gutterBottom>
                             {`${row.country} ${row.new ? row.new : 0} (${row.newOld ? row.newOld : 0})`} 
                   </Typography>
             ))}
