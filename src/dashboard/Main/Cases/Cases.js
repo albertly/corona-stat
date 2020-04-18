@@ -58,20 +58,20 @@ function stableSort(array, comparator) {
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    maxHeight: 440,
+    maxHeight: 428,
   },
   total_cell: {
     backgroundColor: 'grey',
   },
   cell_short: {
     [theme.breakpoints.down("xl")]: {
-      fontSize: "18px",
+      fontSize: "16px",
     },
     [theme.breakpoints.down("lg")]: {
-      fontSize: "18px",
+      fontSize: "15px",
     },
     [theme.breakpoints.down("md")]: {
-      fontSize: "16px",
+      fontSize: "12px",
     },
     [theme.breakpoints.down("sm")]: {
       fontSize: "12px",

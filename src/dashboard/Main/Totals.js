@@ -21,16 +21,22 @@ export default function Totals() {
  // const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Cases Total:</Title>
-      <Typography component="p" variant="h6">
+    <Typography variant="subtitle1" color="primary" gutterBottom style={{margin: 0, padding: 0}}>
+     Cases Total:
+     </Typography>
+      <Typography variant="subtitle1" gutterBottom style={{margin: 0, padding: 0}}>
         {state.total}
       </Typography>
-      <Title>New Cases:</Title>
-      <Typography component="p" variant="h6" >
+      <Typography variant="subtitle1" color="primary" gutterBottom style={{margin: 0, padding: 0}}>
+      New Cases:
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom style={{margin: 0, padding: 0}}>
         {state.new}
       </Typography>
-      <Title>New Deaths:</Title>
-      <Typography component="p" variant="h6">
+      <Typography variant="subtitle1" color="primary" gutterBottom style={{margin: 0, padding: 0}}>
+      New Deaths:
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom style={{margin: 0, padding: 0}}>
         {state.deaths}
       </Typography>
 

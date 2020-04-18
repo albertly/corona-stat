@@ -15,7 +15,7 @@ const NOP = 'NOP';
 const EventsContext = React.createContext();
 
 
-const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '', currentEvent: {}, eventsYesterday: [], errorMessage: '' };
+const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '', eventsYesterday: [], errorMessage: '' };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -70,7 +70,7 @@ const reducer = (state, action) => {
                         errorMessage: '' };
         case GET_YESTERDAY_EVENTS_FAILURE:
         case GET_EVENTS_FAILURE:
-            return { ...state, currentEvent: {}, errorMessage: action.error }
+            return { ...state, errorMessage: action.error }
         default:
             return state;
     }

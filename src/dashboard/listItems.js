@@ -72,26 +72,3 @@ export function MainListItems({ handleDrawerClose }) {
   )
 };
 
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <Tooltip title="Current month"><BookmarkIcon /></Tooltip>
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <Tooltip title="Last quarter"><AssignmentIcon /></Tooltip>
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <Tooltip title="Year-end"><AssignmentIcon /></Tooltip>
-      </ListItemIcon>
-      <ListItemText primary="Year-end" />
-    </ListItem>
-  </div>
-);

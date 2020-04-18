@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Router, Switch, Redirect, Route, BrowserRouter } from 'react-router-dom';
-import Error404 from './Error/Error404';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import clsx from 'clsx';
-import makeStyles from './DashboardCSS';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -23,20 +21,21 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-import { MainListItems, secondaryListItems } from './listItems';
+import Error404 from './Error/Error404';
+import { MainListItems } from './listItems';
 import ScrollTop from './ScrollTop';
 import Main from './Main/Main';
 import DailyCases from './Graph/DailyCases';
-
-import { EventsContext, getEventsAction } from '../shared/context';
-
+import { EventsContext } from '../shared/context';
 import { getRandomInt } from '../shared/utils';
+
+import makeStyles from './DashboardCSS';
 
 const URL = process.env.REACT_APP_WS_URL;
 
 export default function Dashboard(props) {
-  //const hist = useHistory();
   const classes = makeStyles();
+  console.log('classes',classes)
   const [open, setOpen] = useState(false);
   const { state, dispatch } = useContext(EventsContext);
   const [darkTheme_, setDarkTheme_] = useState(localStorage.getItem('darkTheme') === 'true');
@@ -46,28 +45,26 @@ export default function Dashboard(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   useEffect(() => {
-    const countriesStr = localStorage.getItem('countries');
     let countries = {};
     let num = 0;
     let changeArr = [];
+    const countriesStr = localStorage.getItem('countries');
+
     if (countriesStr) {
       countries = JSON.parse(countriesStr);
       Object.keys(countries).map(k => {
         if (countries[k]) {
           const index = state.change.findIndex(e => e.country === k);
           if (index !== -1) {
-            console.log("Found change ", k, state.change[index]);
             num += 1;
             changeArr.push(state.change[index])
           }
         }
       })
-      if (num) {
+      if (changeArr.length) {
         num = change + num;
         setChange(num);
-        const arr = [...changeText, ...changeArr]
-        setChangeText(arr);
-        console.log('changeText', arr)
+        setChangeText([...changeText, ...changeArr]);
       }
 
     }
@@ -137,14 +134,16 @@ export default function Dashboard(props) {
     localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true');
     setDarkTheme_(!darkTheme_);
   };
-
-  const openPopover = Boolean(anchorEl);
-  const idPopover = openPopover ? 'simple-popover' : undefined;
+ 
   const handleClosePopover = () => {
     setAnchorEl(null);
     setChange(0);
     setChangeText([]);
   }
+
+  const openPopover = Boolean(anchorEl);
+  const idPopover = openPopover ? 'simple-popover' : undefined;
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={darkTheme}>
@@ -175,16 +174,19 @@ export default function Dashboard(props) {
                     thumb: classes.thumb,
                     checked: classes.checked,
                   }} />}
-                label={`Change to ${darkTheme_ ? "light" : "dark"}`}
+                label={`${darkTheme_ ? "light" : "dark"}`}
               />
             </FormGroup>
 
             <IconButton color="inherit" onClick={handleResetChange}>
-              <Badge badgeContent={change} color="secondary">
+              <Badge badgeContent={changeText.length} color="secondary">
                 <NotificationsIcon aria-describedby={idPopover} />
               </Badge>
             </IconButton>
-            <Popover id={idPopover} open={openPopover} onClose={handleClosePopover} anchorEl={anchorEl}
+            <Popover id={idPopover}
+              open={openPopover}
+              onClose={handleClosePopover}
+              anchorEl={anchorEl}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'right',
@@ -221,7 +223,6 @@ export default function Dashboard(props) {
           <Divider />
           <List><MainListItems handleDrawerClose={handleDrawerClose} /></List>
           <Divider />
-          <List>{secondaryListItems}</List>
         </SwipeableDrawer>
 
         <div className={classes.appBarSpacer} id="back-to-top-anchor" />
