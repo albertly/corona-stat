@@ -10,8 +10,8 @@ import clsx from 'clsx';
 
 import Chart from './Chart/Chart';
 import Totals from './Totals';
-import Counter from './Chart/Today';
-import Yesterday from './Chart/yesterday';
+import Today from './Cases/Today';
+import Yesterday from './Cases/yesterday';
 import News from './News';
 import Copyright from './Copyright';
 import TabPanel from './TabPanel';
@@ -83,7 +83,7 @@ export default function Main(props) {
                         animateTransitions={false}
                         onChangeIndex={handleChangeIndex}>
                         <TabPanel value={value} index={0}>
-                            <Counter />
+                            <Today />
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             <Yesterday />

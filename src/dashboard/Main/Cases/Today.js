@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 
 import { EventsContext, getEventsAction } from '../../../shared/context';
-import BorderLinearProgress from './BorderLinearProgress';
-import Cases from '../Cases/Cases';
+import BorderLinearProgress from '../Chart/BorderLinearProgress';
+import Cases from './Cases';
 import useInterval from '../../../shared/utils';
 
 const useStyles = makeStyles((theme) => ({
