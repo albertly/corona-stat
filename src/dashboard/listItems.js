@@ -1,32 +1,27 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import Tooltip from '@material-ui/core/Tooltip';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MailIcon from '@material-ui/icons/Mail';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import WatchList from './WatchList';
 
 export function MainListItems({ handleDrawerClose }) {
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
-    setSelectedValue(value);
     handleDrawerClose();
   };
 

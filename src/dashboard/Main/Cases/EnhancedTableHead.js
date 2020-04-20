@@ -17,11 +17,9 @@ const headCells = [
     { id: 'totCasesPer1m', numeric: false, disablePadding: true, label: 'Per 1 m' },
   ];
 
-
 function EnhancedTableHead(props) {
-
-    const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-    const createSortHandler = (property) => (event) => {
+    const { classes, order, orderBy, onRequestSort } = props;
+    const createSortHandler = property => event => {
       onRequestSort(event, property);
     };
   
@@ -52,12 +50,9 @@ function EnhancedTableHead(props) {
   
   EnhancedTableHead.propTypes = {
     classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
   };
   
   export default EnhancedTableHead;

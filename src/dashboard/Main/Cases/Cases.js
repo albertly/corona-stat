@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
-import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 
 import EnhancedTableHead from './EnhancedTableHead';
-
 import { Flag } from '../../../shared/utils';
 
 
@@ -31,17 +30,16 @@ function getComparator(order, orderBy) {
 
 function stableSort(array, comparator) {
   let total;
-  const stabilizedThis = array.reduce(function (result, o) {
-    if (o.country !== 'Total:') {
-      result.push(o);
+  const stabilizedThis = array.reduce(function (result, obj) {
+    if (obj.country !== 'Total:') {
+      result.push(obj);
     }
     else {
-      total = o;
+      total = obj;
     }
     return result;
   }, []).map((el, index) => [el, index]);
 
-  //const stabilizedThis = array.filter(el => el.country !== 'Total:').map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
@@ -52,11 +50,11 @@ function stableSort(array, comparator) {
     stabilizedThis.unshift([total, 0]);
   }
 
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis.map(el => el[0]);
 
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     maxHeight: 428,
   },
@@ -85,11 +83,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
+
 export default function Cases({ data }) {
   const classes = useStyles();
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('total');
-  const [selected, setSelected] = useState([]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -97,83 +96,66 @@ export default function Cases({ data }) {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = data.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
   const colorForTotal = index => `${index === 0 ? classes.total_cell : {}} ${classes.cell_short}`;
 
+  const toNumber = v => +(v.replace(/[^\d.\-eE+]/g, ""));
 
   return (
-    <React.Fragment>
-      {/* <Title>Confirmed Cases</Title> */}
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table" size="small">
-          <EnhancedTableHead
-            classes={classes}
-            numSelected={selected.length}
-            order={order}
-            orderBy={orderBy}
-            onSelectAllClick={handleSelectAllClick}
-            onRequestSort={handleRequestSort}
-            rowCount={data.length}
-          />
-          <TableBody>
-            {
-              stableSort(data.map(row => {
-                return {
-                  country: row.country,
-                  totalD: row.total,
-                  newD: row.new,
-                  totalDeathsD: row.totalDeaths,
-                  newDeathsD: row.newDeaths,
-                  totalRecoveredD: row.totalRecovered,
-                  activeD: row.active,
-                  seriousD: row.serious,
-                  totCasesPer1mD: row.totCasesPer1m,
-                  total: +(row.total.replace(/[^\d.\-eE+]/g, "")),
-                  new: +(row.new.replace(/[^\d.\-eE+]/g, "")),
-                  totalDeaths: +(row.totalDeaths.replace(/[^\d.\-eE+]/g, "")),
-                  newDeaths: +(row.newDeaths.replace(/[^\d.\-eE+]/g, "")),
-                  totalRecovered: +(row.totalRecovered.replace(/[^\d.\-eE+]/g, "")),
-                  active: +(row.active.replace(/[^\d.\-eE+]/g, "")),
-                  serious: +(row.serious.replace(/[^\d.\-eE+]/g, "")),
-                  totCasesPer1m: +(row.totCasesPer1m.replace(/[^\d.\-eE+]/g, "")),
-                }
-              }),
-                getComparator(order, orderBy))
-                .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow key={row.country}>
-                      <TableCell className={`${classes.tableCell} ${colorForTotal(index)}`} component="th" id={labelId} scope="row" padding="none">
-
-                        <Link component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}`} color='textPrimary'>
-                          <span style={{ "display": "flex", "alignItems": "center", "justifyContent": "start" }}>
-                            {Flag(row.country)}
-                            {row.country}
-                          </span>
-                        </Link>
-                      </TableCell>
-
-                      <TableCell className={colorForTotal(index)}>{row.totalD}</TableCell>
-                      <TableCell className={colorForTotal(index)}>{row.newD}</TableCell>
-                      <TableCell className={colorForTotal(index)}>{row.totalDeathsD}</TableCell>
-                      <TableCell className={colorForTotal(index)}>{row.newDeathsD}</TableCell>
-                      <TableCell className={colorForTotal(index)}>{row.totalRecoveredD}</TableCell>
-                      <TableCell className={colorForTotal(index)}>{row.activeD}</TableCell>
-                      <TableCell className={colorForTotal(index)}>{row.seriousD}</TableCell>
-                      <TableCell className={colorForTotal(index)}>{row.totCasesPer1mD}</TableCell>
-                    </TableRow>
-                  )
-                })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </React.Fragment>
+    <TableContainer className={classes.container}>
+      <Table stickyHeader aria-label="sticky table" size="small">
+        <EnhancedTableHead
+          classes={classes}
+          order={order}
+          orderBy={orderBy}
+          onRequestSort={handleRequestSort}
+        />
+        <TableBody>
+          {
+            stableSort(data.map(row => {
+              return {
+                country: row.country,
+                totalD: row.total,
+                newD: row.new,
+                totalDeathsD: row.totalDeaths,
+                newDeathsD: row.newDeaths,
+                totalRecoveredD: row.totalRecovered,
+                activeD: row.active,
+                seriousD: row.serious,
+                totCasesPer1mD: row.totCasesPer1m,
+                total: toNumber(row.total),
+                new: toNumber(row.new),
+                totalDeaths: toNumber(row.totalDeaths),
+                newDeaths: toNumber(row.newDeaths),
+                totalRecovered: toNumber + (row.totalRecovered),
+                active: toNumber(row.active),
+                serious: toNumber(row.serious),
+                totCasesPer1m: toNumber(row.totCasesPer1m),
+              }
+            }),
+              getComparator(order, orderBy))
+              .map((row, index) => {
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <TableRow key={row.country}>
+                    <TableCell className={`${classes.tableCell} ${colorForTotal(index)}`} component="th" id={labelId} scope="row" padding="none">
+                      <Link style={spanStyle} component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}`} color='textPrimary'>
+                        {Flag(row.country)}
+                        {row.country}
+                      </Link>
+                    </TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.totalD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.newD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.totalDeathsD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.newDeathsD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.totalRecoveredD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.activeD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.seriousD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.totCasesPer1mD}</TableCell>
+                  </TableRow>
+                )
+              })}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
