@@ -92,7 +92,7 @@ export default function Main(props) {
                     {/* </Paper> */}
                 </Grid>
             </Grid>
-            <Box pt={4}>
+            <Box pt={2}>
                 <Copyright />
             </Box>
         </Container>

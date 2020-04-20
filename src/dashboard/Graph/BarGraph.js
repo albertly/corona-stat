@@ -7,19 +7,12 @@ const today = new Date();
 const todayFormated = `${today.getUTCMonthNameShort()} ${today.getUTCDate()}`;
 
 const CustomTooltip = ({ active, payload, label }) => {
-    const pstyle = {
-        margin: '0px',
-        padding: '2px',
-        color: 'red',
-        fontWeight: 'bold',
-        fontSize: 'medium'
-    };
-
+    
     if (active && payload[0]) {
         return (
             <div className="custom-tooltip filter">
-                <p className="label" style={pstyle}>{`${label} ${label === todayFormated ? 'Today' : ''}`}</p>
-                <p className="label" style={pstyle}>{`Cases : ${payload[0].value}`}</p>
+                <p className="label pstyle" >{`${label} ${label === todayFormated ? 'Today' : ''}`}</p>
+                <p className="label pstyle" >{`Cases : ${payload[0].value}`}</p>
             </div>
         );
     }
@@ -38,7 +31,7 @@ export default function BarGraph(props) {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Tooltip itemStyle={{ color: 'red' }} contentStyle={{ color: 'red' }} content={<CustomTooltip />} />
+                <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="cases" fill="#8884d8" >
                     {
                         data.map((entry, index) => (

@@ -7,6 +7,11 @@ export default theme => {
     return makeStyles((theme) => { 
 
      return ({
+        rootZoom: {
+            position: 'fixed',
+            top: theme.spacing(8),
+            right: theme.spacing(4),
+          },  
         rootTabs: {
             display: "flex",
             minHeight: 22,
@@ -80,7 +85,7 @@ export default theme => {
         },
         appBarSpacer: {
             padding: theme.spacing(1),
-            margin: theme.spacing(1),
+            margin: theme.spacing(2),
             },
         content: {
             flexGrow: 1,

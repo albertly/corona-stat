@@ -6,15 +6,23 @@ import Title from '../Title';
 import BarChart from './BarGraph';
 import { getAlternativeCountryName, Flag } from '../../shared/utils';
 
+import { useHistory } from 'react-router-dom';
+import Tooltip from '@material-ui/core/Tooltip';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Zoom from '@material-ui/core/Zoom';
+import Fab from '@material-ui/core/Fab';
+
 const today = new Date();
 const todayFormated = `${today.getUTCMonthNameShort()} ${today.getUTCDate()}`;
 
+
 export default function DailyCases(props) {
+    const history = useHistory();
     const { state, _ } = useContext(EventsContext);
     let { classes, country, _new, death } = props;
     const [data, setData] = useState('');
     const [dataDeath, setDataDeath] = useState('');
-
+    
     if (country === 'Total:') country = '';
 
     useEffect(() => {
@@ -50,31 +58,45 @@ export default function DailyCases(props) {
                 });
             }
             graphDataDeath.push({
-                 name: todayFormated,
-                 cases: !country ? 0 : death
-             })
+                name: todayFormated,
+                cases: !country ? 0 : death
+            })
             setDataDeath(graphDataDeath);
 
         };
         fetchData();
     }, []);
 
+    const handleBackClick = () => {
+        history.push('/');
+    }
+
+    const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
+
     return data && dataDeath && (
         <Container maxWidth="lg" className={classes.container}>
-            <span style={{ "display": "flex", "alignItems": "center", "justifyContent": "start" }}>
+            <span style={spanStyle}>
                 <Title>Daily New Cases ({country ? country : 'worldwide'} )</Title>
                 {Flag(country, false)}
             </span>
 
-            <BarChart data={data} mainBarColor={'#8884d8'}/>
+            <BarChart data={data} mainBarColor={'#8884d8'} />
 
 
-            <span style={{ "display": "flex", "alignItems": "center", "justifyContent": "start" }}>
+            <span style={spanStyle}>
                 <Title>Daily New Death</Title>
             </span>
 
-            <BarChart data={dataDeath} mainBarColor={'red'}/>
-            
+            <BarChart data={dataDeath} mainBarColor={'red'} />
+
+            <Zoom in={true}>
+                <div  onClick={handleBackClick} role="presentation" className={classes.rootZoom} >
+                    <Fab color="primary" size="small" aria-label="go back">
+                    <Tooltip title="Go back"><ArrowBackIcon /></Tooltip>
+                    </Fab>
+                </div>
+            </Zoom>
+
         </Container>
-    ) 
+    )
 }
