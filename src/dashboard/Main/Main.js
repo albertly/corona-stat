@@ -68,13 +68,13 @@ export default function Main(props) {
                         <Tab size="small" label="Now" 
                             classes={{
                                 root: classes.rootTab, // class name, e.g. `classes-nesting-root-x`
-                                label: classes.labelTab, // class name, e.g. `classes-nesting-label-x`
+                             //   label: classes.labelTab, // class name, e.g. `classes-nesting-label-x`
                             }}
                         />
                         <Tab size="small" label="Yesterday" 
                             classes={{
                                 root: classes.rootTab, // class name, e.g. `classes-nesting-root-x`
-                                label: classes.labelTab, // class name, e.g. `classes-nesting-label-x`
+                            //    label: classes.labelTab, // class name, e.g. `classes-nesting-label-x`
                             }}
                         />
                     </Tabs>

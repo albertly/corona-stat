@@ -22,6 +22,7 @@ export default function DailyCases(props) {
     let { classes, country, _new, death } = props;
     const [data, setData] = useState('');
     const [dataDeath, setDataDeath] = useState('');
+    const [dataActive, setDataActive] = useState('');
     
     if (country === 'Total:') country = '';
 
@@ -63,6 +64,23 @@ export default function DailyCases(props) {
             })
             setDataDeath(graphDataDeath);
 
+            const graphDataActive = [];
+            if (result.data[2].xAxis) {
+                result.data[2].xAxis.categories.forEach((element, index) => {
+                    graphDataActive.push(
+                        {
+                            name: element,
+                            cases: result.data[2].series[0].data[index]
+                        }
+                    );
+                });
+            }
+            graphDataDeath.push({
+                name: todayFormated,
+                cases: 0
+            })
+            console.log('graphDataActive', graphDataActive)
+            setDataActive(graphDataActive);
         };
         fetchData();
     }, []);
@@ -88,6 +106,12 @@ export default function DailyCases(props) {
             </span>
 
             <BarChart data={dataDeath} mainBarColor={'red'} />
+
+            <span style={spanStyle}>
+                <Title>Active Cases</Title>
+            </span>
+
+            <BarChart data={dataActive} mainBarColor={'#8884d8'} />
 
             <Zoom in={true}>
                 <div  onClick={handleBackClick} role="presentation" className={classes.rootZoom} >

@@ -7,7 +7,7 @@ const today = new Date();
 const todayFormated = `${today.getUTCMonthNameShort()} ${today.getUTCDate()}`;
 
 const CustomTooltip = ({ active, payload, label }) => {
-    
+
     if (active && payload[0]) {
         return (
             <div className="custom-tooltip filter">
@@ -23,7 +23,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 export default function BarGraph(props) {
     const { data, mainBarColor } = props;
 
-    return (
+    return data && data.length && (
         <ResponsiveContainer width={'99%'} height={300}>
             <BarChart data={data}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }
@@ -35,7 +35,7 @@ export default function BarGraph(props) {
                 <Bar dataKey="cases" fill="#8884d8" >
                     {
                         data.map((entry, index) => (
-                            <Cell cursor="pointer" fill={index === data.length - 1 ? '#82ca9d' : mainBarColor } key={`cell-${index}`} />
+                            <Cell cursor="pointer" fill={index === data.length - 1 ? '#82ca9d' : mainBarColor} key={`cell-${index}`} />
                         ))
                     }
                 </Bar>

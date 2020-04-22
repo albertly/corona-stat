@@ -15,6 +15,7 @@ const headCells = [
     { id: 'active', numeric: false, disablePadding: true, label: 'Active' },
     { id: 'serious', numeric: false, disablePadding: true, label: 'Serious' },
     { id: 'totCasesPer1m', numeric: false, disablePadding: true, label: 'Per 1 m' },
+    { id: 'tPer1m', numeric: false, disablePadding: true, label: 'Test / 1 m' },
   ];
 
 function EnhancedTableHead(props) {
@@ -26,7 +27,7 @@ function EnhancedTableHead(props) {
     return (
       <TableHead>
         <TableRow>
-          {headCells.map((headCell) => (
+          {headCells.map(headCell => (
             <TableCell
               key={headCell.id}
               className={`${classes.tableCell} ${classes.cell_short}`}

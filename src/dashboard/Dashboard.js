@@ -17,6 +17,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Popover from '@material-ui/core/Popover';
+import Paper from '@material-ui/core/Paper';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -35,7 +36,6 @@ const URL = process.env.REACT_APP_WS_URL;
 
 export default function Dashboard(props) {
   const classes = makeStyles();
-  console.log('classes',classes)
   const [open, setOpen] = useState(false);
   const { state, dispatch } = useContext(EventsContext);
   const [darkTheme_, setDarkTheme_] = useState(localStorage.getItem('darkTheme') === 'true');
@@ -196,6 +196,7 @@ export default function Dashboard(props) {
                 horizontal: 'right',
               }}
             >
+              <Paper className={classes.paper1}>
               {changeText.map(row => (
              
                 <Typography key={`${row.country}-${row.new ? row.new : 0}`} variant="caption" display="block" gutterBottom>
@@ -203,6 +204,7 @@ export default function Dashboard(props) {
                 </Typography>
               
               ))}
+              </Paper>
             </Popover>
 
           </Toolbar>

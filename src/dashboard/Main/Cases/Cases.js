@@ -126,10 +126,11 @@ export default function Cases({ data }) {
                 new: toNumber(row.new),
                 totalDeaths: toNumber(row.totalDeaths),
                 newDeaths: toNumber(row.newDeaths),
-                totalRecovered: toNumber + (row.totalRecovered),
+                totalRecovered: toNumber(row.totalRecovered),
                 active: toNumber(row.active),
                 serious: toNumber(row.serious),
                 totCasesPer1m: toNumber(row.totCasesPer1m),
+                tPer1mD: row.tPer1m,
               }
             }),
               getComparator(order, orderBy))
@@ -151,6 +152,7 @@ export default function Cases({ data }) {
                     <TableCell className={colorForTotal(index)}>{row.activeD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.seriousD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.totCasesPer1mD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.tPer1mD}</TableCell>
                   </TableRow>
                 )
               })}
