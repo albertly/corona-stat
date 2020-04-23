@@ -19,11 +19,11 @@ const todayFormated = `${today.getUTCMonthNameShort()} ${today.getUTCDate()}`;
 export default function DailyCases(props) {
     const history = useHistory();
     const { state, _ } = useContext(EventsContext);
-    let { classes, country, _new, death } = props;
+    let { classes, country, _new, death, active } = props;
     const [data, setData] = useState('');
     const [dataDeath, setDataDeath] = useState('');
     const [dataActive, setDataActive] = useState('');
-    
+
     if (country === 'Total:') country = '';
 
     useEffect(() => {
@@ -75,11 +75,10 @@ export default function DailyCases(props) {
                     );
                 });
             }
-            graphDataDeath.push({
+            graphDataActive.push({
                 name: todayFormated,
-                cases: 0
+                cases: !country ? 0 : active
             })
-            console.log('graphDataActive', graphDataActive)
             setDataActive(graphDataActive);
         };
         fetchData();
