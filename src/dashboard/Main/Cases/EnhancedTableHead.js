@@ -7,15 +7,16 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const headCells = [
     { id: 'country', numeric: false, disablePadding: true, label: 'Country' },
-    { id: 'total', numeric: false, disablePadding: false, label: 'Total Cases' },
+    { id: 'total', numeric: false, disablePadding: false, label: 'Cases' },
     { id: 'new', numeric: false, disablePadding: false, label: 'New Cases' },
-    { id: 'totalDeaths', numeric: false, disablePadding: true, label: 'Total Deaths' },
+    { id: 'totalDeaths', numeric: false, disablePadding: true, label: 'Deaths' },
     { id: 'newDeaths', numeric: false, disablePadding: true, label: 'New Deaths' },
-    { id: 'totalRecovered', numeric: false, disablePadding: true, label: 'Total Recovered' },
+    { id: 'totalRecovered', numeric: false, disablePadding: true, label: 'Recovered' },
     { id: 'active', numeric: false, disablePadding: true, label: 'Active' },
     { id: 'serious', numeric: false, disablePadding: true, label: 'Serious' },
-    { id: 'totCasesPer1m', numeric: false, disablePadding: true, label: 'Per 1 m' },
-    { id: 'tPer1m', numeric: false, disablePadding: true, label: 'Test / 1 m' },
+    { id: 'totCasesPer1m', numeric: false, disablePadding: true, label: 'Cases / 1 m' },
+    { id: 'dPer1m', numeric: false, disablePadding: true, label: 'Death / 1 m' },
+    { id: 'tPer1m', numeric: false, disablePadding: true, label: 'Tests / 1 m' },
   ];
 
 function EnhancedTableHead(props) {

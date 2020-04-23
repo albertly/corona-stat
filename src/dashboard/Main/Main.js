@@ -53,7 +53,6 @@ export default function Main(props) {
                 </Grid>
                 {/* Recent Orders */}
                 <Grid item xs={12}>
-                    {/* <Paper className={classes.paper1}> */}
                     <Tabs
                         value={value}
                         indicatorColor="primary"

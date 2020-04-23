@@ -55,8 +55,19 @@ function stableSort(array, comparator) {
 }
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    maxHeight: 428,
+  container: {    
+    [theme.breakpoints.down("xl")]: {
+      maxHeight: 628,
+    },
+    [theme.breakpoints.down("lg")]: {
+      maxHeight: 428,
+    },
+    [theme.breakpoints.down("md")]: {
+      maxHeight: 428,
+    },
+    [theme.breakpoints.down("sm")]: {
+      maxHeight: 428,      
+    },
   },
   total_cell: {
     backgroundColor: 'grey',
@@ -130,6 +141,7 @@ export default function Cases({ data }) {
                 active: toNumber(row.active),
                 serious: toNumber(row.serious),
                 totCasesPer1m: toNumber(row.totCasesPer1m),
+                dPer1mD: row.dPer1m,
                 tPer1mD: row.tPer1m,
               }
             }),
@@ -152,6 +164,7 @@ export default function Cases({ data }) {
                     <TableCell className={colorForTotal(index)}>{row.activeD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.seriousD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.totCasesPer1mD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.dPer1mD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.tPer1mD}</TableCell>
                   </TableRow>
                 )

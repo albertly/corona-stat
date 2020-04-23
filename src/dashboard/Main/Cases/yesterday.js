@@ -22,17 +22,15 @@ function Yesterday() {
     getYesterdayEventsAction(dispatch);
   }, []);
 
-  if (!state.eventsYesterday.length) {
-    return (
+
+    return !state.eventsYesterday.length ? (
       <div className={classes.root}>
         <BorderLinearProgress />
       </div>
-    );
-  } else {
-    return (
+    ) : (
       <Cases data={state.eventsYesterday}></Cases>
     );
-  }
+
 }
 
 export default Yesterday;
