@@ -15,6 +15,7 @@ import Fab from '@material-ui/core/Fab';
 const today = new Date();
 const todayFormated = `${today.getUTCMonthNameShort()} ${today.getUTCDate()}`;
 
+const toNumber = v => +(v.replace(/[^\d.\-eE+]/g, ""));
 
 export default function DailyCases(props) {
     const history = useHistory();
@@ -43,7 +44,7 @@ export default function DailyCases(props) {
             }
             graphData.push({
                 name: todayFormated,
-                cases: !country ? +(state.new.replace(/[^\d\.\-eE+]/g, "")) : _new
+                cases: !country ? +(toNumber(state.new)) : _new
             })
             setData(graphData);
 
@@ -60,7 +61,7 @@ export default function DailyCases(props) {
             }
             graphDataDeath.push({
                 name: todayFormated,
-                cases: !country ? 0 : death
+                cases: !country && state.events.length ? +(toNumber(state.events[state.events.length -1 ].newDeaths)) :  death
             })
             setDataDeath(graphDataDeath);
 
@@ -77,7 +78,7 @@ export default function DailyCases(props) {
             }
             graphDataActive.push({
                 name: todayFormated,
-                cases: !country ? 0 : active
+                cases: !country && state.events.length ? +(toNumber(state.events[state.events.length -1 ].active)) : active
             })
             setDataActive(graphDataActive);
         };
@@ -89,7 +90,8 @@ export default function DailyCases(props) {
     }
 
     const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
-
+    
+    
     return data && dataDeath && (
         <Container maxWidth="lg" className={classes.container}>
             <span style={spanStyle}>
