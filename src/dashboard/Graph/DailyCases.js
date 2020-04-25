@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { EventsContext } from '../../shared/context';
@@ -17,13 +18,79 @@ const todayFormated = `${today.getUTCMonthNameShort()} ${today.getUTCDate()}`;
 
 const toNumber = v => +(v.replace(/[^\d.\-eE+]/g, ""));
 
+
+const initial = [
+    { id: 'id-1', content: '0' },
+    { id: 'id-2', content: '1' },
+    { id: 'id-3', content: '2' },
+];
+
+
+
+const grid = 8;
+const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+};
+function DraggableItem({ item, index, children }) {
+    return (
+        <Draggable draggableId={item.id} index={index}>
+            {provided => (
+                <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                >
+                    {children}
+
+                </div>
+            )}
+        </Draggable>
+    );
+}
+
+const DraggableItemList = React.memo(function QuoteList({ items, data, spans, colors }) {
+    return items.map((item, index) => (
+        <DraggableItem item={item} index={index} key={item.id}>
+            {spans[item.content]}
+            <BarChart data={data[item.content]} mainBarColor={colors[item.content]} />
+        </DraggableItem>
+    ));
+});
+
+
 export default function DailyCases(props) {
     const history = useHistory();
-    const { state, _ } = useContext(EventsContext);
+    const { stateC, _ } = useContext(EventsContext);
     let { classes, country, _new, death, active } = props;
     const [data, setData] = useState('');
     const [dataDeath, setDataDeath] = useState('');
     const [dataActive, setDataActive] = useState('');
+
+
+    const [state, setState] = useState({ items: initial });
+
+    function onDragEnd(result) {
+        console.log('result', result)
+        if (!result.destination) {
+            return;
+        }
+
+        if (result.destination.index === result.source.index) {
+            return;
+        }
+
+        const items = reorder(
+            state.items,
+            result.source.index,
+            result.destination.index
+        );
+        console.log('items',items)
+        setState({ items });
+    }
 
     if (country === 'Total:') country = '';
 
@@ -44,7 +111,7 @@ export default function DailyCases(props) {
             }
             graphData.push({
                 name: todayFormated,
-                cases: !country ? +(toNumber(state.new)) : _new
+                cases: !country ? +(toNumber(stateC.new)) : _new
             })
             setData(graphData);
 
@@ -61,7 +128,7 @@ export default function DailyCases(props) {
             }
             graphDataDeath.push({
                 name: todayFormated,
-                cases: !country && state.events.length ? +(toNumber(state.events[state.events.length -1 ].newDeaths)) :  death
+                cases: !country && stateC.events.length ? +(toNumber(stateC.events[stateC.events.length - 1].newDeaths)) : death
             })
             setDataDeath(graphDataDeath);
 
@@ -78,7 +145,7 @@ export default function DailyCases(props) {
             }
             graphDataActive.push({
                 name: todayFormated,
-                cases: !country && state.events.length ? +(toNumber(state.events[state.events.length -1 ].active)) : active
+                cases: !country && stateC.events.length ? +(toNumber(stateC.events[stateC.events.length - 1].active)) : active
             })
             setDataActive(graphDataActive);
         };
@@ -90,38 +157,50 @@ export default function DailyCases(props) {
     }
 
     const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
-    
+
+    const t1 = (
+        <span style={spanStyle}>
+            <Title>Daily New Cases ({country ? country : 'worldwide'} )</Title>
+            {Flag(country, false)}
+        </span>
+    );
+    const t2 = (
+        <span style={spanStyle}>
+            <Title>Daily New Death</Title>
+        </span>
+    );
+    const t3 = (
+        <span style={spanStyle}>
+        <Title>Active Cases</Title>
+    </span>
+    )
     
     return data && dataDeath && (
         <Container maxWidth="lg" className={classes.container}>
-            <span style={spanStyle}>
-                <Title>Daily New Cases ({country ? country : 'worldwide'} )</Title>
-                {Flag(country, false)}
-            </span>
 
-            <BarChart data={data} mainBarColor={'#8884d8'} />
-
-
-            <span style={spanStyle}>
-                <Title>Daily New Death</Title>
-            </span>
-
-            <BarChart data={dataDeath} mainBarColor={'red'} />
-
-            <span style={spanStyle}>
-                <Title>Active Cases</Title>
-            </span>
-
-            <BarChart data={dataActive} mainBarColor={'#8884d8'} />
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="list">
+                    {provided => (
+                        <div ref={provided.innerRef} {...provided.droppableProps}>
+                            <DraggableItemList items={state.items}  
+                                               data={[data, dataDeath, dataActive]}
+                                               spans={[t1, t2, t3]}
+                                               colors={['#8884d8', 'red', '#8884d8']}
+                            />
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
 
             <Zoom in={true}>
-                <div  onClick={handleBackClick} role="presentation" className={classes.rootZoom} >
+                <div onClick={handleBackClick} role="presentation" className={classes.rootZoom} >
                     <Fab color="primary" size="small" aria-label="go back">
-                    <Tooltip title="Go back"><ArrowBackIcon /></Tooltip>
+                        <Tooltip title="Go back"><ArrowBackIcon /></Tooltip>
                     </Fab>
                 </div>
             </Zoom>
 
-        </Container>
+        </Container >
     )
 }

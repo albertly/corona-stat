@@ -22,9 +22,11 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function BarGraph(props) {
     const { data, mainBarColor } = props;
-
-    return data && data.length && (
-        <ResponsiveContainer width={'99%'} height={300}>
+    
+    let graph = <></>;
+    if (data && data.length) {
+     
+     graph =   <ResponsiveContainer width={'99%'} height={300}>
             <BarChart data={data}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }
                 }>
@@ -41,5 +43,6 @@ export default function BarGraph(props) {
                 </Bar>
             </BarChart >
         </ResponsiveContainer>
-    )
+    }
+    return graph;
 }
