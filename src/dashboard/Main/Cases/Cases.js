@@ -91,7 +91,16 @@ const useStyles = makeStyles(theme => ({
     width: 70,
     overflowWrap: 'break-word',
     wordWrap: 'break-word',
+  },
+  limeCell: {
+    color: '#e65100',
+    fontWeight: 'bold',
+  },
+  redCell: {
+    color: 'red',
+    fontWeight: 'bold'
   }
+  
 }));
 
 const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
@@ -120,6 +129,7 @@ export default function Cases({ data }) {
           orderBy={orderBy}
           onRequestSort={handleRequestSort}
         />
+
         <TableBody>
           {
             stableSort(data.map(row => {
@@ -149,7 +159,7 @@ export default function Cases({ data }) {
               .map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
-                  <TableRow key={row.country}>
+                  <TableRow hover key={row.country}>
                     <TableCell className={`${classes.tableCell} ${colorForTotal(index)}`} component="th" id={labelId} scope="row" padding="none">
                       <Link style={spanStyle} component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}/${row.active}`} color='textPrimary'>
                         {Flag(row.country)}
@@ -157,9 +167,9 @@ export default function Cases({ data }) {
                       </Link>
                     </TableCell>
                     <TableCell className={colorForTotal(index)}>{row.totalD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.newD}</TableCell>
+                    <TableCell className={`${colorForTotal(index)} ${classes.limeCell}`}>{row.newD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.totalDeathsD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.newDeathsD}</TableCell>
+                    <TableCell className={`${colorForTotal(index)} ${classes.redCell}`}>{row.newDeathsD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.totalRecoveredD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.activeD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.seriousD}</TableCell>

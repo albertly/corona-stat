@@ -64,14 +64,14 @@ const DraggableItemList = React.memo(function QuoteList({ items, data, spans, co
 
 export default function DailyCases(props) {
     const history = useHistory();
-    const { stateC, _ } = useContext(EventsContext);
+    const { state, _ } = useContext(EventsContext);
     let { classes, country, _new, death, active } = props;
     const [data, setData] = useState('');
     const [dataDeath, setDataDeath] = useState('');
     const [dataActive, setDataActive] = useState('');
 
 
-    const [state, setState] = useState({ items: initial });
+    const [state_, setState] = useState({ items: initial });
 
     function onDragEnd(result) {
         console.log('result', result)
@@ -84,7 +84,7 @@ export default function DailyCases(props) {
         }
 
         const items = reorder(
-            state.items,
+            state_.items,
             result.source.index,
             result.destination.index
         );
@@ -105,13 +105,15 @@ export default function DailyCases(props) {
                         {
                             name: element,
                             cases: result.data[0].series[0].data[index]
+
                         }
                     );
                 });
             }
+
             graphData.push({
                 name: todayFormated,
-                cases: !country ? +(toNumber(stateC.new)) : _new
+                cases: !country && state.events.length ? +(toNumber(state.events[state.events.length - 1].new)) : _new
             })
             setData(graphData);
 
@@ -128,7 +130,7 @@ export default function DailyCases(props) {
             }
             graphDataDeath.push({
                 name: todayFormated,
-                cases: !country && stateC.events.length ? +(toNumber(stateC.events[stateC.events.length - 1].newDeaths)) : death
+                cases: !country && state.events.length ? +(toNumber(state.events[state.events.length - 1].newDeaths)) : death
             })
             setDataDeath(graphDataDeath);
 
@@ -145,7 +147,7 @@ export default function DailyCases(props) {
             }
             graphDataActive.push({
                 name: todayFormated,
-                cases: !country && stateC.events.length ? +(toNumber(stateC.events[stateC.events.length - 1].active)) : active
+                cases: !country && state.events.length ? +(toNumber(state.events[state.events.length - 1].active)) : active
             })
             setDataActive(graphDataActive);
         };
@@ -174,7 +176,7 @@ export default function DailyCases(props) {
         <Title>Active Cases</Title>
     </span>
     )
-    
+
     return data && dataDeath && (
         <Container maxWidth="lg" className={classes.container}>
 
@@ -182,7 +184,7 @@ export default function DailyCases(props) {
                 <Droppable droppableId="list">
                     {provided => (
                         <div ref={provided.innerRef} {...provided.droppableProps}>
-                            <DraggableItemList items={state.items}  
+                            <DraggableItemList items={state_.items}  
                                                data={[data, dataDeath, dataActive]}
                                                spans={[t1, t2, t3]}
                                                colors={['#8884d8', 'red', '#8884d8']}
