@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { darken, fade, lighten } from '@material-ui/core/styles/colorManipulator';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -54,8 +55,10 @@ function stableSort(array, comparator) {
 
 }
 
-const useStyles = makeStyles(theme => ({
-  container: {    
+const useStyles = makeStyles(theme => {
+  console.log('theme', theme)
+  return ({
+  container: {
     [theme.breakpoints.down("xl")]: {
       maxHeight: 628,
     },
@@ -99,9 +102,28 @@ const useStyles = makeStyles(theme => ({
   redCell: {
     color: 'red',
     fontWeight: 'bold'
+  },
+  freeze: {
+    position: 'sticky',
+    left: 0,
+    backgroundColor: theme.palette.background.default,
+    zIndex: 101,
+    ...theme.typography.body2,
+    display: 'table-cell',
+    verticalAlign: 'inherit',
+    // Workaround for a rendering bug with spanned columns in Chrome 62.0.
+    // Removes the alpha (sets it to 1), and lightens or darkens the theme color.
+    borderBottom: `1px solid
+    ${
+      theme.palette.type === 'light'
+        ? lighten(fade(theme.palette.divider, 1), 0.88)
+        : darken(fade(theme.palette.divider, 1), 0.68)
+    }`,
+    textAlign: 'left',
+    //padding: 16,
   }
   
-}));
+})});
 
 const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
 
@@ -119,7 +141,7 @@ export default function Cases({ data }) {
   const colorForTotal = index => `${index === 0 ? classes.total_cell : {}} ${classes.cell_short}`;
 
   const toNumber = v => +(v.replace(/[^\d.\-eE+]/g, ""));
-
+  
   return (
     <TableContainer className={classes.container}>
       <Table stickyHeader aria-label="sticky table" size="small">
@@ -160,7 +182,7 @@ export default function Cases({ data }) {
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow hover key={row.country}>
-                    <TableCell className={`${classes.tableCell} ${colorForTotal(index)}`} component="th" id={labelId} scope="row" padding="none">
+                    <TableCell className={`${classes.tableCell} ${colorForTotal(index)} ${classes.freeze}`} component="th" id={labelId} scope="row" padding="none">
                       <Link style={spanStyle} component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}/${row.active}`} color='textPrimary'>
                         {Flag(row.country)}
                         {row.country}
