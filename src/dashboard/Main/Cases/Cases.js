@@ -58,7 +58,7 @@ function stableSort(array, comparator) {
 const useStyles = makeStyles(theme => {
   console.log('theme', theme)
   return ({
-  container: {
+  container: {    
     [theme.breakpoints.down("xl")]: {
       maxHeight: 628,
     },
@@ -93,7 +93,7 @@ const useStyles = makeStyles(theme => {
   tableCell: {
     width: 70,
     overflowWrap: 'break-word',
-    wordWrap: 'break-word',
+    wordWrap: 'break-word',    
   },
   limeCell: {
     color: '#e65100',
@@ -107,7 +107,7 @@ const useStyles = makeStyles(theme => {
     position: 'sticky',
     left: 0,
     backgroundColor: theme.palette.background.default,
-    zIndex: 101,
+    zIndex: 2,
     ...theme.typography.body2,
     display: 'table-cell',
     verticalAlign: 'inherit',
@@ -121,6 +121,9 @@ const useStyles = makeStyles(theme => {
     }`,
     textAlign: 'left',
     //padding: 16,
+  },
+  deepFreeze: {
+    zIndex: 5,
   }
   
 })});
@@ -138,7 +141,7 @@ export default function Cases({ data }) {
     setOrderBy(property);
   };
 
-  const colorForTotal = index => `${index === 0 ? classes.total_cell : {}} ${classes.cell_short}`;
+  const colorForTotal = index => `${index === 0 ? classes.total_cell : ''} ${classes.cell_short}`;
 
   const toNumber = v => +(v.replace(/[^\d.\-eE+]/g, ""));
   
@@ -152,7 +155,7 @@ export default function Cases({ data }) {
           onRequestSort={handleRequestSort}
         />
 
-        <TableBody>
+        <TableBody >
           {
             stableSort(data.map(row => {
               return {
@@ -175,6 +178,8 @@ export default function Cases({ data }) {
                 totCasesPer1m: toNumber(row.totCasesPer1m),
                 dPer1mD: row.dPer1m,
                 tPer1mD: row.tPer1m,
+                dPer1m: toNumber(row.dPer1m),
+                tPer1m: toNumber(row.tPer1m),
               }
             }),
               getComparator(order, orderBy))
@@ -182,7 +187,7 @@ export default function Cases({ data }) {
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow hover key={row.country}>
-                    <TableCell className={`${classes.tableCell} ${colorForTotal(index)} ${classes.freeze}`} component="th" id={labelId} scope="row" padding="none">
+                    <TableCell className={`${classes.tableCell} ${classes.freeze} ${colorForTotal(index)} `} component="th" id={labelId} scope="row" padding="none">
                       <Link style={spanStyle} component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}/${row.active}`} color='textPrimary'>
                         {Flag(row.country)}
                         {row.country}

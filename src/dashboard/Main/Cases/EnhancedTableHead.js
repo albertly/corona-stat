@@ -28,20 +28,22 @@ function EnhancedTableHead(props) {
     return (
       <TableHead>
         <TableRow>
-          {headCells.map(headCell => (
+          {headCells.map((headCell, i) => (
             <TableCell
               key={headCell.id}
-              className={`${classes.tableCell} ${classes.cell_short}`}
+              className={`${classes.tableCell} ${classes.cell_short} ${ i === 0 ? classes.freeze : ''} ${ i === 0 ? classes.deepFreeze : ''} `}
               align={headCell.numeric ? 'right' : 'left'}
               padding={headCell.disablePadding ? 'none' : 'default'}
               sortDirection={orderBy === headCell.id ? order : false}
             >
-              <TableSortLabel
+              <TableSortLabel             
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : 'asc'}
                 onClick={createSortHandler(headCell.id)}
               >
+ 
                 {headCell.label}
+
               </TableSortLabel>
             </TableCell>
           ))}
