@@ -88,7 +88,8 @@ export default function Dashboard(props) {
       };
 
       ws.onmessage = (event) => {
-        setRefreshGraph(true);
+        let b = !refreshGraph;
+        setRefreshGraph(b);
         console.log('ws onmessage', event.data);
       };
 
@@ -113,9 +114,7 @@ export default function Dashboard(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const handleRefreshGraph = () => {
-    setRefreshGraph(false);
-  };
+
   const handleResetChange = (event) => {
     setAnchorEl(event.currentTarget);
   }
@@ -143,6 +142,9 @@ export default function Dashboard(props) {
 
   const openPopover = Boolean(anchorEl);
   const idPopover = openPopover ? 'simple-popover' : undefined;
+
+  const renderMain = () => (
+    <Main classes={classes} refreshGraph={refreshGraph} />);
 
   return (
     <BrowserRouter>
@@ -230,9 +232,7 @@ export default function Dashboard(props) {
         <div className={classes.appBarSpacer} id="back-to-top-anchor" />
 
         <Switch>
-          <Route exact path="/" render={() => (
-            <Main classes={classes} refreshGraph={refreshGraph} handleRefreshGraph={handleRefreshGraph} />)
-          } />
+          <Route exact path="/" render={renderMain} />
 
           <Route exact path="/graph/:country?/:new?/:death?/:active?" render={(props) => (
             <DailyCases classes={classes}

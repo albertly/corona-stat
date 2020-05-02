@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { darken, fade, lighten } from '@material-ui/core/styles/colorManipulator';
@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Link from '@material-ui/core/Link';
-
+import { EventsContext, setScrollPos } from '../../../shared/context';
 import EnhancedTableHead from './EnhancedTableHead';
 import { Flag } from '../../../shared/utils';
 
@@ -73,7 +73,7 @@ const useStyles = makeStyles(theme => {
     },
   },
   total_cell: {
-    backgroundColor: 'grey',
+    backgroundColor: 'grey !important',
   },
   cell_short: {
     [theme.breakpoints.down("xl")]: {
@@ -131,9 +131,22 @@ const useStyles = makeStyles(theme => {
 const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
 
 export default function Cases({ data }) {
+  const { state, dispatch } = useContext(EventsContext);
   const classes = useStyles();
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('total');
+
+  useEffect(() => {
+    console.log('mount');
+    const item = document.querySelector('.restore-' + state.scrollPos);
+    if (item) {
+      item.scrollIntoView({behavior: 'auto', block: 'center', inline: 'nearest'});
+      setScrollPos(dispatch, '');
+    }
+    // return () => {
+    //   setScrollPos(dispatch, '');
+    // };
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -146,7 +159,10 @@ export default function Cases({ data }) {
   const toNumber = v => +(v.replace(/[^\d.\-eE+]/g, ""));
   
   return (
-    <TableContainer className={classes.container}>
+    <>
+    {/* <button onClick={() => document.querySelector('.MyScroll').scrollTop = 1000}>Set Scroll</button> 
+    onScroll={(e)=>console.log('s1 ', e.target.scrollTop)} */}
+    <TableContainer className={`MyScroll ${classes.container}`}>
       <Table stickyHeader aria-label="sticky table" size="small">
         <EnhancedTableHead
           classes={classes}
@@ -155,7 +171,7 @@ export default function Cases({ data }) {
           onRequestSort={handleRequestSort}
         />
 
-        <TableBody >
+        <TableBody>
           {
             stableSort(data.map(row => {
               return {
@@ -186,9 +202,9 @@ export default function Cases({ data }) {
               .map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
-                  <TableRow hover key={row.country}>
+                  <TableRow className={`restore-${row.country}`} hover key={row.country}>
                     <TableCell className={`${classes.tableCell} ${classes.freeze} ${colorForTotal(index)} `} component="th" id={labelId} scope="row" padding="none">
-                      <Link style={spanStyle} component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}/${row.active}`} color='textPrimary'>
+                      <Link  style={spanStyle} component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}/${row.active}`} color='textPrimary'>
                         {Flag(row.country)}
                         {row.country}
                       </Link>
@@ -209,5 +225,6 @@ export default function Cases({ data }) {
         </TableBody>
       </Table>
     </TableContainer>
+    </>
   );
 }

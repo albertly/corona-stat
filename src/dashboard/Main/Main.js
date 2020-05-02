@@ -17,7 +17,7 @@ import Copyright from './Copyright';
 import TabPanel from './TabPanel';
 
 export default function Main(props) {
-    const { classes, refreshGraph, handleRefreshGraph } = props;
+    const { classes, refreshGraph } = props;
 
     const [value, setValue] = React.useState(0);
 
@@ -42,7 +42,7 @@ export default function Main(props) {
                 {/* Chart */}
                 <Grid item xs={12} md={8} lg={6}>
                     <Paper className={fixedHeightPaper}>
-                        <Chart refreshGraph={refreshGraph} onRefreshGraph={handleRefreshGraph} />
+                        <Chart refreshGraph={refreshGraph} />
                     </Paper>
                 </Grid>
                 {/* News */}

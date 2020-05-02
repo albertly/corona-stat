@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import { EventsContext } from '../../shared/context';
+import { EventsContext, setScrollPos } from '../../shared/context';
 import Title from '../Title';
 import BarChart from './BarGraph';
 import { getAlternativeCountryName, Flag } from '../../shared/utils';
@@ -64,7 +64,7 @@ const DraggableItemList = React.memo(function QuoteList({ items, data, spans, co
 
 export default function DailyCases(props) {
     const history = useHistory();
-    const { state, _ } = useContext(EventsContext);
+    const { state, dispatch } = useContext(EventsContext);
     let { classes, country, _new, death, active } = props;
     const [data, setData] = useState('');
     const [dataDeath, setDataDeath] = useState('');
@@ -92,8 +92,10 @@ export default function DailyCases(props) {
         setState({ items });
     }
 
-    if (country === 'Total:') country = '';
+    useEffect(()=>setScrollPos(dispatch, country), []);
 
+    if (country === 'Total:') country = '';
+    
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios.get(`/graph/${country ? getAlternativeCountryName(country) : ''}`);

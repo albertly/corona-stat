@@ -8,6 +8,7 @@ const GET_YESTERDAY_EVENTS_SUCCESS = 'GET_YESTERDAY_EVENTS_SUCCESS';
 const GET_YESTERDAY_EVENTS_FAILURE = 'GET_YESTERDAY_EVENTS_FAILURE';
 
 const NOP = 'NOP';
+const SET_SCROLL_POS = 'SET_SCROLL_POS';
 // const GET_STAT_SUCCESS = 'GET_STAT_SUCCESS';
 // const GET_STAT_FAILURE = 'GET_STAT_FAILURE';
 
@@ -15,7 +16,8 @@ const NOP = 'NOP';
 const EventsContext = React.createContext();
 
 
-const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '', eventsYesterday: [], errorMessage: '' };
+const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '',
+                       eventsYesterday: [], errorMessage: '', scrollPos: '' };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -49,6 +51,9 @@ function compareArr(new_, old_) {
 const reducer = (state, action) => {
 
     switch (action.type) {
+        case SET_SCROLL_POS:
+            return { ...state, scrollPos: action.payload}
+
         case GET_YESTERDAY_EVENTS_SUCCESS:
             
             if (true) {
@@ -77,6 +82,10 @@ const reducer = (state, action) => {
 
     return state;
 };
+
+const setScrollPos = (dispatch, scrollPos) => {
+    dispatch({ type: SET_SCROLL_POS, payload: scrollPos });
+}
 
 const getYesterdayEventsAction = async (dispatch) => {
     let response = {};
@@ -120,5 +129,6 @@ export {
     EventsContext,
     ContextEventsProvider,
     getEventsAction,
-    getYesterdayEventsAction
+    getYesterdayEventsAction,
+    setScrollPos
 };
