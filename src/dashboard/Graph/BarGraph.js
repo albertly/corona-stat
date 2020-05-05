@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 
 import './BarGraph.css';
 
@@ -21,7 +21,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function BarGraph(props) {
-    const { data, mainBarColor } = props;
+    const { data, mainBarColor, refLine } = props;
     
     let graph = <></>;
     if (data && data.length) {
@@ -34,6 +34,7 @@ export default function BarGraph(props) {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip content={<CustomTooltip />} />
+
                 <Bar dataKey="cases" fill="#8884d8" >
                     {
                         data.map((entry, index) => (
@@ -41,6 +42,9 @@ export default function BarGraph(props) {
                         ))
                     }
                 </Bar>
+                {refLine &&
+                <ReferenceLine y={data[data.length - 1].cases} label="" stroke="red" />
+                }
             </BarChart >
         </ResponsiveContainer>
     }

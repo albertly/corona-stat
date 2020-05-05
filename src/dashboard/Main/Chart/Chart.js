@@ -13,9 +13,6 @@ export default function Chart({refreshGraph, onRefreshGraph}) {
   const [graphDate, setGraphDate] = useState('aa');
 
   useEffect(() => {
-    
-  })
-  useEffect(() => {
     const fetchData = async () => {
       console.log("Chart rendering");
       const today = new Date();

@@ -39,7 +39,7 @@ export default function Dashboard(props) {
   const [open, setOpen] = useState(false);
   const { state, dispatch } = useContext(EventsContext);
   const [darkTheme_, setDarkTheme_] = useState(localStorage.getItem('darkTheme') === 'true');
-  const [refreshGraph, setRefreshGraph] = useState(true);
+  const [refreshGraph, setRefreshGraph] = useState({v:true});
   const [change, setChange] = useState(0);
   const [changeText, setChangeText] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -88,9 +88,9 @@ export default function Dashboard(props) {
       };
 
       ws.onmessage = (event) => {
-        let b = !refreshGraph;
-        setRefreshGraph(b);
-        console.log('ws onmessage', event.data);
+        console.log('ws onmessage before ', event.data);
+        setRefreshGraph({v: !refreshGraph.v});
+        console.log('ws onmessage ', event.data);
       };
 
       ws.onclose = () => {
@@ -230,7 +230,6 @@ export default function Dashboard(props) {
         </SwipeableDrawer>
 
         <div className={classes.appBarSpacer} id="back-to-top-anchor" />
-
         <Switch>
           <Route exact path="/" render={renderMain} />
 

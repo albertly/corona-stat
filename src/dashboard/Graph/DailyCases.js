@@ -52,11 +52,11 @@ function DraggableItem({ item, index, children }) {
     );
 }
 
-const DraggableItemList = React.memo(function QuoteList({ items, data, spans, colors }) {
+const DraggableItemList = React.memo(function QuoteList({ items, data, spans, colors, refLine }) {
     return items.map((item, index) => (
         <DraggableItem item={item} index={index} key={item.id}>
             {spans[item.content]}
-            <BarChart data={data[item.content]} mainBarColor={colors[item.content]} />
+            <BarChart data={data[item.content]} mainBarColor={colors[item.content]} refLine={refLine[item.content]} />
         </DraggableItem>
     ));
 });
@@ -190,6 +190,7 @@ export default function DailyCases(props) {
                                                data={[data, dataDeath, dataActive]}
                                                spans={[t1, t2, t3]}
                                                colors={['#8884d8', 'red', '#8884d8']}
+                                               refLine={[false, false, true]}
                             />
                             {provided.placeholder}
                         </div>
