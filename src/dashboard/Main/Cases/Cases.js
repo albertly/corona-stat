@@ -128,6 +128,10 @@ const useStyles = makeStyles(theme => {
   
 })});
 
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
 
 export default function Cases({ data }) {
@@ -156,7 +160,7 @@ export default function Cases({ data }) {
 
   const colorForTotal = index => `${index === 0 ? classes.total_cell : ''} ${classes.cell_short}`;
 
-  const toNumber = v => +(v.replace(/[^\d.\-eE+]/g, ""));
+  const toNumber = v => v ? +(v.replace(/[^\d.\-eE+]/g, "")) : Infinity;
   
   return (
     <>
@@ -191,11 +195,12 @@ export default function Cases({ data }) {
                 totalRecovered: toNumber(row.totalRecovered),
                 active: toNumber(row.active),
                 serious: toNumber(row.serious),
-                totCasesPer1m: toNumber(row.totCasesPer1m),
+                totCasesPer1m: toNumber(row.totCasesPer1m.trim()),
                 dPer1mD: row.dPer1m,
                 tPer1mD: row.tPer1m,
                 dPer1m: toNumber(row.dPer1m),
                 tPer1m: toNumber(row.tPer1m),
+                pop : toNumber(row.total) / toNumber(row.totCasesPer1m) * 1000000,
               }
             }),
               getComparator(order, orderBy))
@@ -219,6 +224,7 @@ export default function Cases({ data }) {
                     <TableCell className={colorForTotal(index)}>{row.totCasesPer1mD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.dPer1mD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.tPer1mD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{numberWithCommas(row.pop.toFixed(0)) }</TableCell>
                   </TableRow>
                 )
               })}
