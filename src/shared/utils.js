@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
+import * as f from './img/flags/3x2'
+
 import { countryCodes } from './CountryCodes';
 
 (function () {
@@ -47,8 +49,10 @@ export const Flag = (name, small = true) => {
   }
 
   if (code) {
+    
     return (
-      <img alt={name} src={`/img/flags/3x2/${code}.svg`} style={{
+      
+      <img alt={name} src={f[code]} style={{
         width,
         height,
         marginRight,
