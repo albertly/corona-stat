@@ -61,6 +61,7 @@ const DraggableItemList = React.memo(function QuoteList({ items, data, spans, co
     ));
 });
 
+const InfinityToZero = v => v === "Infinity" ? 0 : v;
 
 export default function DailyCases(props) {
     const history = useHistory();
@@ -69,7 +70,9 @@ export default function DailyCases(props) {
     const [data, setData] = useState('');
     const [dataDeath, setDataDeath] = useState('');
     const [dataActive, setDataActive] = useState('');
-
+    _new = InfinityToZero(_new);
+    death = InfinityToZero(death);
+    active = InfinityToZero(active);
 
     const [state_, setState] = useState({ items: initial });
 
