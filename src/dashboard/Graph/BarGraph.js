@@ -1,10 +1,10 @@
 import React from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 
+import {todayFormated} from '../../shared/utils';
+
 import './BarGraph.css';
 
-const today = new Date();
-const todayFormated = `${today.getUTCMonthNameShort()} ${today.getUTCDate()}`;
 
 const CustomTooltip = ({ active, payload, label }) => {
 

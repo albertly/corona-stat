@@ -4,18 +4,6 @@ import Typography from '@material-ui/core/Typography';
 
 import { EventsContext } from '../../shared/context';
 
-import Title from '../Title';
-
-// function preventDefault(event) {
-//   event.preventDefault();
-// }
-
-// const useStyles = makeStyles({
-//   depositContext: {
-//     flex: 1,
-//   },
-// });
-
 export default function Totals() {
   const { state, _ } = useContext(EventsContext);
  // const classes = useStyles();

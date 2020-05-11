@@ -14,7 +14,7 @@ export default function Chart({refreshGraph, onRefreshGraph}) {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Chart rendering");
+
       const today = new Date();
       const result = await axios.get(`prob/${today.getFullYear()+'-'+(today.getMonth()+1).pad()+'-'+today.getUTCDate()}`);
       const graphData = result.data.map(e => (

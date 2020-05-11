@@ -13,11 +13,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 
-const today = new Date();
-const todayFormated = `${today.getUTCMonthNameShort()} ${today.getUTCDate()}`;
-
-const toNumber = v => +(v.replace(/[^\d.\-eE+]/g, ""));
-
+import {toNumber, todayFormated, InfinityToZero} from '../../shared/utils';
 
 const initial = [
     { id: 'id-1', content: '0' },
@@ -26,8 +22,6 @@ const initial = [
 ];
 
 
-
-const grid = 8;
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -52,16 +46,19 @@ function DraggableItem({ item, index, children }) {
     );
 }
 
+const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
+
 const DraggableItemList = React.memo(function QuoteList({ items, data, spans, colors, refLine }) {
     return items.map((item, index) => (
         <DraggableItem item={item} index={index} key={item.id}>
-            {spans[item.content]}
+            <span style={spanStyle}>
+                {spans[item.content]}
+            </span>
             <BarChart data={data[item.content]} mainBarColor={colors[item.content]} refLine={refLine[item.content]} />
         </DraggableItem>
     ));
 });
 
-const InfinityToZero = v => v === "Infinity" ? 0 : v;
 
 export default function DailyCases(props) {
     const history = useHistory();
@@ -77,7 +74,6 @@ export default function DailyCases(props) {
     const [state_, setState] = useState({ items: initial });
 
     function onDragEnd(result) {
-        console.log('result', result)
         if (!result.destination) {
             return;
         }
@@ -91,71 +87,52 @@ export default function DailyCases(props) {
             result.source.index,
             result.destination.index
         );
-        console.log('items',items)
         setState({ items });
     }
 
-    useEffect(()=>setScrollPos(dispatch, country), []);
+    useEffect(() => setScrollPos(dispatch, country), []);
 
     if (country === 'Total:') country = '';
-    
+
+    const getData = (resultData, cases, f) => {
+        const data = [];
+        if (resultData.xAxis) {
+            resultData.xAxis.categories.forEach((element, index) => {
+                data.push(
+                    {
+                        name: element,
+                        cases: resultData.series[0].data[index]
+                    }
+                );
+            });
+        }
+        data.push({
+            name: todayFormated,
+            cases});
+
+        f(data);
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios.get(`/graph/${country ? getAlternativeCountryName(country) : ''}`);
 
-            const graphData = [];
-            if (result.data[0].xAxis) {
-                result.data[0].xAxis.categories.forEach((element, index) => {
-                    graphData.push(
-                        {
-                            name: element,
-                            cases: result.data[0].series[0].data[index]
+            const length = state.events.length;
+            const bool = !country && length;
 
-                        }
-                    );
-                });
-            }
+            getData(result.data[0],
+                    bool ? +(toNumber(state.events[length - 1].new)) : _new,
+                    setData);
 
-            graphData.push({
-                name: todayFormated,
-                cases: !country && state.events.length ? +(toNumber(state.events[state.events.length - 1].new)) : _new
-            })
-            setData(graphData);
+            getData(result.data[1],
+                    bool ? +(toNumber(state.events[length - 1].newDeaths)) : death,
+                    setDataDeath);
 
-            const graphDataDeath = [];
-            if (result.data[1].xAxis) {
-                result.data[1].xAxis.categories.forEach((element, index) => {
-                    graphDataDeath.push(
-                        {
-                            name: element,
-                            cases: result.data[1].series[0].data[index]
-                        }
-                    );
-                });
-            }
-            graphDataDeath.push({
-                name: todayFormated,
-                cases: !country && state.events.length ? +(toNumber(state.events[state.events.length - 1].newDeaths)) : death
-            })
-            setDataDeath(graphDataDeath);
-
-            const graphDataActive = [];
-            if (result.data[2].xAxis) {
-                result.data[2].xAxis.categories.forEach((element, index) => {
-                    graphDataActive.push(
-                        {
-                            name: element,
-                            cases: result.data[2].series[0].data[index]
-                        }
-                    );
-                });
-            }
-            graphDataActive.push({
-                name: todayFormated,
-                cases: !country && state.events.length ? +(toNumber(state.events[state.events.length - 1].active)) : active
-            })
-            setDataActive(graphDataActive);
+            getData(result.data[2],
+                    bool ? +(toNumber(state.events[length - 1].active)) : active,
+                    setDataActive);
         };
+
         fetchData();
     }, []);
 
@@ -163,37 +140,27 @@ export default function DailyCases(props) {
         history.push('/');
     }
 
-    const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
-
-    const t1 = (
-        <span style={spanStyle}>
+    const spanArray = [
+        <>
             <Title>Daily New Cases ({country ? country : 'worldwide'} )</Title>
             {Flag(country, false)}
-        </span>
-    );
-    const t2 = (
-        <span style={spanStyle}>
-            <Title>Daily New Death</Title>
-        </span>
-    );
-    const t3 = (
-        <span style={spanStyle}>
+        </>,
+        <Title>Daily New Death</Title>,
         <Title>Active Cases</Title>
-    </span>
-    )
+    ];
 
-    return data && dataDeath && (
+    return  (
         <Container maxWidth="lg" className={classes.container}>
 
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="list">
                     {provided => (
                         <div ref={provided.innerRef} {...provided.droppableProps}>
-                            <DraggableItemList items={state_.items}  
-                                               data={[data, dataDeath, dataActive]}
-                                               spans={[t1, t2, t3]}
-                                               colors={['#8884d8', 'red', '#8884d8']}
-                                               refLine={[false, false, true]}
+                            <DraggableItemList items={state_.items}
+                                data={[data, dataDeath, dataActive]}
+                                spans={spanArray}
+                                colors={['#8884d8', 'red', '#8884d8']}
+                                refLine={[false, false, true]}
                             />
                             {provided.placeholder}
                         </div>

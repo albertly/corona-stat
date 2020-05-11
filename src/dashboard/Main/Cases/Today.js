@@ -15,15 +15,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const BorderLinearProgress = withStyles({
-//   root: {
-//     height: 10,
-//   },
-//   bar: {
-//     borderRadius: 20,
-
-//   },
-// })(LinearProgress);
 
 function Today() {
   const { state, dispatch } = useContext(EventsContext);

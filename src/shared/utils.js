@@ -79,6 +79,16 @@ export function getFlagByCountryName(name) {
   return '';
 }
 
+export function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export const InfinityToZero = v => v === "Infinity" ? 0 : v;
+
+export const todayFormated = `${new Date().getUTCMonthNameShort()} ${new Date().getUTCDate()}`;
+
+export const toNumber = v => +(v.replace(/[^\d.\-eE+]/g, ""));
+
 export function getRandomInt(min, max) {
 
   min = Math.ceil(min);

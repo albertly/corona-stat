@@ -9,8 +9,6 @@ const GET_YESTERDAY_EVENTS_FAILURE = 'GET_YESTERDAY_EVENTS_FAILURE';
 
 const NOP = 'NOP';
 const SET_SCROLL_POS = 'SET_SCROLL_POS';
-// const GET_STAT_SUCCESS = 'GET_STAT_SUCCESS';
-// const GET_STAT_FAILURE = 'GET_STAT_FAILURE';
 
 
 const EventsContext = React.createContext();

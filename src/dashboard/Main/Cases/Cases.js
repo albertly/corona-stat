@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Link from '@material-ui/core/Link';
 import { EventsContext, setScrollPos } from '../../../shared/context';
 import EnhancedTableHead from './EnhancedTableHead';
-import { Flag } from '../../../shared/utils';
+import { Flag, numberWithCommas } from '../../../shared/utils';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -56,7 +56,6 @@ function stableSort(array, comparator) {
 }
 
 const useStyles = makeStyles(theme => {
-  console.log('theme', theme)
   return ({
   container: {    
     [theme.breakpoints.down("xl")]: {
@@ -128,9 +127,6 @@ const useStyles = makeStyles(theme => {
   
 })});
 
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
 const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
 
@@ -164,8 +160,7 @@ export default function Cases({ data }) {
   
   return (
     <>
-    {/* <button onClick={() => document.querySelector('.MyScroll').scrollTop = 1000}>Set Scroll</button> 
-    onScroll={(e)=>console.log('s1 ', e.target.scrollTop)} */}
+
     <TableContainer className={`MyScroll ${classes.container}`}>
       <Table stickyHeader aria-label="sticky table" size="small">
         <EnhancedTableHead
