@@ -45,6 +45,15 @@ export default function Dashboard(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   useEffect(() => {
+    if (!("Notification" in window)) {
+      console.log("This browser does not support desktop notification");
+    } else {
+      Notification.requestPermission();
+      console.log("requestPermission");
+    }
+  }, [])
+
+  useEffect(() => {
     let countries = {};
     let num = 0;
     let changeArr = [];
@@ -128,6 +137,10 @@ export default function Dashboard(props) {
       }),
     [darkTheme_],
   );
+
+  const showNotification = () => {
+    new Notification('Hey')
+  }
 
   const handleThemeChange = event => {
     localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true');
@@ -230,6 +243,9 @@ export default function Dashboard(props) {
         </SwipeableDrawer>
 
         <div className={classes.appBarSpacer} id="back-to-top-anchor" />
+        <button onClick={showNotification}>
+          Click to show notification
+        </button>
         <Switch>
           <Route exact path="/" render={renderMain} />
 

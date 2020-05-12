@@ -47,7 +47,7 @@ function compareArr(new_, old_) {
 //ToDo: getEventsAction should mark start action and not allow to run axios when marked.
 //      It should run 
 const reducer = (state, action) => {
-
+    console.log('action.type', action.type )
     switch (action.type) {
         case SET_SCROLL_POS:
             return { ...state, scrollPos: action.payload}
