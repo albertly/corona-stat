@@ -48,7 +48,7 @@ export default function Dashboard(props) {
     if (!("Notification" in window)) {
       console.log("This browser does not support desktop notification");
     } else {
-      Notification.requestPermission();
+      Notification.requestPermission().then(() => alert(Notification.permission));
       console.log("requestPermission");
     }
   }, [])
