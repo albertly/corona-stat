@@ -22,7 +22,7 @@ function Yesterday() {
   useEffect(() => {
     const fetchData = async () => {
 
-    response = await axios.get('/yesterday'); 
+    let response = await axios.get('/yesterday'); 
 
     setState(response.data);
   };
