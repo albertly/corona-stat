@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function News({ data }) {
+function News({ data }) {
     const { state, dispatch } = useContext(EventsContext);
 
     return (
@@ -29,3 +29,5 @@ export default function News({ data }) {
         </React.Fragment>
     );
 }
+
+export default React.memo(News);

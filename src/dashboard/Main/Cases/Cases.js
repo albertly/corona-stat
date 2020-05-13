@@ -130,7 +130,7 @@ const useStyles = makeStyles(theme => {
 
 const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
 
-export default function Cases({ data }) {
+function Cases({ data }) {
   const { state, dispatch } = useContext(EventsContext);
   const classes = useStyles();
   const [order, setOrder] = useState('desc');
@@ -229,3 +229,6 @@ export default function Cases({ data }) {
     </>
   );
 }
+
+
+export default React.memo(Cases);

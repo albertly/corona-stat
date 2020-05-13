@@ -6,7 +6,7 @@ import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Tooltip } fr
 import Title from '../../Title';
 
 
-export default function Chart({refreshGraph, onRefreshGraph}) {
+function Chart({refreshGraph, onRefreshGraph}) {
   const theme = useTheme();
 
   const [data, setData] = useState([]);
@@ -62,3 +62,5 @@ export default function Chart({refreshGraph, onRefreshGraph}) {
     </React.Fragment>
   );
 }
+
+export default React.memo(Chart);

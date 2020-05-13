@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 
 import { EventsContext } from '../../shared/context';
 
-export default function Totals() {
+function Totals() {
   const { state, _ } = useContext(EventsContext);
  // const classes = useStyles();
   return (
@@ -31,3 +31,5 @@ export default function Totals() {
     </React.Fragment>
   );
 }
+
+export default React.memo(Totals);

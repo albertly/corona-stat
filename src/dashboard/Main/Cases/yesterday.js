@@ -45,4 +45,4 @@ function Yesterday() {
 
 }
 
-export default Yesterday;
+export default React.memo(Yesterday);

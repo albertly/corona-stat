@@ -16,7 +16,7 @@ import News from './News';
 import Copyright from './Copyright';
 import TabPanel from './TabPanel';
 
-export default function Main(props) {
+function Main(props) {
     const { classes, refreshGraph } = props;
 
     const [value, setValue] = React.useState(0);
@@ -97,3 +97,5 @@ export default function Main(props) {
         </Container>
     );
 }
+
+export default React.memo(Main);
