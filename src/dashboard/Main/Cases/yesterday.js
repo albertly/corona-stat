@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 
-import { EventsContext, getYesterdayEventsAction } from '../../../shared/context';
+//import { EventsContext, getYesterdayEventsAction } from '../../../shared/context';
 import BorderLinearProgress from '../Chart/BorderLinearProgress';
 import Cases from './Cases';
 
@@ -15,20 +15,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Yesterday() {
-  const { state, dispatch } = useContext(EventsContext);
+  //const { state, dispatch } = useContext(EventsContext);
   const classes = useStyles();
-  
+  const {state, setState} = useState([]);
+
   useEffect(() => {
-    getYesterdayEventsAction(dispatch);
+    const fetchData = async () => {
+
+    response = await axios.get('/yesterday'); 
+
+    setState(response.data);
+  };
+
+  fetchData();
+
+    
+  //  getYesterdayEventsAction(dispatch);
   }, []);
 
 
-    return !state.eventsYesterday.length ? (
+    return !state.length ? (
       <div className={classes.root}>
         <BorderLinearProgress />
       </div>
     ) : (
-      <Cases data={state.eventsYesterday}></Cases>
+      <Cases data={state}></Cases>
     );
 
 }
