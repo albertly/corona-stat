@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 
 //import { EventsContext, getYesterdayEventsAction } from '../../../shared/context';
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 function Yesterday() {
   //const { state, dispatch } = useContext(EventsContext);
   const classes = useStyles();
-  const {state, setState} = useState([]);
+  const [state, setState] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
