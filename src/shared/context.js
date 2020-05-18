@@ -1,6 +1,8 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
 
+import {todayFormated} from './utils';
+
 const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
 const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 
@@ -15,7 +17,7 @@ const EventsContext = React.createContext();
 
 
 const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '',
-                       eventsYesterday: [], errorMessage: '', scrollPos: '' };
+                       eventsYesterday: [], today: null, errorMessage: '', scrollPos: '' };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -47,18 +49,23 @@ function compareArr(new_, old_) {
 //ToDo: getEventsAction should mark start action and not allow to run axios when marked.
 //      It should run 
 const reducer = (state, action) => {
-    console.log('action.type', action.type )
+
     switch (action.type) {
         case SET_SCROLL_POS:
             return { ...state, scrollPos: action.payload}
 
         case GET_YESTERDAY_EVENTS_SUCCESS:
             
-            if (true) {
+            if (!state.today || todayFormated !== state.today) {
                    
                 return { ...state,
                          eventsYesterday: action.payload,
+                         today: todayFormated,
                          errorMessage: '' };
+            }
+            else 
+            {
+                return state;
             }
 
         case GET_EVENTS_SUCCESS:

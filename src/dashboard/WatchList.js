@@ -74,7 +74,7 @@ export default function WatchList(props) {
 
                 {Flag(e.Name, false)}
 
-                <ListItemText primary={e.Name} />
+                <ListItemText primary={e.Name} style={{marginLeft:"4px"}}/>
 
                 <Checkbox
                   color="primary"
