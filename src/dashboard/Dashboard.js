@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -232,23 +233,22 @@ export default function Dashboard(props) {
 
         <div className={classes.appBarSpacer} id="back-to-top-anchor" />
         albert
-        <Main classes={classes} refreshGraph={refreshGraph} />
-        albert
-        {/* <Switch>
+        
+         <Switch>
           <Route exact path="/" render={renderMain} />
 
-          <Route exact path="/graph/:country?/:new?/:death?/:active?" render={(props) => ( */}
-            {/* <DailyCases classes={classes}
+          <Route exact path="/graph/:country?/:new?/:death?/:active?" render={(props) => ( 
+             <DailyCases classes={classes}
               country={props.match.params.country}
               _new={props.match.params.new}
               death={props.match.params.death}
               active={props.match.params.active}
-               /> */}
-          {/* )} />
+               /> 
+          )} />
           <Route component={Error404} />
 
-        </Switch> */}
-
+        </Switch> 
+        albert
         <ScrollTop {...props} />
 
       </ThemeProvider>

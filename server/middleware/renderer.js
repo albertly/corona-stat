@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet';
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 import theme from './scheme';
 // import our main App component
-import App from '../../src/App';
+import App from './App';
 
 // import the manifest generated with the create-react-app build
 import manifest from '../../build/asset-manifest.json';
@@ -53,9 +53,9 @@ export default (store) => (req, res, next) => {
             sheets.collect(
              <Loadable.Capture report={m => modules.push(m)}>
                   <ContextEventsProvider> 
-                     <StaticRouter location={req.baseUrl} context={routerContext}>  
-                        <App/>
-                     </StaticRouter>  
+                     
+                        <App location={req.baseUrl} context={routerContext}/>
+         
                  </ContextEventsProvider> 
              </Loadable.Capture>
             )

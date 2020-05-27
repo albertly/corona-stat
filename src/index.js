@@ -23,9 +23,7 @@ const AppBundle = (
 ReactDOM.hydrate(
   <React.StrictMode>
     <CssBaseline />
-    <BrowserRouter>
     <App />
-    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
