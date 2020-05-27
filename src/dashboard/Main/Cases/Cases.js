@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => {
     },
   },
   total_cell: {
-    backgroundColor: 'grey !important',
+    backgroundColor: 'darkgrey !important',
   },
   cell_short: {
     [theme.breakpoints.down("xl")]: {
@@ -196,6 +196,7 @@ function Cases({ data }) {
                 dPer1m: toNumber(row.dPer1m),
                 tPer1m: toNumber(row.tPer1m),
                 pop : toNumber(row.total) / toNumber(row.totCasesPer1m) * 1000000,
+                cases1m: toNumber(row.active) / (toNumber(row.total) / toNumber(row.totCasesPer1m) * 1000000) * 1000000
               }
             }),
               getComparator(order, orderBy))
@@ -220,6 +221,7 @@ function Cases({ data }) {
                     <TableCell className={colorForTotal(index)}>{row.dPer1mD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.tPer1mD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{numberWithCommas(row.pop.toFixed(0)) }</TableCell>
+                    <TableCell className={colorForTotal(index)}>{numberWithCommas(row.cases1m.toFixed(0)) }</TableCell>
                   </TableRow>
                 )
               })}

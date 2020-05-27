@@ -18,6 +18,7 @@ const headCells = [
     { id: 'dPer1m', numeric: false, disablePadding: true, label: 'Death / 1 m' },
     { id: 'tPer1m', numeric: false, disablePadding: true, label: 'Tests / 1 m' },
     { id: 'pop', numeric: false, disablePadding: true, label: 'Population' },
+    { id: 'cases1m', numeric: false, disablePadding: true, label: 'Cases / 1m' },
   ];
 
 function EnhancedTableHead(props) {
