@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
+import regeneratorRuntime from "regenerator-runtime";
 
 import {todayFormated} from './utils';
 
