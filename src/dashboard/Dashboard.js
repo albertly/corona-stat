@@ -38,7 +38,7 @@ export default function Dashboard(props) {
   const classes = makeStyles();
   const [open, setOpen] = useState(false);
   const { state, dispatch } = useContext(EventsContext);
-  const [darkTheme_, setDarkTheme_] = useState(localStorage.getItem('darkTheme') === 'true');
+  const [darkTheme_, setDarkTheme_] = useState('true');
   const [refreshGraph, setRefreshGraph] = useState({v:true});
   const [change, setChange] = useState(0);
   const [changeText, setChangeText] = useState([]);
@@ -48,7 +48,7 @@ export default function Dashboard(props) {
     let countries = {};
     let num = 0;
     let changeArr = [];
-    const countriesStr = localStorage.getItem('countries');
+   // const countriesStr = localStorage.getItem('countries');
 
     if (countriesStr) {
       countries = JSON.parse(countriesStr);
