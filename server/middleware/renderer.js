@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import Loadable from 'react-loadable';
 //import { Provider as ReduxProvider } from 'react-redux'
+import { ContextEventsProvider } from '../../src/shared/context';
 import { StaticRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 
@@ -35,13 +36,13 @@ export default (store) => (req, res, next) => {
 
         // render the app as a string
         const html = ReactDOMServer.renderToString(
-            <Loadable.Capture report={m => modules.push(m)}>
-                {/* <ReduxProvider store={store}> */}
-                    {/* <StaticRouter location={req.baseUrl} context={routerContext}> */}
+            // // <Loadable.Capture report={m => modules.push(m)}>
+                  <ContextEventsProvider> 
+            //         {/* <StaticRouter location={req.baseUrl} context={routerContext}> */}
                         <App/>
-                    {/* </StaticRouter> */}
-                {/* </ReduxProvider> */}
-            </Loadable.Capture>
+            //         {/* </StaticRouter> */}
+                 </ContextEventsProvider> 
+            // // </Loadable.Capture>
         );
 
         // get the stringified state

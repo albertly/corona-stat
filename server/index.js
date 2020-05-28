@@ -11,7 +11,7 @@ const app = express();
 app.use(indexController);
 
 // start the app
-Loadable.preloadAll().then(() => {
+// Loadable.preloadAll().then(() => {
     app.listen(PORT, (error) => {
         if (error) {
             return console.log('something bad happened', error);
@@ -19,4 +19,4 @@ Loadable.preloadAll().then(() => {
 
         console.log("listening on " + PORT + "...");
     });
-});
+// });

@@ -7,13 +7,22 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 
-ReactDOM.render(
+const AppBundle = (
   <React.StrictMode>
     <CssBaseline />
     <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+window.onload = () => {
+  // Loadable.preloadReady().then(() => {
+      ReactDOM.hydrate(
+          AppBundle,
+          document.getElementById('root')
+      );
+  // });
+};
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
