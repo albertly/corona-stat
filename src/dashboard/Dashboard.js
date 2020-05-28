@@ -48,7 +48,8 @@ export default function Dashboard(props) {
     let countries = {};
     let num = 0;
     let changeArr = [];
-   // const countriesStr = localStorage.getItem('countries');
+    const countriesStr;
+    //localStorage.getItem('countries');
 
     if (countriesStr) {
       countries = JSON.parse(countriesStr);
