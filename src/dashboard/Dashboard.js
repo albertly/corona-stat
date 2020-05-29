@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, StaticRouter } from 'react-router-dom';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -149,7 +149,7 @@ export default function Dashboard(props) {
     <Main classes={classes} refreshGraph={refreshGraph} />);
 
   return (
-    <BrowserRouter>
+    <StaticRouter>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -250,6 +250,6 @@ export default function Dashboard(props) {
         <ScrollTop {...props} />
 
       </ThemeProvider>
-    </BrowserRouter>
+    </StaticRouter>
   );
 }
