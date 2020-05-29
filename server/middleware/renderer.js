@@ -36,13 +36,13 @@ export default (store) => (req, res, next) => {
 
         // render the app as a string
         const html = ReactDOMServer.renderToString(
-            // // <Loadable.Capture report={m => modules.push(m)}>
+             <Loadable.Capture report={m => modules.push(m)}>
                   <ContextEventsProvider> 
                      <StaticRouter location={req.baseUrl} context={routerContext}> 
                         <App/>
                     </StaticRouter> 
                  </ContextEventsProvider> 
-            // // </Loadable.Capture>
+             </Loadable.Capture>
         );
 
         // get the stringified state
