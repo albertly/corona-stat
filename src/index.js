@@ -16,12 +16,12 @@ const AppBundle = (
 );
 
 window.onload = () => {
-  // Loadable.preloadReady().then(() => {
+   Loadable.preloadReady().then(() => {
       ReactDOM.hydrate(
           AppBundle,
           document.getElementById('root')
       );
-  // });
+   });
 };
 
 // If you want your app to work offline and load faster, you can change
