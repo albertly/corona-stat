@@ -1,6 +1,6 @@
 {
   "name": "corona-stat",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "private": true,
   "dependencies": {
     "@babel/register": "^7.0.0",
