@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+//import { useHistory } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -13,7 +13,7 @@ import AddLocationIcon from '@material-ui/icons/AddLocation';
 import WatchList from './WatchList';
 
 export function MainListItems({ handleDrawerClose }) {
-  const history = useHistory();
+ // const history = useHistory();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -27,7 +27,7 @@ export function MainListItems({ handleDrawerClose }) {
 
   const handleClick = (link) => {
     handleDrawerClose();
-    history.push(link);
+   // history.push(link);
   }
 
   return (

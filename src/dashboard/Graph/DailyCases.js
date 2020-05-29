@@ -7,7 +7,7 @@ import Title from '../Title';
 import BarChart from './BarGraph';
 import { getAlternativeCountryName, Flag } from '../../shared/utils';
 
-import { useHistory } from 'react-router-dom';
+//import { useHistory } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Zoom from '@material-ui/core/Zoom';
@@ -61,7 +61,7 @@ const DraggableItemList = React.memo(function QuoteList({ items, data, spans, co
 
 
 export default function DailyCases(props) {
-    const history = useHistory();
+   // const history = useHistory();
     const { state, dispatch } = useContext(EventsContext);
     let { classes, country, _new, death, active } = props;
     const [data, setData] = useState('');
@@ -137,7 +137,7 @@ export default function DailyCases(props) {
     }, []);
 
     const handleBackClick = () => {
-        history.push('/');
+     //   history.push('/');
     }
 
     const spanArray = [
