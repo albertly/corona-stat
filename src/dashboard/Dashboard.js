@@ -148,7 +148,6 @@ export default function Dashboard(props) {
     <Main classes={classes} refreshGraph={refreshGraph} />);
 
   return (
-    <BrowserRouter>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -249,6 +248,5 @@ export default function Dashboard(props) {
         <ScrollTop {...props} />
 
       </ThemeProvider>
-    </BrowserRouter>
   );
 }
