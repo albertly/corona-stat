@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "CoronaStat",
+  "name": "Corona Global Statistics",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,9 +8,39 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "logo16.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "16x16"
+    },
+    {
+      "src": "logo20.png",
+      "type": "image/png",
+      "sizes": "20x20"
+    },
+    {
+      "src": "logo24.png",
+      "type": "image/png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "logo48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "logo64.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "logo128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "logo256.png",
+      "type": "image/png",
+      "sizes": "256x256"
     },
     {
       "src": "logo512.png",

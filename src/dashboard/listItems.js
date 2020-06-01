@@ -1,73 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import Tooltip from '@material-ui/core/Tooltip';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MailIcon from '@material-ui/icons/Mail';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 
-export const mainListItems = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <Tooltip title="Dashboard"><DashboardIcon aria-label="Dashboard" /></Tooltip>
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <MailIcon />
-      </ListItemIcon>
-      <ListItemText primary="Subscribe" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <UnsubscribeIcon />
-      </ListItemIcon>
-      <ListItemText primary="Unsubscribe" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AddLocationIcon />
-      </ListItemIcon>
-      <ListItemText primary="Add to watch list" />
-    </ListItem>
-  </div>
-);
+import WatchList from './WatchList';
 
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <BookmarkIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItem>
-  </div>
-);
+export function MainListItems({ handleDrawerClose }) {
+  const history = useHistory();
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    handleDrawerClose();
+  };
+
+  const handleClick = (link) => {
+    handleDrawerClose();
+    history.push(link);
+  }
+
+  return (
+    <div>
+      <ListItem button onClick={() => handleClick('/')}>
+        <ListItemIcon>
+          <Tooltip title="Dashboard"><DashboardIcon aria-label="Dashboard" /></Tooltip>
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" />
+      </ListItem>
+      <ListItem button onClick={() => alert('not implemented yet')}>
+        <ListItemIcon>
+          <Tooltip title="Subscribe"><MailIcon /></Tooltip>
+        </ListItemIcon>
+        <ListItemText primary="Subscribe" />
+      </ListItem>
+      <ListItem button onClick={() => alert('not implemented yet')}>
+        <ListItemIcon>
+          <Tooltip title="Unsubscribe"><UnsubscribeIcon /></Tooltip>
+        </ListItemIcon>
+        <ListItemText primary="Unsubscribe" />
+      </ListItem>
+      <ListItem button onClick={() => handleClick('/graph')}>
+        <ListItemIcon>
+          <Tooltip title="Reports"><BarChartIcon /></Tooltip>
+        </ListItemIcon>
+        <ListItemText primary="Reports" />
+      </ListItem>
+      <ListItem button onClick={handleClickOpen}>
+        <ListItemIcon>
+          <Tooltip title="Add to watch list"><AddLocationIcon /></Tooltip>
+        </ListItemIcon>
+        <ListItemText primary="Add to watch list" />
+      </ListItem>
+      <WatchList open={open} onClose={handleClose} />
+    </div>
+  )
+};
+

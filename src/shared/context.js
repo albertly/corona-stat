@@ -1,14 +1,23 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
 
+import {todayFormated} from './utils';
+
 const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
 const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
+
+const GET_YESTERDAY_EVENTS_SUCCESS = 'GET_YESTERDAY_EVENTS_SUCCESS';
+const GET_YESTERDAY_EVENTS_FAILURE = 'GET_YESTERDAY_EVENTS_FAILURE';
+
+const NOP = 'NOP';
+const SET_SCROLL_POS = 'SET_SCROLL_POS';
 
 
 const EventsContext = React.createContext();
 
 
-const initialState = { events: [], delta: [], total: '', new: '', currentEvent: {}, errorMessage: '' };
+const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '',
+                       eventsYesterday: [], today: null, errorMessage: '', scrollPos: '' };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -30,14 +39,11 @@ function compareArr(new_, old_) {
             }
             else {
                 res.push({ ...obj, newOld: oldObj.new });
-            }
-            console.log('!!!-', obj.country, `${obj.new}(${oldObj.new})`);            
+            }         
         }
     });
 
-    return { res,
-             new: newTotal, 
-             total};
+    return { res };
 }
 
 //ToDo: getEventsAction should mark start action and not allow to run axios when marked.
@@ -45,23 +51,36 @@ function compareArr(new_, old_) {
 const reducer = (state, action) => {
 
     switch (action.type) {
-        case GET_EVENTS_SUCCESS:
+        case SET_SCROLL_POS:
+            return { ...state, scrollPos: action.payload}
 
-            const { res: delta, newTotal, total } = compareArr(action.payload, state.events);
+        case GET_YESTERDAY_EVENTS_SUCCESS:
             
-            if (delta.length) {
+            if (!state.today || todayFormated !== state.today) {
                    
                 return { ...state,
-                         events: action.payload,
-                         delta:  [...delta, ...state.delta].slice(0, 10),
-                         total:  action.payload[action.payload.length - 1].total, //total ? total : state.total,
-                         new:    action.payload[action.payload.length - 1].new ,  //newTotal ? newTotal : state.new,
-                        errorMessage: '' };
+                         eventsYesterday: action.payload,
+                         today: todayFormated,
+                         errorMessage: '' };
+            }
+            else 
+            {
+                return state;
             }
 
+        case GET_EVENTS_SUCCESS:
+                const {payload, delta} = action.payload;   
+                return { ...state,
+                         events: payload,
+                         delta:  [...delta, ...state.delta].slice(0, 10),
+                         change: delta, // names !!!
+                         total:  payload[payload.length - 1].total, 
+                         new:    payload[payload.length - 1].new ,  
+                         deaths: payload[payload.length - 1].newDeaths,
+                        errorMessage: '' };
+        case GET_YESTERDAY_EVENTS_FAILURE:
         case GET_EVENTS_FAILURE:
-            return { ...state, currentEvent: {}, errorMessage: action.error }
-
+            return { ...state, errorMessage: action.error }
         default:
             return state;
     }
@@ -69,12 +88,32 @@ const reducer = (state, action) => {
     return state;
 };
 
+const setScrollPos = (dispatch, scrollPos) => {
+    dispatch({ type: SET_SCROLL_POS, payload: scrollPos });
+}
 
-const getEventsAction = async (dispatch) => {
+const getYesterdayEventsAction = async (dispatch) => {
+    let response = {};
+    try {
+        response = await axios.get('/yesterday');
+        dispatch({ type: GET_YESTERDAY_EVENTS_SUCCESS, payload: response.data });
+    }
+    catch (ex) {
+        dispatch({ type: GET_YESTERDAY_EVENTS_FAILURE, error: 'Get Yesterday Events Error' });
+    }
+}
+
+const getEventsAction = async (dispatch, state) => {
     let response = {};
     try {
         response = await axios.get('');
-        dispatch({ type: GET_EVENTS_SUCCESS, payload: response.data });
+        const { res: delta } = compareArr(response.data, state.events);
+        if (delta.length) {
+           dispatch({ type: GET_EVENTS_SUCCESS, payload: { payload: response.data,
+                                                           delta  }});
+        } else {
+            dispatch({ type: NOP, payload: null})
+        } 
     }
     catch (ex) {
         dispatch({ type: GET_EVENTS_FAILURE, error: 'Get Events Error' });
@@ -94,5 +133,7 @@ function ContextEventsProvider(props) {
 export {
     EventsContext,
     ContextEventsProvider,
-    getEventsAction
+    getEventsAction,
+    getYesterdayEventsAction,
+    setScrollPos
 };
