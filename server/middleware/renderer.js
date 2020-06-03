@@ -67,7 +67,7 @@ export default (store) => (req, res, next) => {
                 // append the extra js assets
                 .replace('</body>', extraChunks.join('') + '</body>')
                 // write the HTML header tags
-                .replace('<title></title>', helmet.title.toString() + helmet.meta.toString() + `<style id="jss-server-side">${css}</style>`)
+                .replace('<title>Corona Global Statistics Live Update (COVID-19 pandemic)</title>', helmet.title.toString() + helmet.meta.toString() + `<style id="jss-server-side">${css}</style>`)
         );
     });
 }
