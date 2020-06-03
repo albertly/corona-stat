@@ -12,6 +12,7 @@ const headCells = [
     { id: 'totalDeaths', numeric: false, disablePadding: true, label: 'Deaths' },
     { id: 'newDeaths', numeric: false, disablePadding: true, label: 'New Deaths' },
     { id: 'totalRecovered', numeric: false, disablePadding: true, label: 'Recovered' },
+    { id: 'newRecovered', numeric: false, disablePadding: true, label: 'New Recovered' },      
     { id: 'active', numeric: false, disablePadding: true, label: 'Active' },
     { id: 'serious', numeric: false, disablePadding: true, label: 'Serious' },
     { id: 'totCasesPer1m', numeric: false, disablePadding: true, label: 'Cases / 1 m' },
@@ -19,6 +20,11 @@ const headCells = [
     { id: 'tPer1m', numeric: false, disablePadding: true, label: 'Tests / 1 m' },
     { id: 'pop', numeric: false, disablePadding: true, label: 'Population' },
     { id: 'cases1m', numeric: false, disablePadding: true, label: 'Cases / 1m' },
+    { id: '1CperXppl', numeric: false, disablePadding: true, label: 'Case / X ppl' },
+    { id: '1DperXppl', numeric: false, disablePadding: true, label: 'Death / X ppl' },
+    { id: '1TperXppl', numeric: false, disablePadding: true, label: 'Test / X ppl' },
+    
+
   ];
 
 function EnhancedTableHead(props) {

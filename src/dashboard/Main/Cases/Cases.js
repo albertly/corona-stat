@@ -180,6 +180,7 @@ function Cases({ data }) {
                 totalDeathsD: row.totalDeaths,
                 newDeathsD: row.newDeaths,
                 totalRecoveredD: row.totalRecovered,
+                newRecoveredD: row.newRecovered,
                 activeD: row.active,
                 seriousD: row.serious,
                 totCasesPer1mD: row.totCasesPer1m,
@@ -188,6 +189,7 @@ function Cases({ data }) {
                 totalDeaths: toNumber(row.totalDeaths),
                 newDeaths: toNumber(row.newDeaths),
                 totalRecovered: toNumber(row.totalRecovered),
+                newRecovered: toNumber(row.newRecovered),
                 active: toNumber(row.active),
                 serious: toNumber(row.serious),
                 totCasesPer1m: toNumber(row.totCasesPer1m.trim()),
@@ -195,8 +197,17 @@ function Cases({ data }) {
                 tPer1mD: row.tPer1m,
                 dPer1m: toNumber(row.dPer1m),
                 tPer1m: toNumber(row.tPer1m),
-                pop : toNumber(row.total) / toNumber(row.totCasesPer1m) * 1000000,
-                cases1m: toNumber(row.active) / (toNumber(row.total) / toNumber(row.totCasesPer1m) * 1000000) * 1000000
+                pop : toNumber(row.Po),
+                cases1m: toNumber(row.Po) ? toNumber(row.active) / toNumber(row.Po) * 1000000 : '',
+                "1CperXpplD": row["1CperXppl"],
+                "1CperXppl" : toNumber(row["1CperXppl"]),
+
+                "1DperXpplD": row["1DperXppl"],
+                "1DperXppl" : toNumber(row["1DperXppl"]),
+
+                "1TperXpplD": row["1TperXppl"],
+                "1TperXppl" : toNumber(row["1TperXppl"]),
+
               }
             }),
               getComparator(order, orderBy))
@@ -215,13 +226,19 @@ function Cases({ data }) {
                     <TableCell className={colorForTotal(index)}>{row.totalDeathsD}</TableCell>
                     <TableCell className={`${colorForTotal(index)} ${classes.redCell}`}>{row.newDeathsD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.totalRecoveredD}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.newRecoveredD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.activeD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.seriousD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.totCasesPer1mD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.dPer1mD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.tPer1mD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{numberWithCommas(row.pop.toFixed(0)) }</TableCell>
-                    <TableCell className={colorForTotal(index)}>{numberWithCommas(row.cases1m.toFixed(0)) }</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row.cases1m ? numberWithCommas(row.cases1m.toFixed(2)) : '' }</TableCell>
+
+                    <TableCell className={colorForTotal(index)}>{row['1CperXpplD']}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row['1DperXpplD']}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row['1TperXpplD']}</TableCell>
+
                   </TableRow>
                 )
               })}
