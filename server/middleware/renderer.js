@@ -5,7 +5,8 @@ import Loadable from 'react-loadable';
 import { ContextEventsProvider } from '../../src/shared/context';
 import { StaticRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
-
+import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
+import theme from './scheme';
 // import our main App component
 import App from '../../src/App';
 
@@ -33,9 +34,11 @@ export default (store) => (req, res, next) => {
 
         const modules = [];
         const routerContext = {};
+        const sheets = new ServerStyleSheets();
 
         // render the app as a string
         const html = ReactDOMServer.renderToString(
+            sheets.collect(
              <Loadable.Capture report={m => modules.push(m)}>
                   <ContextEventsProvider> 
                      <StaticRouter location={req.baseUrl} context={routerContext}> 
@@ -43,8 +46,10 @@ export default (store) => (req, res, next) => {
                     </StaticRouter> 
                  </ContextEventsProvider> 
              </Loadable.Capture>
+            )
         );
 
+        const css = sheets.toString();  
         // get the stringified state
 
         // map required assets to script tags
@@ -62,7 +67,7 @@ export default (store) => (req, res, next) => {
                 // append the extra js assets
                 .replace('</body>', extraChunks.join('') + '</body>')
                 // write the HTML header tags
-                .replace('<title></title>', helmet.title.toString() + helmet.meta.toString())
+                .replace('<title></title>', helmet.title.toString() + helmet.meta.toString() + `<style id="jss-server-side">${css}</style>`)
         );
     });
 }
