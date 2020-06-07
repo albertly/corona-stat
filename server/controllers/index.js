@@ -19,8 +19,7 @@ router.use('^/$', actionIndex);
 
 // other static resources should just be served as they are
 router.use(express.static(
-    path.resolve(__dirname, '..', '..', 'build'),
-    { maxAge: '30d' },
+    path.resolve(__dirname, '..', '..', 'build')
 ));
 
 // any other route should be handled by react-router, so serve the index page

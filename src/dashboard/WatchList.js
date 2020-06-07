@@ -25,18 +25,18 @@ export default function WatchList(props) {
   const handleChange = event => {
     const c = {...countries, [event.target.name]: event.target.checked};
     setCountries(c);
-    localStorage.setItem('countries', JSON.stringify(c));
+   // localStorage.setItem('countries', JSON.stringify(c));
   }
 
   useEffect(() => {
-    const countriesStr = localStorage.getItem('countries');
+    const countriesStr = ''; //localStorage.getItem('countries');
     if (!countriesStr) {
       const c = {};
       countryCodes.map(e => {
         c[e.Name] = false;
       })
       setCountries(c);
-      localStorage.setItem('countries', JSON.stringify(c));
+     // localStorage.setItem('countries', JSON.stringify(c));
     } else {
       setCountries(JSON.parse(countriesStr));
     }

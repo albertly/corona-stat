@@ -128,30 +128,11 @@ https://www.npmjs.com/package/node-cache
 Caching like a boss in NodeJS
 https://medium.com/@danielsternlicht/caching-like-a-boss-in-nodejs-9bccbbc71b9b
 
+Server Side Rendering with Create React App
+https://github.com/ayroblu/ssr-create-react-app
+https://hackernoon.com/server-side-rendering-with-create-react-app-1faf5a9d1eff
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Upgrading a create-react-app project to a SSR + code splitting setup
+https://medium.com/bucharestjs/upgrading-a-create-react-app-project-to-a-ssr-code-splitting-setup-9da57df2040a
+https://github.com/andreiduca/cra-ssr-code-splitting/blob/master/server/controllers/index.js
 

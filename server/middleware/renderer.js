@@ -41,9 +41,9 @@ export default (store) => (req, res, next) => {
             sheets.collect(
              <Loadable.Capture report={m => modules.push(m)}>
                   <ContextEventsProvider> 
-                     <StaticRouter location={req.baseUrl} context={routerContext}> 
+                     {/* <StaticRouter location={req.baseUrl} context={routerContext}>  */}
                         <App/>
-                    </StaticRouter> 
+                    {/* </StaticRouter>  */}
                  </ContextEventsProvider> 
              </Loadable.Capture>
             )

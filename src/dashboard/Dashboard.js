@@ -132,7 +132,7 @@ export default function Dashboard(props) {
 
 
   const handleThemeChange = event => {
-    localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true');
+  //  localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true');
     setDarkTheme_(!darkTheme_);
   };
  
@@ -231,20 +231,20 @@ export default function Dashboard(props) {
         </SwipeableDrawer>
 
         <div className={classes.appBarSpacer} id="back-to-top-anchor" />
-        <Switch>
+        {/* <Switch>
           <Route exact path="/" render={renderMain} />
 
-          <Route exact path="/graph/:country?/:new?/:death?/:active?" render={(props) => (
-            <DailyCases classes={classes}
+          <Route exact path="/graph/:country?/:new?/:death?/:active?" render={(props) => ( */}
+            {/* <DailyCases classes={classes}
               country={props.match.params.country}
               _new={props.match.params.new}
               death={props.match.params.death}
               active={props.match.params.active}
-               />
-          )} />
+               /> */}
+          {/* )} />
           <Route component={Error404} />
 
-        </Switch>
+        </Switch> */}
 
         <ScrollTop {...props} />
 
