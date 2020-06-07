@@ -11,6 +11,7 @@
 # production
 /build
 /buildSrv
+buildSrv/bundle.js
 
 # misc
 .DS_Store
