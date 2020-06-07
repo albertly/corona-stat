@@ -32,6 +32,18 @@ export default (store) => (req, res, next) => {
             return res.status(404).end()
         }
 
+        if (typeof localStorage === 'undefined') {
+            global.localStorage = {
+                getItem:  () => 'true',
+                setItem: () => {}
+            };
+        }
+        
+        
+        if (typeof window === 'undefined') {
+            global.window = {};
+        }
+
         const modules = [];
         const routerContext = {};
         const sheets = new ServerStyleSheets();
@@ -41,9 +53,9 @@ export default (store) => (req, res, next) => {
             sheets.collect(
              <Loadable.Capture report={m => modules.push(m)}>
                   <ContextEventsProvider> 
-                     {/* <StaticRouter location={req.baseUrl} context={routerContext}>  */}
+                     <StaticRouter location={req.baseUrl} context={routerContext}>  
                         <App/>
-                    {/* </StaticRouter>  */}
+                     </StaticRouter>  
                  </ContextEventsProvider> 
              </Loadable.Capture>
             )
@@ -65,7 +77,7 @@ export default (store) => (req, res, next) => {
                 // write the React app
                 .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
                 // append the extra js assets
-                .replace('</body>', extraChunks.join('') + '</body>')
+               // .replace('</body>', extraChunks.join('') + '</body>')
                 // write the HTML header tags
                 .replace('<title>Corona Global Statistics Live Update (COVID-19 pandemic)</title>', helmet.title.toString() + helmet.meta.toString() + `<style id="jss-server-side">${css}</style>`)
         );

@@ -231,6 +231,9 @@ export default function Dashboard(props) {
         </SwipeableDrawer>
 
         <div className={classes.appBarSpacer} id="back-to-top-anchor" />
+        albert
+        <Main classes={classes} refreshGraph={refreshGraph} />
+        albert
         {/* <Switch>
           <Route exact path="/" render={renderMain} />
 

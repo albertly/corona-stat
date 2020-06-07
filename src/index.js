@@ -19,14 +19,25 @@ const AppBundle = (
   document.getElementById('root')
 );
 
-window.onload = () => {
-  Loadable.preloadReady().then(() => {
-    ReactDOM.hydrate(
-      AppBundle,
-      document.getElementById('root')
-    );
-  });
-};
+
+ReactDOM.hydrate(
+  <React.StrictMode>
+    <CssBaseline />
+    <BrowserRouter>
+    <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+// window.onload = () => {
+//  // Loadable.preloadReady().then(() => {
+//     ReactDOM.hydrate(
+//       AppBundle,
+//       document.getElementById('root')
+//     );
+// //  });
+// };
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
