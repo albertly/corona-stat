@@ -129,6 +129,9 @@ Caching like a boss in NodeJS
 https://medium.com/@danielsternlicht/caching-like-a-boss-in-nodejs-9bccbbc71b9b
 
 
+Deploy to Azure
+https://stackoverflow.com/questions/60879027/failed-to-deploy-react-app-build-folder-to-app-service-azure/62049253#62049253
+
 ### `yarn build`
 
 Builds the app for production to the `build` folder.<br />
