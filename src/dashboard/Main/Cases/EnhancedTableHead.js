@@ -27,16 +27,39 @@ const headCells = [
 
   ];
 
+  const Columns = [
+    { name: "", id: "country"},
+    { name: "Total Cases", id: "total"},
+    { name: "Total Deaths", id: "totalDeaths"},
+    { name: "New Deaths", id:"newDeaths"},
+    { name: "Total Recovered", id:"totalRecovered"},
+    { name: "New Recovered", id:"newRecovered"},
+    { name: "Active", id: "active"},
+    { name: "Serious", id:"serious"},
+    { name: "Total Cases per 1 m.", id:"totCasesPer1m"},
+    { name: "Total Death per 1 m.", id:"dPer1m"},
+    { name: "Total Tests per 1 m.", id:"tPer1m"},
+    { name: "Population", id:"pop"},
+    { name: "Active Cases per 1 m.", id: "cases1m"},
+    { name: "1 case per X ppl", id: "1CperXppl"},
+    { name: "1 death per X ppl", id: "1DperXppl"},
+    { name: "1 test per X ppl", id:"1TperXppl"},
+  
+  ]
+
 function EnhancedTableHead(props) {
     const { classes, order, orderBy, onRequestSort } = props;
     const createSortHandler = property => event => {
       onRequestSort(event, property);
     };
   
+     
+    const headCellsFiltered = headCells.filter(x => Columns.some(e => e.id === x.id));
+
     return (
       <TableHead>
         <TableRow>
-          {headCells.map((headCell, i) => (
+          {headCellsFiltered.map((headCell, i) => (
             <TableCell
               key={headCell.id}
               className={`${classes.tableCell} ${classes.cell_short} ${ i === 0 ? classes.freeze : ''} ${ i === 0 ? classes.deepFreeze : ''} `}

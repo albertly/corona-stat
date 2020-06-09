@@ -12,6 +12,25 @@ import { EventsContext, setScrollPos } from '../../../shared/context';
 import EnhancedTableHead from './EnhancedTableHead';
 import { Flag, numberWithCommas } from '../../../shared/utils';
 
+const Columns = [
+
+  { name: "Total Cases", id: "total", color: "limeCell"},
+  { name: "Total Deaths", id: "totalDeaths"},
+  { name: "New Deaths", id:"newDeaths"},
+  { name: "Total Recovered", id:"totalRecovered"},
+  { name: "New Recovered", id:"newRecovered"},
+  { name: "Active", id: "active"},
+  { name: "Serious", id:"serious"},
+  { name: "Total Cases per 1 m.", id:"totCasesPer1m"},
+  { name: "Total Death per 1 m.", id:"dPer1m"},
+  { name: "Total Tests per 1 m.", id:"tPer1m"},
+  { name: "Population", id:"Po"},
+  { name: "Active Cases per 1 m.", id: "cases1m"},
+  { name: "1 case per X ppl", id: "1CperXppl"},
+  { name: "1 death per X ppl", id: "1DperXppl"},
+  { name: "1 test per X ppl", id:"1TperXppl"},
+
+]
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -198,6 +217,7 @@ function Cases({ data }) {
                 dPer1m: toNumber(row.dPer1m),
                 tPer1m: toNumber(row.tPer1m),
                 pop : toNumber(row.Po),
+                popD: numberWithCommas(toNumber(row.Po).toFixed(0)),
                 cases1m: toNumber(row.Po) ? toNumber(row.active) / toNumber(row.Po) * 1000000 : '',
                 "1CperXpplD": row["1CperXppl"],
                 "1CperXppl" : toNumber(row["1CperXppl"]),
@@ -221,6 +241,16 @@ function Cases({ data }) {
                         {row.country}
                       </Link>
                     </TableCell>
+
+                    { Columns.map(e => {
+                      return (
+                      <TableCell className={`${colorForTotal(index)} ${e.color ? classes[e.color] : '' } `}>
+                        { e.func ? eval(e.func)
+                          : row[e.id + "D"]}
+                      </TableCell>
+                      );
+                    })}
+{/* 
                     <TableCell className={colorForTotal(index)}>{row.totalD}</TableCell>
                     <TableCell className={`${colorForTotal(index)} ${classes.limeCell}`}>{row.newD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.totalDeathsD}</TableCell>
@@ -237,7 +267,7 @@ function Cases({ data }) {
 
                     <TableCell className={colorForTotal(index)}>{row['1CperXpplD']}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row['1DperXpplD']}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row['1TperXpplD']}</TableCell>
+                    <TableCell className={colorForTotal(index)}>{row['1TperXpplD']}</TableCell> */}
 
                   </TableRow>
                 )
