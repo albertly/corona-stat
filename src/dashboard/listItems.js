@@ -6,18 +6,30 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MailIcon from '@material-ui/icons/Mail';
+import SettingsIcon from '@material-ui/icons/Settings';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 
 import WatchList from './WatchList';
+import ColumnsSelector from './ColumnsSelector';
 
 export function MainListItems({ handleDrawerClose }) {
   const history = useHistory();
   const [open, setOpen] = useState(false);
+  const [openColumnsSelector, setOpenColumnsSelector] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
+  };
+
+  const handleClickOpenColumnsSelector = () => {
+    setOpenColumnsSelector(true);
+  };
+
+  const handleCloseColumnsSelector = () => {
+    setOpenColumnsSelector(false);
+    handleDrawerClose();
   };
 
   const handleClose = () => {
@@ -62,7 +74,14 @@ export function MainListItems({ handleDrawerClose }) {
         </ListItemIcon>
         <ListItemText primary="Add to watch list" />
       </ListItem>
+      <ListItem button onClick={handleClickOpenColumnsSelector}>
+        <ListItemIcon>
+          <Tooltip title="Choose Columns"><SettingsIcon /></Tooltip>
+        </ListItemIcon>
+        <ListItemText primary="Choose Columns" />
+      </ListItem>
       <WatchList open={open} onClose={handleClose} />
+      <ColumnsSelector open={openColumnsSelector} onClose={handleCloseColumnsSelector} />
     </div>
   )
 };
