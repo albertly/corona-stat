@@ -20,7 +20,7 @@ const extractAssets = (assets, chunks) => Object.keys(assets)
 
 const path = require("path");
 const fs = require("fs");
-
+let renderedHTML = '';
 
 export default (store) => (req, res, next) => {
     // get the html file created with the create-react-app build
@@ -44,42 +44,49 @@ export default (store) => (req, res, next) => {
             global.window = {};
         }
 
-        const modules = [];
-        const routerContext = {};
-        const sheets = new ServerStyleSheets();
-
-        // render the app as a string
-        const html = ReactDOMServer.renderToString(
-            sheets.collect(
-             <Loadable.Capture report={m => modules.push(m)}>
-                  <ContextEventsProvider> 
-                     
-                        <App location={req.baseUrl} context={routerContext}/>
-         
-                 </ContextEventsProvider> 
-             </Loadable.Capture>
-            )
-        );
-
-        const css = sheets.toString();  
-        // get the stringified state
-
-        // map required assets to script tags
-        const extraChunks = extractAssets(manifest, modules)
-            .map(c => `<script type="text/javascript" src="/${c}"></script>`);
-
-        // get HTML headers
-        const helmet = Helmet.renderStatic();
-
-        // now inject the rendered app into our html and send it to the client
-        return res.send(
+        if (!renderedHTML) {
+            const modules = [];
+            const routerContext = {};
+            const sheets = new ServerStyleSheets();
+    
+            // render the app as a string
+            const html = ReactDOMServer.renderToString(
+                sheets.collect(
+                 <Loadable.Capture report={m => modules.push(m)}>
+                      <ContextEventsProvider> 
+                         
+                            <App location={req.baseUrl} context={routerContext}/>
+             
+                     </ContextEventsProvider> 
+                 </Loadable.Capture>
+                )
+            );
+    
+            const css = sheets.toString();  
+            // get the stringified state
+    
+            // map required assets to script tags
+            const extraChunks = extractAssets(manifest, modules)
+                .map(c => `<script type="text/javascript" src="/${c}"></script>`);
+    
+            // get HTML headers
+            const helmet = Helmet.renderStatic();
+            
             htmlData
-                // write the React app
-                .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
-                // append the extra js assets
-               // .replace('</body>', extraChunks.join('') + '</body>')
-                // write the HTML header tags
-                .replace('<title>Corona Global Statistics Live Update (COVID-19 pandemic)</title>', helmet.title.toString() + helmet.meta.toString() + `<style id="jss-server-side">${css}</style>`)
-        );
+            // write the React app
+            .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+            // append the extra js assets
+           // .replace('</body>', extraChunks.join('') + '</body>')
+            // write the HTML header tags
+            .replace('<title>Corona Global Statistics Live Update (COVID-19 pandemic)</title>', helmet.title.toString() + helmet.meta.toString() + `<style id="jss-server-side">${css}</style>`)
+
+            renderedHTML=htmlData;
+    
+        }
+        else {
+            console.log('cache hit');
+        }
+        // now inject the rendered app into our html and send it to the client
+        return res.send(renderedHTML);
     });
 }
