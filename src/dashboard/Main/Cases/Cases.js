@@ -12,23 +12,24 @@ import { EventsContext, setScrollPos } from '../../../shared/context';
 import EnhancedTableHead from './EnhancedTableHead';
 import { Flag, numberWithCommas } from '../../../shared/utils';
 
-const Columns = [
+const columnsAll = [
 
-  { name: "Total Cases", id: "total", color: "limeCell"},
-  { name: "Total Deaths", id: "totalDeaths"},
-  { name: "New Deaths", id:"newDeaths"},
-  { name: "Total Recovered", id:"totalRecovered"},
-  { name: "New Recovered", id:"newRecovered"},
-  { name: "Active", id: "active"},
-  { name: "Serious", id:"serious"},
-  { name: "Total Cases per 1 m.", id:"totCasesPer1m"},
-  { name: "Total Death per 1 m.", id:"dPer1m"},
-  { name: "Total Tests per 1 m.", id:"tPer1m"},
-  { name: "Population", id:"Po"},
-  { name: "Active Cases per 1 m.", id: "cases1m"},
-  { name: "1 case per X ppl", id: "1CperXppl"},
-  { name: "1 death per X ppl", id: "1DperXppl"},
-  { name: "1 test per X ppl", id:"1TperXppl"},
+  { name: "Total Cases", id: "total" },
+  { name: "New Cases", id: "new", color: "limeCell" },
+  { name: "Total Deaths", id: "totalDeaths" },
+  { name: "New Deaths", id: "newDeaths" },
+  { name: "Total Recovered", id: "totalRecovered" },
+  { name: "New Recovered", id: "newRecovered" },
+  { name: "Active", id: "active" },
+  { name: "Serious", id: "serious" },
+  { name: "Total Cases per 1 m.", id: "totCasesPer1m" },
+  { name: "Total Death per 1 m.", id: "dPer1m" },
+  { name: "Total Tests per 1 m.", id: "tPer1m" },
+  { name: "Population", id: "pop" },
+  { name: "Active Cases per 1 m.", id: "cases1m" },
+  { name: "1 case per X ppl", id: "1CperXppl" },
+  { name: "1 death per X ppl", id: "1DperXppl" },
+  { name: "1 test per X ppl", id: "1TperXppl" },
 
 ]
 
@@ -76,75 +77,76 @@ function stableSort(array, comparator) {
 
 const useStyles = makeStyles(theme => {
   return ({
-  container: {    
-    [theme.breakpoints.down("xl")]: {
-      maxHeight: 628,
+    container: {
+      [theme.breakpoints.down("xl")]: {
+        maxHeight: 628,
+      },
+      [theme.breakpoints.down("lg")]: {
+        maxHeight: 428,
+      },
+      [theme.breakpoints.down("md")]: {
+        maxHeight: 428,
+      },
+      [theme.breakpoints.down("sm")]: {
+        maxHeight: 428,
+      },
     },
-    [theme.breakpoints.down("lg")]: {
-      maxHeight: 428,
+    total_cell: {
+      backgroundColor: 'darkgrey !important',
     },
-    [theme.breakpoints.down("md")]: {
-      maxHeight: 428,
+    cell_short: {
+      [theme.breakpoints.down("xl")]: {
+        fontSize: "16px",
+      },
+      [theme.breakpoints.down("lg")]: {
+        fontSize: "15px",
+      },
+      [theme.breakpoints.down("md")]: {
+        fontSize: "12px",
+      },
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "12px",
+        width: 20,
+      },
     },
-    [theme.breakpoints.down("sm")]: {
-      maxHeight: 428,      
+    tableCell: {
+      width: 70,
+      overflowWrap: 'break-word',
+      wordWrap: 'break-word',
     },
-  },
-  total_cell: {
-    backgroundColor: 'darkgrey !important',
-  },
-  cell_short: {
-    [theme.breakpoints.down("xl")]: {
-      fontSize: "16px",
+    limeCell: {
+      color: '#e65100',
+      fontWeight: 'bold',
     },
-    [theme.breakpoints.down("lg")]: {
-      fontSize: "15px",
+    redCell: {
+      color: 'red',
+      fontWeight: 'bold'
     },
-    [theme.breakpoints.down("md")]: {
-      fontSize: "12px",
-    },
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "12px",
-      width: 20,
-    },
-  },
-  tableCell: {
-    width: 70,
-    overflowWrap: 'break-word',
-    wordWrap: 'break-word',    
-  },
-  limeCell: {
-    color: '#e65100',
-    fontWeight: 'bold',
-  },
-  redCell: {
-    color: 'red',
-    fontWeight: 'bold'
-  },
-  freeze: {
-    position: 'sticky',
-    left: 0,
-    backgroundColor: theme.palette.background.default,
-    zIndex: 2,
-    ...theme.typography.body2,
-    display: 'table-cell',
-    verticalAlign: 'inherit',
-    // Workaround for a rendering bug with spanned columns in Chrome 62.0.
-    // Removes the alpha (sets it to 1), and lightens or darkens the theme color.
-    borderBottom: `1px solid
+    freeze: {
+      position: 'sticky',
+      left: 0,
+      backgroundColor: theme.palette.background.default,
+      zIndex: 2,
+      ...theme.typography.body2,
+      display: 'table-cell',
+      verticalAlign: 'inherit',
+      // Workaround for a rendering bug with spanned columns in Chrome 62.0.
+      // Removes the alpha (sets it to 1), and lightens or darkens the theme color.
+      borderBottom: `1px solid
     ${
-      theme.palette.type === 'light'
-        ? lighten(fade(theme.palette.divider, 1), 0.88)
-        : darken(fade(theme.palette.divider, 1), 0.68)
-    }`,
-    textAlign: 'left',
-    //padding: 16,
-  },
-  deepFreeze: {
-    zIndex: 5,
-  }
-  
-})});
+        theme.palette.type === 'light'
+          ? lighten(fade(theme.palette.divider, 1), 0.88)
+          : darken(fade(theme.palette.divider, 1), 0.68)
+        }`,
+      textAlign: 'left',
+      //padding: 16,
+    },
+    deepFreeze: {
+      zIndex: 5,
+    }
+
+  })
+});
 
 
 const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
@@ -155,11 +157,22 @@ function Cases({ data }) {
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('total');
 
+
+  let Columns;
+  const columnsStr = localStorage.getItem('columns');
+  if (!columnsStr) {
+    Columns = columnsAll;
+  }
+  else {
+    Columns = JSON.parse(columnsStr)
+  }
+  const columnsFiltered = columnsAll.filter(x => Columns.some(e => e === x.name));
+
   useEffect(() => {
-    console.log('mount');
+    
     const item = document.querySelector('.restore-' + state.scrollPos);
     if (item) {
-      item.scrollIntoView({behavior: 'auto', block: 'center', inline: 'nearest'});
+      item.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'nearest' });
       setScrollPos(dispatch, '');
     }
     // return () => {
@@ -176,81 +189,125 @@ function Cases({ data }) {
   const colorForTotal = index => `${index === 0 ? classes.total_cell : ''} ${classes.cell_short}`;
 
   const toNumber = v => v ? +(v.replace(/[^\d.\-eE+]/g, "")) : Infinity;
-  
+
   return (
     <>
 
-    <TableContainer className={`MyScroll ${classes.container}`}>
-      <Table stickyHeader aria-label="sticky table" size="small">
-        <EnhancedTableHead
-          classes={classes}
-          order={order}
-          orderBy={orderBy}
-          onRequestSort={handleRequestSort}
-        />
+      <TableContainer className={`MyScroll ${classes.container}`}>
+        <Table stickyHeader aria-label="sticky table" size="small">
+          <EnhancedTableHead
+            classes={classes}
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+          />
 
-        <TableBody>
-          {
-            stableSort(data.map(row => {
-              return {
-                country: row.country,
-                totalD: row.total,
-                newD: row.new,
-                totalDeathsD: row.totalDeaths,
-                newDeathsD: row.newDeaths,
-                totalRecoveredD: row.totalRecovered,
-                newRecoveredD: row.newRecovered,
-                activeD: row.active,
-                seriousD: row.serious,
-                totCasesPer1mD: row.totCasesPer1m,
-                total: toNumber(row.total),
-                new: toNumber(row.new),
-                totalDeaths: toNumber(row.totalDeaths),
-                newDeaths: toNumber(row.newDeaths),
-                totalRecovered: toNumber(row.totalRecovered),
-                newRecovered: toNumber(row.newRecovered),
-                active: toNumber(row.active),
-                serious: toNumber(row.serious),
-                totCasesPer1m: toNumber(row.totCasesPer1m.trim()),
-                dPer1mD: row.dPer1m,
-                tPer1mD: row.tPer1m,
-                dPer1m: toNumber(row.dPer1m),
-                tPer1m: toNumber(row.tPer1m),
-                pop : toNumber(row.Po),
-                popD: numberWithCommas(toNumber(row.Po).toFixed(0)),
-                cases1m: toNumber(row.Po) ? toNumber(row.active) / toNumber(row.Po) * 1000000 : '',
-                "1CperXpplD": row["1CperXppl"],
-                "1CperXppl" : toNumber(row["1CperXppl"]),
+          <TableBody>
+            {
+              stableSort(data.map(row => {
+                let filteredRow = {
+                  country: row.country
+                };
 
-                "1DperXpplD": row["1DperXppl"],
-                "1DperXppl" : toNumber(row["1DperXppl"]),
+                columnsFiltered.forEach(o => {
+                  let key = o.id;
 
-                "1TperXpplD": row["1TperXppl"],
-                "1TperXppl" : toNumber(row["1TperXppl"]),
+                  switch (key) {
+                    case 'pop':
+                      const popD = toNumber(row.Po);
+                      filteredRow['pop'] = popD;
+                      filteredRow['popD'] = numberWithCommas(popD.toFixed(0));
+                      break;
+                    case 'cases1m':
+                      const cases1mT = toNumber(row.Po) ? toNumber(row.active) / toNumber(row.Po) * 1000000 : '';
+                      filteredRow['cases1m'] = cases1mT;
+                      filteredRow['cases1mD'] = cases1mT ? numberWithCommas(cases1mT.toFixed(2)) : '';
+                      break;
+                    default:
+                      filteredRow[key + 'D'] = row[key];
+                      filteredRow[key] = toNumber(row[key]);
+                  }
 
-              }
-            }),
-              getComparator(order, orderBy))
-              .map((row, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`;
-                return (
-                  <TableRow className={`restore-${row.country}`} hover key={row.country}>
-                    <TableCell className={`${classes.tableCell} ${classes.freeze} ${colorForTotal(index)} `} component="th" id={labelId} scope="row" padding="none">
-                      <Link  style={spanStyle} component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}/${row.active}`} color='textPrimary'>
-                        {Flag(row.country)}
-                        {row.country}
-                      </Link>
-                    </TableCell>
+                }
+                )
+                return filteredRow;
+                // return {    
+                //   country: row.country,
 
-                    { Columns.map(e => {
-                      return (
-                      <TableCell className={`${colorForTotal(index)} ${e.color ? classes[e.color] : '' } `}>
-                        { e.func ? eval(e.func)
-                          : row[e.id + "D"]}
+                //   totalD: row.total,
+                //   total: toNumber(row.total),
+
+                //   newD: row.new,
+                //   new: toNumber(row.new),
+
+                //   totalDeathsD: row.totalDeaths,
+                //   totalDeaths: toNumber(row.totalDeaths),
+
+                //   newDeathsD: row.newDeaths,
+                //   newDeaths: toNumber(row.newDeaths),
+
+                //   totalRecoveredD: row.totalRecovered,
+                //   totalRecovered: toNumber(row.totalRecovered),
+
+                //   newRecoveredD: row.newRecovered,
+                //   newRecovered: toNumber(row.newRecovered),
+
+                //   activeD: row.active,
+                //   active: toNumber(row.active),
+
+                //   seriousD: row.serious,
+                //   serious: toNumber(row.serious),
+
+                //   totCasesPer1mD: row.totCasesPer1m,
+                //   totCasesPer1m: toNumber(row.totCasesPer1m.trim()),
+
+                //   dPer1mD: row.dPer1m,
+                //   dPer1m: toNumber(row.dPer1m),
+
+                //   tPer1mD: row.tPer1m,
+                //   tPer1m: toNumber(row.tPer1m),
+
+                //   pop: popD,
+                //   popD: numberWithCommas(popD.toFixed(0)),
+
+                //   cases1m: cases1mT,
+                //   cases1mD: cases1mT ? numberWithCommas(cases1mT.toFixed(2)) : '',
+
+                //   "1CperXpplD": row["1CperXppl"],
+                //   "1CperXppl": toNumber(row["1CperXppl"]),
+
+                //   "1DperXpplD": row["1DperXppl"],
+                //   "1DperXppl": toNumber(row["1DperXppl"]),
+
+                //   "1TperXpplD": row["1TperXppl"],
+                //   "1TperXppl": toNumber(row["1TperXppl"]),
+
+                // }
+              }),
+                getComparator(order, orderBy))
+                .map((row, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  return (
+                    <TableRow className={`restore-${row.country}`} hover key={row.country}>
+                      <TableCell className={`${colorForTotal(index)} `}>
+                        {index}
                       </TableCell>
-                      );
-                    })}
-{/* 
+                      <TableCell className={`${classes.tableCell}  ${colorForTotal(index)} `} component="th" id={labelId} scope="row" padding="none">
+                        <Link style={spanStyle} component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}/${row.active}`} color='textPrimary'>
+                          {Flag(row.country)}
+                          {row.country}
+                        </Link>
+                      </TableCell>
+
+                      {columnsFiltered.map(e => {
+                        return (
+                          <TableCell className={`${colorForTotal(index)} ${e.color ? classes[e.color] : ''} `}>
+                            {row[e.id + "D"]}
+                          </TableCell>
+                        );
+                      })}
+
+                      {/* 
                     <TableCell className={colorForTotal(index)}>{row.totalD}</TableCell>
                     <TableCell className={`${colorForTotal(index)} ${classes.limeCell}`}>{row.newD}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row.totalDeathsD}</TableCell>
@@ -269,12 +326,12 @@ function Cases({ data }) {
                     <TableCell className={colorForTotal(index)}>{row['1DperXpplD']}</TableCell>
                     <TableCell className={colorForTotal(index)}>{row['1TperXpplD']}</TableCell> */}
 
-                  </TableRow>
-                )
-              })}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                    </TableRow>
+                  )
+                })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }

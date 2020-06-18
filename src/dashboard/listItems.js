@@ -80,6 +80,7 @@ export function MainListItems({ handleDrawerClose }) {
         </ListItemIcon>
         <ListItemText primary="Choose Columns" />
       </ListItem>
+      
       <WatchList open={open} onClose={handleClose} />
       <ColumnsSelector open={openColumnsSelector} onClose={handleCloseColumnsSelector} />
     </div>

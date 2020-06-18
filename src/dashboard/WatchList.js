@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { countryCodes } from '../shared/CountryCodes';
 import { Flag } from '../shared/utils';
 
-
+//ToDo: what is selectedValue ?
 export default function WatchList(props) {
   const { onClose, selectedValue, open } = props;
   const [countries, setCountries] = useState({});

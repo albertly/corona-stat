@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     width: '300',
     height: 350,
     backgroundColor: theme.palette.background.paper,
-    overflow: 'visible',
+    overflow: 'auto',
   },
   button: {
     margin: theme.spacing(0.5, 0.5),
@@ -43,14 +43,12 @@ function union(a, b) {
   return [...a, ...not(b, a)];
 }
 
-export default function TransferList({list}) {
+export default function TransferList({left, setLeft, right, setRight}) {
   const classes = useStyles();
   const theme = useTheme();
   const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState(list.map(e => e.name));
-  const [right, setRight] = React.useState([]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -90,7 +88,7 @@ export default function TransferList({list}) {
     setChecked(not(checked, rightChecked));
   };
 
-  const customList = (title, items) => (
+  const customList = (title, items, keyPrefix) => (
     <Card style={{width:'100%'}} >
       <CardHeader
         className={classes.cardHeader}
@@ -112,10 +110,10 @@ export default function TransferList({list}) {
           const labelId = `transfer-list-all-item-${value}-label`;
 
           return (
-            <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+            <ListItem key={keyPrefix + value} role="listitem" button onClick={handleToggle(keyPrefix + value)}>
               <ListItemIcon>
                 <Checkbox
-                  checked={checked.indexOf(value) !== -1}
+                  checked={checked.indexOf(keyPrefix + value) !== -1}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}
@@ -130,10 +128,9 @@ export default function TransferList({list}) {
     </Card>
   );
 
-  console.log('smallScreen', smallScreen)
   return  (
     <Grid container spacing={1} justify="space-around" alignItems="center" className={classes.root}>
-      <Grid container  justify="space-around" alignItems="center" item md={5} xs={12}>{customList('Choices', left)}</Grid>
+      <Grid container  justify="space-around" alignItems="center" item md={5} xs={12}>{customList('Choices', left, '')}</Grid>
       <Grid container  justify="space-around" alignItems="center" item md={2} xs={12}>
         <Grid container direction="row" justify="center" alignItems="center" data-tag='c1'>
           <Button
@@ -160,7 +157,7 @@ export default function TransferList({list}) {
           </Button>
         </Grid>
       </Grid>
-      <Grid container  justify="space-around" alignItems="center" item md={5} xs={12}>{customList('Chosen', right)}</Grid>
+      <Grid container  justify="space-around" alignItems="center" item md={5} xs={12}>{customList('Chosen', right, '')}</Grid>
     </Grid>
   );
 }
