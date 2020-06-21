@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
 
-import {todayFormated} from './utils';
+import {todayFormated, columns} from './utils';
 
 const SET_COLUMNS = 'SET_COLUMNS';
 
@@ -18,29 +18,10 @@ const SET_SCROLL_POS = 'SET_SCROLL_POS';
 const EventsContext = React.createContext();
 
 
-const Columns = [
-    "Total Cases",
-    "New Cases",
-    "Total Deaths",
-    "New Deaths",
-    "Total Recovered",
-    "New Recovered",
-    "Active",
-    "Serious",
-    "Total Cases per 1 m.",
-    "Total Death per 1 m.",
-    "Total Tests per 1 m.",
-    "Population",
-    "Active Cases per 1 m.",
-    "1 case per X ppl",
-    "1 death per X ppl",
-    "1 test per X ppl"
-]
-
 const initializeColumns = () => {
     const columnsStr = localStorage.getItem('columns');
     if (!columnsStr) {
-        const colArr = [...Columns];
+        const colArr = [...columns.map(e => e.name)];
         localStorage.setItem('columns', JSON.stringify(colArr));
         return colArr;
     }

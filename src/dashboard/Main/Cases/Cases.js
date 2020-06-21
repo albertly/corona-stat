@@ -10,28 +10,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Link from '@material-ui/core/Link';
 import { EventsContext, setScrollPos } from '../../../shared/context';
 import EnhancedTableHead from './EnhancedTableHead';
-import { Flag, numberWithCommas } from '../../../shared/utils';
+import { Flag, numberWithCommas, columns } from '../../../shared/utils';
 
-const columnsAll = [
-
-  { name: "Total Cases", id: "total" },
-  { name: "New Cases", id: "new", color: "limeCell" },
-  { name: "Total Deaths", id: "totalDeaths" },
-  { name: "New Deaths", id: "newDeaths" },
-  { name: "Total Recovered", id: "totalRecovered" },
-  { name: "New Recovered", id: "newRecovered" },
-  { name: "Active", id: "active" },
-  { name: "Serious", id: "serious" },
-  { name: "Total Cases per 1 m.", id: "totCasesPer1m" },
-  { name: "Total Death per 1 m.", id: "dPer1m" },
-  { name: "Total Tests per 1 m.", id: "tPer1m" },
-  { name: "Population", id: "pop" },
-  { name: "Active Cases per 1 m.", id: "cases1m" },
-  { name: "1 case per X ppl", id: "1CperXppl" },
-  { name: "1 death per X ppl", id: "1DperXppl" },
-  { name: "1 test per X ppl", id: "1TperXppl" },
-
-]
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -148,7 +128,6 @@ const useStyles = makeStyles(theme => {
   })
 });
 
-
 const spanStyle = { "display": "flex", "alignItems": "center", "justifyContent": "start" };
 
 function Cases({ data }) {
@@ -157,11 +136,11 @@ function Cases({ data }) {
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('total');
 
-  let columnsFiltered=columnsAll.filter(x => state.columns.some(e => e === x.name));
+  let columnsFiltered=columns.filter(x => state.columns.some(e => e === x.name));
   //ToDo: Why useEffect doesn't work with state.columns ?
   useEffect(() => {
     let Columns = state.columns;  
-    columnsFiltered = columnsAll.filter(x => Columns.some(e => e === x.name));
+    columnsFiltered = columns.filter(x => Columns.some(e => e === x.name));
   });
 
 
@@ -251,25 +230,6 @@ function Cases({ data }) {
                           </TableCell>
                         );
                       })}
-
-                      {/* 
-                    <TableCell className={colorForTotal(index)}>{row.totalD}</TableCell>
-                    <TableCell className={`${colorForTotal(index)} ${classes.limeCell}`}>{row.newD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.totalDeathsD}</TableCell>
-                    <TableCell className={`${colorForTotal(index)} ${classes.redCell}`}>{row.newDeathsD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.totalRecoveredD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.newRecoveredD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.activeD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.seriousD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.totCasesPer1mD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.dPer1mD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.tPer1mD}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{numberWithCommas(row.pop.toFixed(0)) }</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row.cases1m ? numberWithCommas(row.cases1m.toFixed(2)) : '' }</TableCell>
-
-                    <TableCell className={colorForTotal(index)}>{row['1CperXpplD']}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row['1DperXpplD']}</TableCell>
-                    <TableCell className={colorForTotal(index)}>{row['1TperXpplD']}</TableCell> */}
 
                     </TableRow>
                   )

@@ -13,6 +13,8 @@ import Divider from '@material-ui/core/Divider';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 
+import {not, intersection, union } from '../shared/utils';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: 'auto',
@@ -31,17 +33,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function not(a, b) {
-  return a.filter((value) => b.indexOf(value) === -1);
-}
-
-function intersection(a, b) {
-  return a.filter((value) => b.indexOf(value) !== -1);
-}
-
-function union(a, b) {
-  return [...a, ...not(b, a)];
-}
 
 export default function TransferList({left, setLeft, right, setRight}) {
   const classes = useStyles();

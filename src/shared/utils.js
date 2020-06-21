@@ -4,6 +4,27 @@ import * as f from './img/flags/3x2'
 
 import { countryCodes } from './CountryCodes';
 
+const _headCells = [
+  { id: 'no', numeric: true, disablePadding: true, label: '#', name: "No" },
+  { id: 'country', numeric: false, disablePadding: true, label: 'Country', name: "Country" },
+  { id: 'total', numeric: false, disablePadding: false, label: 'Cases', name: "Total Cases" },
+  { id: 'new', numeric: false, disablePadding: false, label: 'New Cases', name: "New Cases" },
+  { id: 'totalDeaths', numeric: false, disablePadding: true, label: 'Deaths', name: "Total Deaths" },
+  { id: 'newDeaths', numeric: false, disablePadding: true, label: 'New Deaths', name: "New Deaths" },
+  { id: 'totalRecovered', numeric: false, disablePadding: true, label: 'Recovered', name: "Total Recovered" },
+  { id: 'newRecovered', numeric: false, disablePadding: true, label: 'New Recovered', name: "New Recovered" },
+  { id: 'active', numeric: false, disablePadding: true, label: 'Active', name: "Active" },
+  { id: 'serious', numeric: false, disablePadding: true, label: 'Serious', name: "Serious" },
+  { id: 'totCasesPer1m', numeric: false, disablePadding: true, label: 'Cases / 1 m', name: "Total Cases per 1 m." },
+  { id: 'dPer1m', numeric: false, disablePadding: true, label: 'Death / 1 m', name: "Total Death per 1 m." },
+  { id: 'tPer1m', numeric: false, disablePadding: true, label: 'Tests / 1 m', name: "Total Tests per 1 m." },
+  { id: 'pop', numeric: false, disablePadding: true, label: 'Population', name: "Population" },
+  { id: 'cases1m', numeric: false, disablePadding: true, label: 'Cases / 1m', name: "Active Cases per 1 m." },
+  { id: '1CperXppl', numeric: false, disablePadding: true, label: 'Case / X ppl', name: "1 case per X ppl" },
+  { id: '1DperXppl', numeric: false, disablePadding: true, label: 'Death / X ppl', name: "1 death per X ppl" },
+  { id: '1TperXppl', numeric: false, disablePadding: true, label: 'Test / X ppl', name: "1 test per X ppl" },
+];
+
 (function () {
   if (!Number.prototype.pad) {
     Number.prototype.pad = function (size) {
@@ -32,6 +53,9 @@ import { countryCodes } from './CountryCodes';
 
 
 })();
+
+export const headCells =  _headCells;
+export const columns = _headCells.slice(2).map(e => ({id: e.id, name: e.name}));
 
 export const Flag = (name, small = true) => {
   const code = getFlagByCountryName(name);
@@ -94,6 +118,18 @@ export function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * ((max > 120 ? 120 : max) - min + 1)) + min;
+}
+
+export function not(a, b) {
+  return a.filter((value) => b.indexOf(value) === -1);
+}
+
+export function intersection(a, b) {
+  return a.filter((value) => b.indexOf(value) !== -1);
+}
+
+export function union(a, b) {
+  return [...a, ...not(b, a)];
 }
 
 function useInterval(callback, delay) {

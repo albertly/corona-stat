@@ -9,34 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import TransferList from './TransferList';
 import { EventsContext, setColumns } from '../shared/context';
+import { not, columns } from '../shared/utils'
 
-function not(a, b) {
-  return a.filter((value) => b.indexOf(value) === -1);
-}
-
-function intersection(a, b) {
-  return a.filter((value) => b.indexOf(value) !== -1);
-}
-
-
-const Columns = [
-  "Total Cases",
-  "New Cases",
-  "Total Deaths",
-  "New Deaths",
-  "Total Recovered",
-  "New Recovered",
-  "Active",
-  "Serious",
-  "Total Cases per 1 m.",
-  "Total Death per 1 m.",
-  "Total Tests per 1 m.",
-  "Population",
-  "Active Cases per 1 m.",
-  "1 case per X ppl",
-  "1 death per X ppl",
-  "1 test per X ppl"
-]
 
 export default function ColumnsSelector(props) {
   const { onClose, selectedValue, open } = props;
@@ -60,7 +34,7 @@ export default function ColumnsSelector(props) {
     let rightArr = state.columns;
     setRight(rightArr);
 
-    setLeft(not(Columns, rightArr));
+    setLeft(not(columns.map(e => e.name), rightArr));
 
   }, []);
 
