@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import {todayFormated} from './utils';
 
+const SET_COLUMNS = 'SET_COLUMNS';
+
 const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
 const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 
@@ -16,8 +18,38 @@ const SET_SCROLL_POS = 'SET_SCROLL_POS';
 const EventsContext = React.createContext();
 
 
+const Columns = [
+    "Total Cases",
+    "New Cases",
+    "Total Deaths",
+    "New Deaths",
+    "Total Recovered",
+    "New Recovered",
+    "Active",
+    "Serious",
+    "Total Cases per 1 m.",
+    "Total Death per 1 m.",
+    "Total Tests per 1 m.",
+    "Population",
+    "Active Cases per 1 m.",
+    "1 case per X ppl",
+    "1 death per X ppl",
+    "1 test per X ppl"
+]
+
+const initializeColumns = () => {
+    const columnsStr = localStorage.getItem('columns');
+    if (!columnsStr) {
+        const colArr = [...Columns];
+        localStorage.setItem('columns', JSON.stringify(colArr));
+        return colArr;
+    }
+
+    return JSON.parse(columnsStr);
+}
+
 const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '',
-                       eventsYesterday: [], today: null, errorMessage: '', scrollPos: '' };
+                       eventsYesterday: [], today: null, errorMessage: '', scrollPos: '', columns: initializeColumns() };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -51,8 +83,11 @@ function compareArr(new_, old_) {
 const reducer = (state, action) => {
 
     switch (action.type) {
+        case SET_COLUMNS: 
+           return {...state, columns: action.payload};
+
         case SET_SCROLL_POS:
-            return { ...state, scrollPos: action.payload}
+            return { ...state, scrollPos: action.payload};
 
         case GET_YESTERDAY_EVENTS_SUCCESS:
             
@@ -87,6 +122,11 @@ const reducer = (state, action) => {
 
     return state;
 };
+
+const setColumns = (dispatch, columns) => {
+    localStorage.setItem('columns', JSON.stringify(columns));
+    dispatch({ type: SET_COLUMNS, payload: columns });
+}
 
 const setScrollPos = (dispatch, scrollPos) => {
     dispatch({ type: SET_SCROLL_POS, payload: scrollPos });
@@ -135,5 +175,6 @@ export {
     ContextEventsProvider,
     getEventsAction,
     getYesterdayEventsAction,
-    setScrollPos
+    setScrollPos,
+    setColumns
 };

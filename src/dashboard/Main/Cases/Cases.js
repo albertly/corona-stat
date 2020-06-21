@@ -157,16 +157,13 @@ function Cases({ data }) {
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('total');
 
+  let columnsFiltered=columnsAll.filter(x => state.columns.some(e => e === x.name));
+  //ToDo: Why useEffect doesn't work with state.columns ?
+  useEffect(() => {
+    let Columns = state.columns;  
+    columnsFiltered = columnsAll.filter(x => Columns.some(e => e === x.name));
+  });
 
-  let Columns;
-  const columnsStr = localStorage.getItem('columns');
-  if (!columnsStr) {
-    Columns = columnsAll;
-  }
-  else {
-    Columns = JSON.parse(columnsStr)
-  }
-  const columnsFiltered = columnsAll.filter(x => Columns.some(e => e === x.name));
 
   useEffect(() => {
     
@@ -231,58 +228,6 @@ function Cases({ data }) {
                 }
                 )
                 return filteredRow;
-                // return {    
-                //   country: row.country,
-
-                //   totalD: row.total,
-                //   total: toNumber(row.total),
-
-                //   newD: row.new,
-                //   new: toNumber(row.new),
-
-                //   totalDeathsD: row.totalDeaths,
-                //   totalDeaths: toNumber(row.totalDeaths),
-
-                //   newDeathsD: row.newDeaths,
-                //   newDeaths: toNumber(row.newDeaths),
-
-                //   totalRecoveredD: row.totalRecovered,
-                //   totalRecovered: toNumber(row.totalRecovered),
-
-                //   newRecoveredD: row.newRecovered,
-                //   newRecovered: toNumber(row.newRecovered),
-
-                //   activeD: row.active,
-                //   active: toNumber(row.active),
-
-                //   seriousD: row.serious,
-                //   serious: toNumber(row.serious),
-
-                //   totCasesPer1mD: row.totCasesPer1m,
-                //   totCasesPer1m: toNumber(row.totCasesPer1m.trim()),
-
-                //   dPer1mD: row.dPer1m,
-                //   dPer1m: toNumber(row.dPer1m),
-
-                //   tPer1mD: row.tPer1m,
-                //   tPer1m: toNumber(row.tPer1m),
-
-                //   pop: popD,
-                //   popD: numberWithCommas(popD.toFixed(0)),
-
-                //   cases1m: cases1mT,
-                //   cases1mD: cases1mT ? numberWithCommas(cases1mT.toFixed(2)) : '',
-
-                //   "1CperXpplD": row["1CperXppl"],
-                //   "1CperXppl": toNumber(row["1CperXppl"]),
-
-                //   "1DperXpplD": row["1DperXppl"],
-                //   "1DperXppl": toNumber(row["1DperXppl"]),
-
-                //   "1TperXpplD": row["1TperXppl"],
-                //   "1TperXppl": toNumber(row["1TperXppl"]),
-
-                // }
               }),
                 getComparator(order, orderBy))
                 .map((row, index) => {

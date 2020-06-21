@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+
+import { EventsContext } from '../../../shared/context';
 
 const headCells = [
   { id: 'no', numeric: true, disablePadding: true, label: '#', id1: "No" },
@@ -27,29 +29,6 @@ const headCells = [
 ];
 
 
-
-// const ColumnsAll = [
-//   { name: "No", id: "no" },
-//   { name: "Country", id: "country" },
-//   { name: "Total Cases", id: "total" },
-//   { name: "New Cases", id: "new" },
-//   { name: "Total Deaths", id: "totalDeaths" },
-//   { name: "New Deaths", id: "newDeaths" },
-//   { name: "Total Recovered", id: "totalRecovered" },
-//   { name: "New Recovered", id: "newRecovered" },
-//   { name: "Active", id: "active" },
-//   { name: "Serious", id: "serious" },
-//   { name: "Total Cases per 1 m.", id: "totCasesPer1m" },
-//   { name: "Total Death per 1 m.", id: "dPer1m" },
-//   { name: "Total Tests per 1 m.", id: "tPer1m" },
-//   { name: "Population", id: "pop" },
-//   { name: "Active Cases per 1 m.", id: "cases1m" },
-//   { name: "1 case per X ppl", id: "1CperXppl" },
-//   { name: "1 death per X ppl", id: "1DperXppl" },
-//   { name: "1 test per X ppl", id: "1TperXppl" },
-
-// ]
-
 const ColumnsAll = [
   "No", 
   "Country", 
@@ -71,25 +50,17 @@ const ColumnsAll = [
   "1 test per X ppl", 
 ]
 
-//  localStorage.getItem('columns')
 function EnhancedTableHead(props) {
+  const { state, dispatch } = useContext(EventsContext);
   const { classes, order, orderBy, onRequestSort } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
+  
+  const Columns = [ColumnsAll[0], ColumnsAll[1],  ...state.columns];
 
-  let Columns;
-  const columnsStr = localStorage.getItem('columns');
-  if (!columnsStr) {
-       Columns = ColumnsAll;
-  }
-  else 
-  {
-    Columns = JSON.parse(columnsStr);
-    Columns.push(ColumnsAll[0]);
-    Columns.push(ColumnsAll[1]);
-  }
   const headCellsFiltered = headCells.filter(x => Columns.some(e => e === x.id1));
+  
   console.log('headCellsFiltered', headCellsFiltered);
   return (
     <TableHead>
