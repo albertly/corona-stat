@@ -27,7 +27,8 @@ function EnhancedTableHead(props) {
         {headCellsFiltered.map((headCell, i) => (
           <TableCell
             key={headCell.id}
-            className={`${classes.tableCell} ${classes.cell_short} ${i === 0 ? classes.freeze : ''} ${i === 0 ? classes.deepFreeze : ''} `}
+            className={`${classes.tableCell} ${classes.cell_short} ${i === 0 || i === 1 ? classes.freeze : ''} ${i === 0 || i === 1 ? classes.deepFreeze : ''} `}
+            style={{left: i < 2 ? `${i * 64}px`: '0px'}}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}

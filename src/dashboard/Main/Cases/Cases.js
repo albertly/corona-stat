@@ -213,10 +213,10 @@ function Cases({ data }) {
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow className={`restore-${row.country}`} hover key={row.country}>
-                      <TableCell className={`${colorForTotal(index)} `}>
+                      <TableCell className={`${classes.tableCell} ${classes.freeze} ${colorForTotal(index)} `}>
                         {index}
                       </TableCell>
-                      <TableCell className={`${classes.tableCell}  ${colorForTotal(index)} `} component="th" id={labelId} scope="row" padding="none">
+                      <TableCell style={{left:'64px'}} className={`${classes.tableCell} ${classes.freeze} ${colorForTotal(index)} `} component="th" id={labelId} scope="row" padding="none">
                         <Link style={spanStyle} component={RouterLink} to={`graph/${row.country}/${row.new}/${row.newDeaths}/${row.active}`} color='textPrimary'>
                           {Flag(row.country)}
                           {row.country}
