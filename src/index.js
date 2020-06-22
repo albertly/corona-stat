@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { render } from 'react-snapshot';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 
-ReactDOM.render(
+render(
   <React.StrictMode>
     <CssBaseline />
     <BrowserRouter>
