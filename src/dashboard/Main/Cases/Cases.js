@@ -225,7 +225,7 @@ function Cases({ data }) {
 
                       {columnsFiltered.map(e => {
                         return (
-                          <TableCell className={`${colorForTotal(index)} ${e.color ? classes[e.color] : ''} `}>
+                          <TableCell  key={e.id} className={`${colorForTotal(index)} ${e.color ? classes[e.color] : ''} `}>
                             {row[e.id + "D"]}
                           </TableCell>
                         );
