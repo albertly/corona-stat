@@ -164,11 +164,11 @@ function Cases({ data }) {
 
   const colorForTotal = index => `${index === 0 ? classes.total_cell : ''} ${classes.cell_short}`;
 
-  const toNumber = v => v ? +(v.replace(/[^\d.\-eE+]/g, "")) : Infinity;
+  const toNumber = v => v ? +(v.replace(/[^\d.\-eE+]/g, "")) : -Infinity;
 
   return (
     <>
-
+ 
       <TableContainer className={`MyScroll ${classes.container}`}>
         <Table stickyHeader aria-label="sticky table" size="small">
           <EnhancedTableHead
