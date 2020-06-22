@@ -22,7 +22,7 @@ if (typeof window === 'undefined') {
 
 const app = express();
 
-app.use(express.static('build'));
+app.use(express.static('build', {index: false}));
 
 app.get('*', (req, res) => {
   const sheets = new ServerStyleSheets();
