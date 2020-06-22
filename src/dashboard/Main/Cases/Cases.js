@@ -157,9 +157,13 @@ function Cases({ data }) {
   }, []);
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    let tempOrder = 'desc';
+    if (property === orderBy) {
+      tempOrder = order === 'asc' ? 'desc' : 'asc'
+    }
+    setOrder(tempOrder);
     setOrderBy(property);
+
   };
 
   const colorForTotal = index => `${index === 0 ? classes.total_cell : ''} ${classes.cell_short}`;

@@ -19,8 +19,7 @@ function EnhancedTableHead(props) {
   const columns = ["No", "Country",  ...state.columns];
 
   const headCellsFiltered = headCells.filter(x => columns.some(e => e === x.name));
-  
-  console.log('headCellsFiltered', headCellsFiltered);
+
   return (
     <TableHead>
       <TableRow>
@@ -33,15 +32,21 @@ function EnhancedTableHead(props) {
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
+        {headCell.sort && 
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : 'desc'}
               onClick={createSortHandler(headCell.id)}
             >
-
+      
               {headCell.label}
 
             </TableSortLabel>
+        }
+        {!headCell.sort && 
+              <>{headCell.label}</>
+        }
+
           </TableCell>
         ))}
       </TableRow>
