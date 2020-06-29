@@ -107,7 +107,7 @@ export function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export const InfinityToZero = v => v === "Infinity" ? 0 : v;
+export const InfinityToZero = v => v === "Infinity" || v === "-Infinity" ? 0 : v;
 
 export const todayFormated = `${new Date().getUTCMonthNameShort()} ${new Date().getUTCDate()}`;
 
