@@ -30,7 +30,7 @@ const initializeColumns = () => {
 }
 
 const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '',
-                       eventsYesterday: [], today: null, errorMessage: '', scrollPos: '', columns: initializeColumns() };
+                       eventsYesterday: [], today: null, errorMessage: '', scrollPos: '', columns: initializeColumns(), lastUpdate: null };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -85,7 +85,7 @@ const reducer = (state, action) => {
             }
 
         case GET_EVENTS_SUCCESS:
-                const {payload, delta} = action.payload;   
+                const {payload, delta, lastUpdate} = action.payload;   
                 return { ...state,
                          events: payload,
                          delta:  [...delta, ...state.delta].slice(0, 10),
@@ -93,7 +93,11 @@ const reducer = (state, action) => {
                          total:  payload[payload.length - 1].total, 
                          new:    payload[payload.length - 1].new ,  
                          deaths: payload[payload.length - 1].newDeaths,
-                        errorMessage: '' };
+                         lastUpdate,
+                         errorMessage: '' };
+        case NOP:
+                return { ...state,
+                          lastUpdate: action.payload };    
         case GET_YESTERDAY_EVENTS_FAILURE:
         case GET_EVENTS_FAILURE:
             return { ...state, errorMessage: action.error }
@@ -131,9 +135,9 @@ const getEventsAction = async (dispatch, state) => {
         const { res: delta } = compareArr(response.data, state.events);
         if (delta.length) {
            dispatch({ type: GET_EVENTS_SUCCESS, payload: { payload: response.data,
-                                                           delta  }});
+                                                           delta, lastUpdate: response.headers.date  }});
         } else {
-            dispatch({ type: NOP, payload: null})
+            dispatch({ type: NOP, payload: response.headers.date})
         } 
     }
     catch (ex) {
