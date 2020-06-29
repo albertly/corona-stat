@@ -29,7 +29,7 @@ export default function WatchList(props) {
   }
 
   useEffect(() => {
-    const countriesStr = localStorage.getItem('countries');
+    const countriesStr =  localStorage.getItem('countries');
     if (!countriesStr) {
       const c = {};
       countryCodes.map(e => {

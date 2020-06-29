@@ -132,29 +132,42 @@ https://medium.com/@danielsternlicht/caching-like-a-boss-in-nodejs-9bccbbc71b9b
 Deploy to Azure
 https://stackoverflow.com/questions/60879027/failed-to-deploy-react-app-build-folder-to-app-service-azure/62049253#62049253
 
-### `yarn build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+https://www.w3schools.com/jsref/dom_obj_style.asp
+<script>
+function myFunction() {
+  var x = document.getElementsByTagName("STYLE")[0];
+  var y = document.querySelector("STYLE[data-meta='MuiCssBaseline'")
+  console.log (x === y);
+  console.dir( y);
+  document.getElementById("demo").innerHTML = x.innerHTML;
+}
+</script>
+///////////////////////////
+You can use getComputedStyle().
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+var element = document.getElementById('image_1'),
+    style = window.getComputedStyle(element),
+    top = style.getPropertyValue('top');
+/////////////////////////////////////////
+    
+Another App.
+https://igniteui.github.io/COVID-19-Dashboard/
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+https://github.com/IgniteUI/COVID-19-Dashboard
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-### Making a Progressive Web App
+Host create react app on azure
+https://medium.com/@strid/host-create-react-app-on-azure-986bc40d5bf2
+Failed to deploy React app (build) folder to App Service Azure
+https://stackoverflow.com/questions/60879027/failed-to-deploy-react-app-build-folder-to-app-service-azure/62049253#62049253
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
+react-snapshot
+https://www.npmjs.com/package/react-snapshot
+https://github.com/geelen/react-snapshot
+An Almost Static Stack
+https://medium.com/superhighfives/an-almost-static-stack-6df0a2791319
+Alternatives to Ejecting
+https://create-react-app.dev/docs/alternatives-to-ejecting/

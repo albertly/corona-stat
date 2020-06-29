@@ -27,7 +27,7 @@ import { MainListItems } from './listItems';
 import ScrollTop from './ScrollTop';
 import Main from './Main/Main';
 import DailyCases from './Graph/DailyCases';
-import { EventsContext } from '../shared/context';
+import { EventsContext, setDarkTheme } from '../shared/context';
 import { getRandomInt } from '../shared/utils';
 
 import makeStyles from './DashboardCSS';
@@ -38,7 +38,7 @@ export default function Dashboard(props) {
   const classes = makeStyles();
   const [open, setOpen] = useState(false);
   const { state, dispatch } = useContext(EventsContext);
-  const [darkTheme_, setDarkTheme_] = useState(localStorage.getItem('darkTheme') === 'true');
+  //const [darkTheme_, setDarkTheme_] =  useState(localStorage.getItem('darkTheme') === 'true');
   const [refreshGraph, setRefreshGraph] = useState({v:true});
   const [change, setChange] = useState(0);
   const [changeText, setChangeText] = useState([]);
@@ -119,20 +119,29 @@ export default function Dashboard(props) {
     setAnchorEl(event.currentTarget);
   }
 
-  const darkTheme = React.useMemo(
-    () =>
+  // const darkTheme = React.useMemo(
+  //   () =>
+  //     createMuiTheme({
+  //       palette: {
+  //         type: 'dark', //state.darkTheme ? 'dark' : 'light',
+  //       },
+  //     }),
+  //   [state.darkTheme],
+  // );
+
+  const darkTheme1 = 
       createMuiTheme({
         palette: {
-          type: darkTheme_ ? 'dark' : 'light',
+          type: 'dark' //state.darkTheme ? 'dark' : 'light'
         },
-      }),
-    [darkTheme_],
-  );
-
+      });
+  
+  
 
   const handleThemeChange = event => {
-    localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true');
-    setDarkTheme_(!darkTheme_);
+    //localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true');
+    //setDarkTheme_(!darkTheme_);
+    setDarkTheme(dispatch, state.darkTheme === 'true' ? 'false' : 'true') 
   };
  
   const handleClosePopover = () => {
@@ -148,7 +157,7 @@ export default function Dashboard(props) {
     <Main classes={classes} refreshGraph={refreshGraph} />);
 
   return (
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={ darkTheme1 }>
         <CssBaseline />
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar variant="dense" className={classes.toolbar}>
@@ -167,7 +176,7 @@ export default function Dashboard(props) {
           </Typography>
             <FormGroup row>
               <FormControlLabel
-                control={<Checkbox checked={darkTheme_}
+                control={<Checkbox checked={state.darkTheme}
                   color="default" onChange={handleThemeChange}
                   name="checkedA" checkedIcon={<Brightness7Icon />} icon={<Brightness4Icon />}
                   classes={{
@@ -176,7 +185,7 @@ export default function Dashboard(props) {
                     thumb: classes.thumb,
                     checked: classes.checked,
                   }} />}
-                label={`${darkTheme_ ? "light" : "dark"}`}
+                label={`${state.darkTheme === 'false' ? 'light' : 'dark'}`}
               />
             </FormGroup>
 
