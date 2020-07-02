@@ -23,12 +23,12 @@ if (typeof window === 'undefined') {
 
 
 render(
-  <React.StrictMode>
+  <>
     <CssBaseline />
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>,
+  </>,
   document.getElementById('root')
 );
 

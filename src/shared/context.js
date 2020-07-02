@@ -19,39 +19,25 @@ const SET_SCROLL_POS = 'SET_SCROLL_POS';
 
 const EventsContext = React.createContext();
 
-if (typeof localStorage === 'undefined') {
-    global.localStorage = {
-        getItem: (v) => {
-            switch (v) {
-                case 'darkTheme':
-                    return 'true'
-                default:
-                    return '';
-            }
-        },
-        setItem: () => { }
-    };
-}
-
-const initializeDarkTheme = () => localStorage ? localStorage.getItem('darkThemeA') : 'true';
-
+const initializeDarkTheme = () => typeof(localStorage) != 'undefined' ? localStorage.getItem('darkTheme') : 'true';
 
 const initializeColumns = () => {
-    const columnsStr = localStorage ? localStorage.getItem('columns') : '';
+    const columnsStr = typeof(localStorage) != 'undefined' ? localStorage.getItem('columns'): '';
     if (!columnsStr) {
         const colArr = [...columns.map(e => e.name)];
-        localStorage.setItem('columns', JSON.stringify(colArr));
+        if (typeof(localStorage) != 'undefined') {
+            localStorage.setItem('columns', JSON.stringify(colArr));
+        }
         return colArr;
     }
 
     return JSON.parse(columnsStr);
 }
 
-const initialState = {
-    events: [], delta: [], change: [], total: '', new: '', deaths: '',
-    eventsYesterday: [], today: null, errorMessage: '', scrollPos: '',
-    columns: initializeColumns(), darkTheme: initializeDarkTheme()
-};
+const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '',
+                       eventsYesterday: [], today: null, errorMessage: '', scrollPos: '',
+                       columns: initializeColumns(), darkTheme: initializeDarkTheme()
+                     };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -90,8 +76,8 @@ const reducer = (state, action) => {
         case SET_DARK_THEME:
             return { ...state, darkTheme: action.payload }
 
-        case SET_COLUMNS:
-            return { ...state, columns: action.payload };
+        case SET_COLUMNS: 
+           return {...state, columns: action.payload};
 
         case SET_SCROLL_POS:
             return { ...state, scrollPos: action.payload };
@@ -135,13 +121,15 @@ const reducer = (state, action) => {
 
 const setDarkTheme = (dispatch, darkTheme) => {
 
-    localStorage.setItem('darkThemeA', darkTheme);
+    localStorage.setItem('darkTheme', darkTheme);
     dispatch({ type: SET_DARK_THEME, payload: darkTheme });
 
 }
 
 const setColumns = (dispatch, columns) => {
-    localStorage.setItem('columns', JSON.stringify(columns));
+    if ((localStorage) != 'undefined') {
+         localStorage.setItem('columns', JSON.stringify(columns));
+    }
     dispatch({ type: SET_COLUMNS, payload: columns });
 }
 
