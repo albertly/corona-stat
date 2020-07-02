@@ -27,7 +27,7 @@ import { MainListItems } from './listItems';
 import ScrollTop from './ScrollTop';
 import Main from './Main/Main';
 import DailyCases from './Graph/DailyCases';
-import { EventsContext } from '../shared/context';
+import { EventsContext, setDarkTheme } from '../shared/context';
 import { getRandomInt } from '../shared/utils';
 
 import makeStyles from './DashboardCSS';
@@ -38,7 +38,7 @@ export default function Dashboard(props) {
   const classes = makeStyles();
   const [open, setOpen] = useState(false);
   const { state, dispatch } = useContext(EventsContext);
-  const [darkTheme_, setDarkTheme_] = useState(localStorage.getItem('darkTheme') === 'true');
+  const [darkTheme_, setDarkTheme_] = useState(typeof(localStorage) !== 'undefined'  ? localStorage.getItem('darkTheme') === 'true' : true );
   const [refreshGraph, setRefreshGraph] = useState({v:true});
   const [change, setChange] = useState(0);
   const [changeText, setChangeText] = useState([]);
@@ -48,7 +48,7 @@ export default function Dashboard(props) {
     let countries = {};
     let num = 0;
     let changeArr = [];
-    const countriesStr = localStorage.getItem('countries');
+    const countriesStr = localStorage ? localStorage.getItem('countries') : '';
 
     if (countriesStr) {
       countries = JSON.parse(countriesStr);
@@ -123,16 +123,21 @@ export default function Dashboard(props) {
     () =>
       createMuiTheme({
         palette: {
-          type: darkTheme_ ? 'dark' : 'light',
+          type: state.darkTheme ? 'dark' : 'light',
         },
       }),
-    [darkTheme_],
+    [state.darkTheme],
   );
 
 
   const handleThemeChange = event => {
-    localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true');
-    setDarkTheme_(!darkTheme_);
+    // if (localStorage) {
+    //   localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true');
+    // }
+    // setDarkTheme_(!darkTheme_);
+
+    setDarkTheme(dispatch, !state.darkTheme )
+
   };
  
   const handleClosePopover = () => {

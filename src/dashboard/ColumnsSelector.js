@@ -30,7 +30,7 @@ export default function ColumnsSelector(props) {
   }
 
   useEffect(() => {
-    const columnsStr = localStorage.getItem('columns');
+    //const columnsStr = localStorage.getItem('columns');
     let rightArr = state.columns;
     setRight(rightArr);
 

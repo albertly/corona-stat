@@ -5,6 +5,8 @@ import {todayFormated, columns} from './utils';
 
 const SET_COLUMNS = 'SET_COLUMNS';
 
+const SET_DARK_THEME = 'SET_DARK_THEME';
+
 const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS';
 const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE';
 
@@ -17,12 +19,15 @@ const SET_SCROLL_POS = 'SET_SCROLL_POS';
 
 const EventsContext = React.createContext();
 
+const initializeDarkTheme = () => typeof(localStorage) != 'undefined' ? localStorage.getItem('darkTheme') : 'true';
 
 const initializeColumns = () => {
-    const columnsStr = localStorage.getItem('columns');
+    const columnsStr = typeof(localStorage) != 'undefined' ? localStorage.getItem('columns'): '';
     if (!columnsStr) {
         const colArr = [...columns.map(e => e.name)];
-        localStorage.setItem('columns', JSON.stringify(colArr));
+        if (typeof(localStorage) != 'undefined') {
+            localStorage.setItem('columns', JSON.stringify(colArr));
+        }
         return colArr;
     }
 
@@ -30,7 +35,9 @@ const initializeColumns = () => {
 }
 
 const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '',
-                       eventsYesterday: [], today: null, errorMessage: '', scrollPos: '', columns: initializeColumns() };
+                       eventsYesterday: [], today: null, errorMessage: '', scrollPos: '',
+                       columns: initializeColumns(), darkTheme: initializeDarkTheme()
+                     };
 
 function compareArr(new_, old_) {
     const res = [];
@@ -64,6 +71,9 @@ function compareArr(new_, old_) {
 const reducer = (state, action) => {
 
     switch (action.type) {
+        case SET_DARK_THEME:
+            return { ...state, darkTheme: action.payload }
+
         case SET_COLUMNS: 
            return {...state, columns: action.payload};
 
@@ -104,8 +114,17 @@ const reducer = (state, action) => {
     return state;
 };
 
+const setDarkTheme = (dispatch, darkTheme) => {
+
+    localStorage.setItem('darkTheme', darkTheme);
+    dispatch({ type: SET_DARK_THEME, payload: darkTheme });
+
+}
+
 const setColumns = (dispatch, columns) => {
-    localStorage.setItem('columns', JSON.stringify(columns));
+    if ((localStorage) != 'undefined') {
+         localStorage.setItem('columns', JSON.stringify(columns));
+    }
     dispatch({ type: SET_COLUMNS, payload: columns });
 }
 
@@ -157,5 +176,6 @@ export {
     getEventsAction,
     getYesterdayEventsAction,
     setScrollPos,
-    setColumns
+    setColumns,
+    setDarkTheme
 };
