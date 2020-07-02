@@ -119,17 +119,8 @@ export default function Dashboard(props) {
     setAnchorEl(event.currentTarget);
   }
 
-  // const darkTheme = React.useMemo(
-  //   () =>
-  //     createMuiTheme({
-  //       palette: {
-  //         type: 'dark', //state.darkTheme ? 'dark' : 'light',
-  //       },
-  //     }),
-  //   [state.darkTheme],
-  // );
-
-  const darkTheme1 = 
+  const darkTheme = React.useMemo(
+    () =>
       createMuiTheme({
         palette: {
           type: state.darkTheme ? 'dark' : 'light',
@@ -137,6 +128,15 @@ export default function Dashboard(props) {
       }),
     [state.darkTheme],
   );
+
+  // const darkTheme1 = 
+  //     createMuiTheme({
+  //       palette: {
+  //         type: state.darkTheme ? 'dark' : 'light',
+  //       },
+  //     }),
+  //   [state.darkTheme],
+  // );
 
 
   const handleThemeChange = event => {
@@ -162,7 +162,7 @@ export default function Dashboard(props) {
     <Main classes={classes} refreshGraph={refreshGraph} />);
 
   return (
-      <ThemeProvider theme={ darkTheme1 }>
+      <ThemeProvider theme={ darkTheme }>
         <CssBaseline />
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar variant="dense" className={classes.toolbar}>
