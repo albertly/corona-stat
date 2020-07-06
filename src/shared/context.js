@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 import { todayFormated, columns } from './utils';
 
@@ -16,10 +17,13 @@ const GET_YESTERDAY_EVENTS_FAILURE = 'GET_YESTERDAY_EVENTS_FAILURE';
 const NOP = 'NOP';
 const SET_SCROLL_POS = 'SET_SCROLL_POS';
 
+const ToBool = val => val === 'true' ? true : false;
 
 const EventsContext = React.createContext();
 
-const initializeDarkTheme = () => typeof(localStorage) != 'undefined' ? localStorage.getItem('darkTheme') : 'true';
+//const initializeDarkTheme = () => typeof(localStorage) != 'undefined' ? ToBool(localStorage.getItem('darkTheme'))  : false;
+
+const initializeDarkTheme = (cookies) => cookies.darkTheme ? ToBool(cookies.darkTheme)  : true;
 
 const initializeColumns = () => {
     const columnsStr = typeof(localStorage) != 'undefined' ? localStorage.getItem('columns'): '';
@@ -36,7 +40,7 @@ const initializeColumns = () => {
 
 const initialState = { events: [], delta: [], change: [], total: '', new: '', deaths: '',
                        eventsYesterday: [], today: null, errorMessage: '', scrollPos: '',
-                       columns: initializeColumns(), darkTheme: initializeDarkTheme()
+                       columns: initializeColumns()
                      };
 
 function compareArr(new_, old_) {
@@ -119,9 +123,9 @@ const reducer = (state, action) => {
     return state;
 };
 
-const setDarkTheme = (dispatch, darkTheme) => {
-
-    localStorage.setItem('darkTheme', darkTheme);
+const setDarkTheme = (dispatch, darkTheme, setCookie) => {
+    setCookie('darkTheme', darkTheme, { path: '/' });
+   // localStorage.setItem('darkTheme', darkTheme);
     dispatch({ type: SET_DARK_THEME, payload: darkTheme });
 
 }
@@ -170,8 +174,11 @@ const getEventsAction = async (dispatch, state) => {
 }
 
 function ContextEventsProvider(props) {
-    let [state, dispatch] = useReducer(reducer, initialState);
+    const [cookies, setCookie] = useCookies(['darkTheme']);
+    let [state, dispatch] = useReducer(reducer, {cookies, setCookie, darkTheme: initializeDarkTheme(cookies), ...initialState});
     let value = { state, dispatch };
+
+    
 
     return (
         <EventsContext.Provider value={value}>{props.children}</EventsContext.Provider>

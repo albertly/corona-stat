@@ -119,17 +119,8 @@ export default function Dashboard(props) {
     setAnchorEl(event.currentTarget);
   }
 
-  const darkTheme = React.useMemo(
-    () =>
-      createMuiTheme({
-        palette: {
-          type: state.darkTheme ? 'dark' : 'light',
-        },
-      }),
-    [state.darkTheme],
-  );
-
-  // const darkTheme1 = 
+  // const darkTheme = React.useMemo(
+  //   () =>
   //     createMuiTheme({
   //       palette: {
   //         type: state.darkTheme ? 'dark' : 'light',
@@ -138,6 +129,15 @@ export default function Dashboard(props) {
   //   [state.darkTheme],
   // );
 
+  const darkTheme = 
+      createMuiTheme({
+        palette: {
+          type: state.darkTheme ? 'dark' : 'light',
+        },
+      });
+ 
+
+
 
   const handleThemeChange = event => {
     // if (localStorage) {
@@ -145,7 +145,7 @@ export default function Dashboard(props) {
     // }
     // setDarkTheme_(!darkTheme_);
 
-    setDarkTheme(dispatch, !state.darkTheme )
+    setDarkTheme(dispatch, !state.darkTheme, state.setCookie )
 
   };
  

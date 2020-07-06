@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { render } from 'react-snapshot';
+import { CookiesProvider } from 'react-cookie';
 
 import './index.css';
 import App from './App';
@@ -11,8 +12,8 @@ import * as serviceWorker from './serviceWorker';
 
 if (typeof localStorage === 'undefined') {
   global.localStorage = {
-      getItem:  () => 'true',
-      setItem: () => {}
+    getItem: () => 'true',
+    setItem: () => { }
   };
 }
 
@@ -24,10 +25,12 @@ if (typeof window === 'undefined') {
 
 render(
   <>
-    <CssBaseline />
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <CookiesProvider>
+      <CssBaseline />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </CookiesProvider>
   </>,
   document.getElementById('root')
 );
