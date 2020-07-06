@@ -14,33 +14,28 @@ import TextField from '@material-ui/core/TextField';
 
 import { countryCodes } from '../shared/CountryCodes';
 import { Flag } from '../shared/utils';
-import { red, blue } from '@material-ui/core/colors';
 
-const useStyles = makeStyles((theme) => ({
-
+const useStyles = makeStyles(theme => ({
   list: {
-
-      [theme.breakpoints.down("xl")]: {
-        width: "25vw",
-        height: '60vh',
-        backgroundColor: theme.palette.background.paper,
-        overflow: 'auto',
-      },
-      [theme.breakpoints.down("md")]: {
-        width: "30vw",
-        height: '60vh',
-        backgroundColor: theme.palette.background.paper,
-        overflow: 'auto',
-      },
-      [theme.breakpoints.down("sm")]: {
-        width: "60vw",
-        height: '60vh',
-        backgroundColor:theme.palette.background.paper,
-        overflow: 'auto',
-      }
-
+    [theme.breakpoints.down('xl')]: {
+      width: '25vw',
+      height: '60vh',
+      backgroundColor: theme.palette.background.paper,
+      overflow: 'auto',
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '30vw',
+      height: '60vh',
+      backgroundColor: theme.palette.background.paper,
+      overflow: 'auto',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '60vw',
+      height: '60vh',
+      backgroundColor: theme.palette.background.paper,
+      overflow: 'auto',
+    },
   },
-
 }));
 
 //ToDo: what is selectedValue ?
@@ -56,15 +51,15 @@ export default function WatchList(props) {
 
   const handleSearch = e => {
     setSearch(e.target.value);
-  }
-  
+  };
+
   const descriptionElementRef = useRef(null);
 
   const handleChange = event => {
-    const c = {...countries, [event.target.name]: event.target.checked};
+    const c = { ...countries, [event.target.name]: event.target.checked };
     setCountries(c);
     localStorage.setItem('countries', JSON.stringify(c));
-  }
+  };
 
   useEffect(() => {
     const countriesStr = localStorage.getItem('countries');
@@ -72,13 +67,12 @@ export default function WatchList(props) {
       const c = {};
       countryCodes.map(e => {
         c[e.Name] = false;
-      })
+      });
       setCountries(c);
       localStorage.setItem('countries', JSON.stringify(c));
     } else {
       setCountries(JSON.parse(countriesStr));
     }
-
   }, []);
 
   useEffect(() => {
@@ -93,38 +87,50 @@ export default function WatchList(props) {
   return (
     <>
       <Dialog
-        open={open}      
+        open={open}
         onClose={handleClose}
         scroll="paper"
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>        
+        <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
         <DialogContent dividers={true}>
-        <TextField id="search" label="Search" value={search} onChange={handleSearch} />
+          <TextField
+            id="search"
+            label="Search"
+            value={search}
+            onChange={handleSearch}
+          />
           <DialogContentText
             id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}
           >
             <List className={classes.list} dense component="div" role="list">
-            {countryCodes.filter(el => el.Name.toLowerCase().indexOf(search.toLowerCase()) !== -1).map((e) => (
-              <ListItem button onClick={() => { }} key={e.Name}>
+              {countryCodes
+                .filter(
+                  el =>
+                    el.Name.toLowerCase().indexOf(search.toLowerCase()) !== -1
+                )
+                .map(e => (
+                  <ListItem button onClick={() => {}} key={e.Name}>
+                    {Flag(e.Name, false)}
 
-                {Flag(e.Name, false)}
+                    <ListItemText
+                      primary={e.Name}
+                      style={{ marginLeft: '4px' }}
+                    />
 
-                <ListItemText primary={e.Name} style={{marginLeft:"4px"}}/>
-
-                <Checkbox
-                  color="primary"
-                  checked={countries[e.Name]}
-                  onChange={handleChange}
-                  name={e.Name}
-                  inputProps={{ 'aria-label': 'secondary checkbox' }}
-                />
-              </ListItem>
-            ))}
-          </List>
+                    <Checkbox
+                      color="primary"
+                      checked={countries[e.Name]}
+                      onChange={handleChange}
+                      name={e.Name}
+                      inputProps={{ 'aria-label': 'secondary checkbox' }}
+                    />
+                  </ListItem>
+                ))}
+            </List>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

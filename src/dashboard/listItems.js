@@ -37,53 +37,67 @@ export function MainListItems({ handleDrawerClose }) {
     handleDrawerClose();
   };
 
-  const handleClick = (link) => {
+  const handleClick = link => {
     handleDrawerClose();
     history.push(link);
-  }
+  };
 
   return (
     <div>
       <ListItem button onClick={() => handleClick('/')}>
         <ListItemIcon>
-          <Tooltip title="Dashboard"><DashboardIcon aria-label="Dashboard" /></Tooltip>
+          <Tooltip title="Dashboard">
+            <DashboardIcon aria-label="Dashboard" />
+          </Tooltip>
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItem>
       <ListItem button onClick={() => alert('not implemented yet')}>
         <ListItemIcon>
-          <Tooltip title="Subscribe"><MailIcon /></Tooltip>
+          <Tooltip title="Subscribe">
+            <MailIcon />
+          </Tooltip>
         </ListItemIcon>
         <ListItemText primary="Subscribe" />
       </ListItem>
       <ListItem button onClick={() => alert('not implemented yet')}>
         <ListItemIcon>
-          <Tooltip title="Unsubscribe"><UnsubscribeIcon /></Tooltip>
+          <Tooltip title="Unsubscribe">
+            <UnsubscribeIcon />
+          </Tooltip>
         </ListItemIcon>
         <ListItemText primary="Unsubscribe" />
       </ListItem>
       <ListItem button onClick={() => handleClick('/graph')}>
         <ListItemIcon>
-          <Tooltip title="Reports"><BarChartIcon /></Tooltip>
+          <Tooltip title="Reports">
+            <BarChartIcon />
+          </Tooltip>
         </ListItemIcon>
         <ListItemText primary="Reports" />
       </ListItem>
       <ListItem button onClick={handleClickOpen}>
         <ListItemIcon>
-          <Tooltip title="Add to watch list"><AddLocationIcon /></Tooltip>
+          <Tooltip title="Add to watch list">
+            <AddLocationIcon />
+          </Tooltip>
         </ListItemIcon>
         <ListItemText primary="Add to watch list" />
       </ListItem>
       <ListItem button onClick={handleClickOpenColumnsSelector}>
         <ListItemIcon>
-          <Tooltip title="Choose Columns"><SettingsIcon /></Tooltip>
+          <Tooltip title="Choose Columns">
+            <SettingsIcon />
+          </Tooltip>
         </ListItemIcon>
         <ListItemText primary="Choose Columns" />
       </ListItem>
-      
-      <WatchList open={open} onClose={handleClose} />
-      <ColumnsSelector open={openColumnsSelector} onClose={handleCloseColumnsSelector} />
-    </div>
-  )
-};
 
+      <WatchList open={open} onClose={handleClose} />
+      <ColumnsSelector
+        open={openColumnsSelector}
+        onClose={handleCloseColumnsSelector}
+      />
+    </div>
+  );
+}

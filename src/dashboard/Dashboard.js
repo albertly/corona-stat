@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -37,9 +37,11 @@ const URL = process.env.REACT_APP_WS_URL;
 export default function Dashboard(props) {
   const classes = makeStyles();
   const [open, setOpen] = useState(false);
-  const { state, dispatch } = useContext(EventsContext);
-  const [darkTheme_, setDarkTheme_] = useState(localStorage.getItem('darkTheme') === 'true');
-  const [refreshGraph, setRefreshGraph] = useState({v:true});
+  const { state } = useContext(EventsContext);
+  const [darkTheme_, setDarkTheme_] = useState(
+    localStorage.getItem('darkTheme') === 'true'
+  );
+  const [refreshGraph, setRefreshGraph] = useState({ v: true });
   const [change, setChange] = useState(0);
   const [changeText, setChangeText] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -57,18 +59,18 @@ export default function Dashboard(props) {
           const index = state.change.findIndex(e => e.country === k);
           if (index !== -1) {
             num += 1;
-            changeArr.push(state.change[index])
+            changeArr.push(state.change[index]);
           }
         }
-      })
+      });
       if (changeArr.length) {
         num = change + num;
         setChange(num);
         setChangeText([...changeText, ...changeArr]);
       }
-
     }
-  }, [state.delta])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.delta]);
 
   useEffect(() => {
     let ws;
@@ -87,18 +89,17 @@ export default function Dashboard(props) {
         ws.send('my msg');
       };
 
-      ws.onmessage = (event) => {
+      ws.onmessage = event => {
         console.log('ws onmessage before ', event.data);
-        setRefreshGraph({v: !refreshGraph.v});
+        setRefreshGraph({ v: !refreshGraph.v });
         console.log('ws onmessage ', event.data);
       };
 
       ws.onclose = () => {
         counter += 1;
         setTimeout(() => Connect(ws), 1000 * getRandomInt(1, counter));
-        console.log("ws close");
+        console.log('ws close');
       };
-
     }
 
     Connect(ws);
@@ -106,6 +107,7 @@ export default function Dashboard(props) {
     return () => {
       //ws.close();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleDrawerOpen = () => {
@@ -115,9 +117,9 @@ export default function Dashboard(props) {
     setOpen(false);
   };
 
-  const handleResetChange = (event) => {
+  const handleResetChange = event => {
     setAnchorEl(event.currentTarget);
-  }
+  };
 
   const darkTheme = React.useMemo(
     () =>
@@ -126,127 +128,156 @@ export default function Dashboard(props) {
           type: darkTheme_ ? 'dark' : 'light',
         },
       }),
-    [darkTheme_],
+    [darkTheme_]
   );
-
 
   const handleThemeChange = event => {
     localStorage.setItem('darkTheme', darkTheme_ === true ? 'false' : 'true');
     setDarkTheme_(!darkTheme_);
   };
- 
+
   const handleClosePopover = () => {
     setAnchorEl(null);
     setChange(0);
     setChangeText([]);
-  }
+  };
 
   const openPopover = Boolean(anchorEl);
   const idPopover = openPopover ? 'simple-popover' : undefined;
 
   const renderMain = () => (
-    <Main classes={classes} refreshGraph={refreshGraph} />);
+    <Main classes={classes} refreshGraph={refreshGraph} />
+  );
 
   return (
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-          <Toolbar variant="dense" className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-            >
-              <MenuIcon />
-            </IconButton>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <AppBar
+        position="absolute"
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
+        <Toolbar variant="dense" className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            className={clsx(
+              classes.menuButton,
+              open && classes.menuButtonHidden
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
 
-            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              COVID-19 CORONAVIRUS PANDEMIC
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            COVID-19 CORONAVIRUS PANDEMIC
           </Typography>
-            <FormGroup row>
-              <FormControlLabel
-                control={<Checkbox checked={darkTheme_}
-                  color="default" onChange={handleThemeChange}
-                  name="checkedA" checkedIcon={<Brightness7Icon />} icon={<Brightness4Icon />}
+          <FormGroup row>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={darkTheme_}
+                  color="default"
+                  onChange={handleThemeChange}
+                  name="checkedA"
+                  checkedIcon={<Brightness7Icon />}
+                  icon={<Brightness4Icon />}
                   classes={{
                     root: classes.root,
                     switchBase: classes.switchBase,
                     thumb: classes.thumb,
                     checked: classes.checked,
-                  }} />}
-                label={`${darkTheme_ ? "light" : "dark"}`}
-              />
-            </FormGroup>
+                  }}
+                />
+              }
+              label={`${darkTheme_ ? 'light' : 'dark'}`}
+            />
+          </FormGroup>
 
-            <IconButton color="inherit" onClick={handleResetChange}>
-              <Badge badgeContent={changeText.length} color="secondary">
-                <NotificationsIcon aria-describedby={idPopover} />
-              </Badge>
-            </IconButton>
-            <Popover id={idPopover}
-              open={openPopover}
-              onClose={handleClosePopover}
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-            >
-              <Paper className={classes.paper1}>
+          <IconButton color="inherit" onClick={handleResetChange}>
+            <Badge badgeContent={changeText.length} color="secondary">
+              <NotificationsIcon aria-describedby={idPopover} />
+            </Badge>
+          </IconButton>
+          <Popover
+            id={idPopover}
+            open={openPopover}
+            onClose={handleClosePopover}
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <Paper className={classes.paper1}>
               {changeText.map(row => (
-             
-                <Typography key={`${row.country}-${row.new ? row.new : 0}`} variant="caption" display="block" gutterBottom>
-                   {`${row.country} ${row.new ? row.new : 0} (${row.newOld ? row.newOld : 0})`} 
+                <Typography
+                  key={`${row.country}-${row.new ? row.new : 0}`}
+                  variant="caption"
+                  display="block"
+                  gutterBottom
+                >
+                  {`${row.country} ${row.new ? row.new : 0} (${
+                    row.newOld ? row.newOld : 0
+                  })`}
                 </Typography>
-              
               ))}
-              </Paper>
-            </Popover>
+            </Paper>
+          </Popover>
+        </Toolbar>
+      </AppBar>
+      <SwipeableDrawer
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+        onClose={handleDrawerClose}
+        onOpen={handleDrawerOpen}
+      >
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          <MainListItems handleDrawerClose={handleDrawerClose} />
+        </List>
+        <Divider />
+      </SwipeableDrawer>
 
-          </Toolbar>
-        </AppBar>
-        <SwipeableDrawer
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-          }}
-          open={open}
-          onClose={handleDrawerClose}
-          onOpen={handleDrawerOpen}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <List><MainListItems handleDrawerClose={handleDrawerClose} /></List>
-          <Divider />
-        </SwipeableDrawer>
+      <div className={classes.appBarSpacer} id="back-to-top-anchor" />
+      <Switch>
+        <Route exact path="/" render={renderMain} />
 
-        <div className={classes.appBarSpacer} id="back-to-top-anchor" />
-        <Switch>
-          <Route exact path="/" render={renderMain} />
-
-          <Route exact path="/graph/:country?/:new?/:death?/:active?" render={(props) => (
-            <DailyCases classes={classes}
+        <Route
+          exact
+          path="/graph/:country?/:new?/:death?/:active?"
+          render={props => (
+            <DailyCases
+              classes={classes}
               country={props.match.params.country}
               _new={props.match.params.new}
               death={props.match.params.death}
               active={props.match.params.active}
-               />
-          )} />
-          <Route component={Error404} />
+            />
+          )}
+        />
+        <Route component={Error404} />
+      </Switch>
 
-        </Switch>
-
-        <ScrollTop {...props} />
-
-      </ThemeProvider>
+      <ScrollTop {...props} />
+    </ThemeProvider>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { EventsContext, getEventsAction } from '../../../shared/context';
@@ -6,15 +6,14 @@ import BorderLinearProgress from '../Chart/BorderLinearProgress';
 import Cases from './Cases';
 import useInterval from '../../../shared/utils';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-      marginTop: theme.spacing(4),
-      marginBottom: theme.spacing(4),
-      height: 20,
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
+    height: 20,
   },
 }));
-
 
 function Today() {
   const { state, dispatch } = useContext(EventsContext);
@@ -26,7 +25,7 @@ function Today() {
 
     setDelay(60);
   }, delay * 1000);
-  
+
   if (!state.events.length) {
     return (
       <div className={classes.root}>
@@ -34,9 +33,7 @@ function Today() {
       </div>
     );
   } else {
-    return (
-      <Cases data={state.events}></Cases>
-    );
+    return <Cases data={state.events}></Cases>;
   }
 }
 

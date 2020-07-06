@@ -6,15 +6,16 @@ import { EventsContext } from '../../shared/context';
 import appInfo from '../../../package.json';
 
 function Copyright() {
-  const { state,  } = useContext(EventsContext);
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        <Link color="inherit" href="https://www.worldometers.info/coronavirus/">
-           Data from www.worldometers.info
-        </Link>{' - '}  Corona Statistics v{appInfo.version}
-        <p>Last Update: {state.lastUpdate } </p>
-      </Typography>
-    );
-  }
+  const { state } = useContext(EventsContext);
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      <Link color="inherit" href="https://www.worldometers.info/coronavirus/">
+        Data from www.worldometers.info
+      </Link>
+      {' - '} Corona Statistics v{appInfo.version}
+      <p>Last Update: {state.lastUpdate} </p>
+    </Typography>
+  );
+}
 
-  export default React.memo(Copyright);
+export default React.memo(Copyright);

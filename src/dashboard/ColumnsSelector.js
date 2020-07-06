@@ -6,11 +6,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-
 import TransferList from './TransferList';
 import { EventsContext, setColumns } from '../shared/context';
-import { not, columns } from '../shared/utils'
-
+import { not, columns } from '../shared/utils';
 
 export default function ColumnsSelector(props) {
   const { onClose, selectedValue, open } = props;
@@ -25,17 +23,18 @@ export default function ColumnsSelector(props) {
 
   const descriptionElementRef = useRef(null);
   //ToDo : Make Save & Close and Cancel
-  const handleChange = event => {
-
-  }
 
   useEffect(() => {
-    const columnsStr = localStorage.getItem('columns');
     let rightArr = state.columns;
     setRight(rightArr);
 
-    setLeft(not(columns.map(e => e.name), rightArr));
-
+    setLeft(
+      not(
+        columns.map(e => e.name),
+        rightArr
+      )
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -57,9 +56,12 @@ export default function ColumnsSelector(props) {
       >
         <DialogTitle id="scroll-dialog-title">Choose Columns</DialogTitle>
         <DialogContent dividers={true}>
-
-            <TransferList left={left} setLeft={setLeft} right={right} setRight={setRight}/>
- 
+          <TransferList
+            left={left}
+            setLeft={setLeft}
+            right={right}
+            setRight={setRight}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

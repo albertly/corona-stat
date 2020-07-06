@@ -22,7 +22,7 @@ const EventsContext = React.createContext();
 const initializeColumns = () => {
   const columnsStr = localStorage.getItem('columns');
   if (!columnsStr) {
-    const colArr = [...columns.map((e) => e.name)];
+    const colArr = [...columns.map(e => e.name)];
     localStorage.setItem('columns', JSON.stringify(colArr));
     return colArr;
   }
@@ -54,8 +54,8 @@ function compareArr(new_, old_) {
     return { res: new_, new: newTotal, total };
   }
 
-  new_.forEach((obj) => {
-    const oldObj = old_.find((e) => obj.country == e.country);
+  new_.forEach(obj => {
+    const oldObj = old_.find(e => obj.country == e.country);
     if (oldObj && oldObj.new != obj.new) {
       if (obj.country == 'Total:') {
         total = obj.total;
@@ -123,7 +123,7 @@ const setScrollPos = (dispatch, scrollPos) => {
   dispatch({ type: SET_SCROLL_POS, payload: scrollPos });
 };
 
-const getYesterdayEventsAction = async (dispatch) => {
+const getYesterdayEventsAction = async dispatch => {
   let response = {};
   try {
     response = await axios.get('/yesterday');

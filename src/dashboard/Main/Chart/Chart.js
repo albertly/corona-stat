@@ -1,12 +1,19 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Tooltip } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Label,
+  ResponsiveContainer,
+  Tooltip,
+} from 'recharts';
 import Title from '../../Title';
 
-
-function Chart({refreshGraph, onRefreshGraph}) {
+function Chart({ refreshGraph, onRefreshGraph }) {
   const theme = useTheme();
 
   const [data, setData] = useState([]);
@@ -14,27 +21,30 @@ function Chart({refreshGraph, onRefreshGraph}) {
 
   useEffect(() => {
     const fetchData = async () => {
-
       const today = new Date();
-      const result = await axios.get(`prob/${today.getFullYear()+'-'+(today.getMonth()+1).pad()+'-'+today.getUTCDate()}`);
-      const graphData = result.data.map(e => (
-          { 
-            time: e.probeTime,
-            amount: parseInt(e.newCases.replace(/[^\d\.\-eE+]/g, ""))
-          }
-        )
-      )
-      setGraphDate(new Date().toUTCString())
+      const result = await axios.get(
+        `prob/${
+          today.getFullYear() +
+          '-' +
+          (today.getMonth() + 1).pad() +
+          '-' +
+          today.getUTCDate()
+        }`
+      );
+      const graphData = result.data.map(e => ({
+        time: e.probeTime,
+        amount: parseInt(e.newCases.replace(/[^\d\.\-eE+]/g, '')),
+      }));
+      setGraphDate(new Date().toUTCString());
       setData(graphData);
     };
 
     fetchData();
-
   }, [refreshGraph]);
 
-  return (       
-    <React.Fragment>      
-      <Title>{  graphDate } </Title>
+  return (
+    <React.Fragment>
+      <Title>{graphDate} </Title>
       <ResponsiveContainer>
         <LineChart
           data={data}
@@ -55,8 +65,16 @@ function Chart({refreshGraph, onRefreshGraph}) {
               Cases
             </Label>
           </YAxis>
-          <Tooltip itemStyle={{ color: 'red' }} contentStyle={{ color: 'red' }}/>
-          <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={true} />
+          <Tooltip
+            itemStyle={{ color: 'red' }}
+            contentStyle={{ color: 'red' }}
+          />
+          <Line
+            type="monotone"
+            dataKey="amount"
+            stroke={theme.palette.primary.main}
+            dot={true}
+          />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>
