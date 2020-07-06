@@ -1037,5 +1037,4 @@ export const countryCodes = [
     Code: 'ZW',
     Name: 'Zimbabwe',
   },
-  // eslint-disable-next-line prettier/prettier
 ];

@@ -1,6 +1,4 @@
 /* eslint-disable eqeqeq */
-/* eslint-disable prettier/prettier */
-// eslint-disable-next-line prettier/prettier
 import React, { useReducer } from 'react';
 import axios from 'axios';
 
