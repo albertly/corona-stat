@@ -10,9 +10,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 
 const useStyles = makeStyles(theme => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
   container: {
     maxHeight: 440,
   },
@@ -55,11 +52,6 @@ export default function Cases({ data }) {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          See more orders
-        </Link>
-      </div> */}
     </React.Fragment>
   );
 }

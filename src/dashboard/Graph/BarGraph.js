@@ -1,4 +1,5 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   BarChart,
   Bar,
@@ -13,16 +14,31 @@ import {
 
 import { todayFormated } from '../../shared/utils';
 
-import './BarGraph.css';
+const useStyles = makeStyles(theme => ({
+  filter: {
+    backdropFilter: 'blur(2px)' /* Chrome and Opera */,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: '1px',
+    /*  box-shadow: 2px 2px 1px rgba(255, 255, 255, 0.7); */
+  },
+  pstyle: {
+    margin: '0px',
+    padding: '2px',
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: 'medium',
+  },
+}));
 
 const CustomTooltip = ({ active, payload, label }) => {
+  const classes = useStyles();
   if (active && payload[0]) {
     return (
-      <div className="custom-tooltip filter">
-        <p className="label pstyle">{`${label} ${
+      <div className={classes.filter}>
+        <p className={classes.pstyle}>{`${label} ${
           label === todayFormated ? 'Today' : ''
         }`}</p>
-        <p className="label pstyle">{`Cases : ${payload[0].value}`}</p>
+        <p className={classes.pstyle}>{`Cases : ${payload[0].value}`}</p>
       </div>
     );
   }

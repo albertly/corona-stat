@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { EventsContext } from '../shared/context';
-
 import Typography from '@material-ui/core/Typography';
+
+import { EventsContext } from '../shared/context';
 import Title from './Title';
 
 export default function News({ data }) {

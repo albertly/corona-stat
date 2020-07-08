@@ -152,10 +152,7 @@ export default function Dashboard(props) {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
-      >
+      <AppBar position="absolute" className={classes.appBar}>
         <Toolbar variant="dense" className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -189,12 +186,6 @@ export default function Dashboard(props) {
                   name="checkedA"
                   checkedIcon={<Brightness7Icon />}
                   icon={<Brightness4Icon />}
-                  classes={{
-                    root: classes.root,
-                    switchBase: classes.switchBase,
-                    thumb: classes.thumb,
-                    checked: classes.checked,
-                  }}
                 />
               }
               label={`${darkTheme_ ? 'light' : 'dark'}`}

@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1, 1),
   },
   list: {
-    width: '300',
+    width: '300', //ToDo: give units
     height: 350,
     backgroundColor: theme.palette.background.paper,
     overflow: 'auto',

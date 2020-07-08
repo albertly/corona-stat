@@ -68,7 +68,6 @@ function Main(props) {
               label="Now"
               classes={{
                 root: classes.rootTab, // class name, e.g. `classes-nesting-root-x`
-                //   label: classes.labelTab, // class name, e.g. `classes-nesting-label-x`
               }}
             />
             <Tab
@@ -76,7 +75,6 @@ function Main(props) {
               label="Yesterday"
               classes={{
                 root: classes.rootTab, // class name, e.g. `classes-nesting-root-x`
-                //    label: classes.labelTab, // class name, e.g. `classes-nesting-label-x`
               }}
             />
           </Tabs>

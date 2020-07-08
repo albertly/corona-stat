@@ -4,7 +4,7 @@ import { EventsContext } from '../../shared/context';
 import Typography from '@material-ui/core/Typography';
 import Title from '../Title';
 
-function News({ data }) {
+function News() {
   const { state } = useContext(EventsContext);
 
   return (

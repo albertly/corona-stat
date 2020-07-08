@@ -24,14 +24,6 @@ export default theme => {
         margin: '3px',
         minHeight: 20,
       },
-
-      labelTab: {
-        textTransform: 'none',
-        fontSize: '10px',
-        padding: '0px',
-        merging: '0px',
-      },
-
       root: {
         display: 'flex',
       },
@@ -85,11 +77,6 @@ export default theme => {
         padding: theme.spacing(1),
         margin: theme.spacing(2),
       },
-      content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
-      },
       container: {
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
@@ -108,10 +95,7 @@ export default theme => {
       },
       fixedHeight: {
         height: 200,
-      },
-      switchBase1: {
-        display: 'none',
-      },
+      }
     };
   })();
 };
