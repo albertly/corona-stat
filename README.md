@@ -140,3 +140,19 @@ https://glebbahmutov.com/blog/configure-prettier-in-vscode/
 Extend “Create React App” with AirBnB’s ESLint config, Prettier, Flow and React Testing Library.
 https://medium.com/@pppped/extend-create-react-app-with-airbnbs-eslint-config-prettier-flow-and-react-testing-library-96627e9a9672
 
+
+
+## Push Notificatin
+Addition to sw.js (should be automatically)
+self.addEventListener('push', function (evt) {
+  console.log('Push Message Received');
+  var options = {
+    body: 'See What New',
+    data: {
+      timestamp: Date.now(),
+      loc: 'index.html#info',
+    },
+    action: [{ action: 'go', title: 'Go Now' }],
+  };
+  evt.waitUntil(self.registration.showNotification('Corona Stat', options));
+});
