@@ -21,7 +21,7 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
@@ -30,6 +30,10 @@ export function register(config) {
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
       return;
     }
+
+    console.log(
+      'SW registration ' + `${process.env.PUBLIC_URL}/service-worker.js`
+    );
 
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
@@ -58,6 +62,9 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      console.log('before subscribeToPush');
+      subscribeToPush();
+      console.log('after subscribeToPush');
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -138,4 +145,38 @@ export function unregister() {
         console.error(error.message);
       });
   }
+}
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+function subscribeToPush() {
+  const publicKey = urlBase64ToUint8Array(
+    'BJ9TCBKYU5q7uuPyhpU8vLzD2_V0FaKA4lvOD9jiRuJ56zAX2QUflgQyBkpDHcFeLGKZGQ7dAGq-SBKZ3NNUkLM'
+  );
+
+  navigator.serviceWorker.ready
+    .then(function (reg) {
+      console.log('subscribeToPush 1');
+      reg.pushManager
+        .subscribe({ userVisibleOnly: true, applicationServerKey: publicKey })
+        .then(function (sub) {
+          console.log('subscribeToPush 2');
+          console.log(JSON.stringify(sub));
+          console.log('Endpoint: ' + sub.endpoint);
+          console.log('User Subscribed');
+        })
+        .catch(err => console.log('subscribeToPush 2 ' + err));
+    })
+    .catch(err => console.log('subscribeToPush 1 ' + err));
 }
