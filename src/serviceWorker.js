@@ -10,6 +10,8 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
+import axios from 'axios';
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -171,6 +173,15 @@ function subscribeToPush() {
       reg.pushManager
         .subscribe({ userVisibleOnly: true, applicationServerKey: publicKey })
         .then(function (sub) {
+          axios
+            .post('/subscribe', sub)
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
           console.log('subscribeToPush 2');
           console.log(JSON.stringify(sub));
           console.log('Endpoint: ' + sub.endpoint);
