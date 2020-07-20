@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -13,11 +13,27 @@ import AddLocationIcon from '@material-ui/icons/AddLocation';
 
 import WatchList from './WatchList';
 import ColumnsSelector from './ColumnsSelector';
+import AuthService from '../shared/services/AuthService';
 
 export function MainListItems({ handleDrawerClose }) {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [openColumnsSelector, setOpenColumnsSelector] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const authService = new AuthService();
+
+    authService.getUser().then(user => {
+      if (user) {
+        setUser(user);
+        console.log('User has been successfully loaded from store.');
+      } else {
+        setUser(null);
+        console.log('You are not logged in.');
+      }
+    });
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
