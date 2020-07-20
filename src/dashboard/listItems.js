@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -15,25 +15,55 @@ import WatchList from './WatchList';
 import ColumnsSelector from './ColumnsSelector';
 import AuthService from '../shared/services/AuthService';
 
+import { AuthContext, logInUser } from '../shared/contextAuth';
+
 export function MainListItems({ handleDrawerClose }) {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [openColumnsSelector, setOpenColumnsSelector] = useState(false);
-  const [user, setUser] = useState(null);
+  const [logged, setLogged] = useState(false);
+
+  const { state, dispatch } = useContext(AuthContext);
+
+  // useEffect(() => {
+  //   const getUserEffect = async () => {
+  //     const user = await getUser(dispatch);
+
+  //     if (user) {
+  //       setLogged(true);
+  //       console.log('User has been successfully loaded from store.', user);
+  //     } else {
+  //       setLogged(false);
+  //       console.log('You are not logged in.');
+  //     }
+  //   };
+
+  //   getUserEffect();
+  // }, [state, dispatch]);
+
+  // useEffect(() => {
+  //   if (state.user) {
+  //     setLogged(true);
+  //     console.log('User has been successfully loaded from store.', state.user);
+  //   } else {
+  //     setLogged(false);
+  //     console.log('You are not logged in.');
+  //   }
+  // }, [state]);
 
   useEffect(() => {
     const authService = new AuthService();
 
     authService.getUser().then(user => {
       if (user) {
-        setUser(user);
-        console.log('User has been successfully loaded from store.');
+        setLogged(true);
+        console.log('User has been successfully loaded from store. ', user);
       } else {
-        setUser(null);
+        setLogged(false);
         console.log('You are not logged in.');
       }
     });
-  }, []);
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,6 +88,13 @@ export function MainListItems({ handleDrawerClose }) {
     history.push(link);
   };
 
+  const handleLogIn = () => {
+    logInUser(dispatch);
+    //  const authService = new AuthService();
+
+    //  authService.login();
+  };
+
   return (
     <div>
       <ListItem button onClick={() => handleClick('/')}>
@@ -68,13 +105,13 @@ export function MainListItems({ handleDrawerClose }) {
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItem>
-      <ListItem button onClick={() => alert('not implemented yet')}>
+      <ListItem button onClick={handleLogIn}>
         <ListItemIcon>
-          <Tooltip title="Subscribe">
+          <Tooltip title={logged ? 'Log out' : 'Log in'}>
             <MailIcon />
           </Tooltip>
         </ListItemIcon>
-        <ListItemText primary="Subscribe" />
+        <ListItemText primary={logged ? 'Log out' : 'Log in'} />
       </ListItem>
       <ListItem button onClick={() => alert('not implemented yet')}>
         <ListItemIcon>

@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import Dashboard from './dashboard/Dashboard';
 import { ContextEventsProvider } from './shared/context';
+import { ContextAuthProvider } from './shared/contextAuth';
+
 import './shared/utils';
 
 function App() {
@@ -10,7 +12,9 @@ function App() {
 
   return (
     <ContextEventsProvider>
-      <Dashboard />
+      <ContextAuthProvider>
+        <Dashboard />
+      </ContextAuthProvider>
     </ContextEventsProvider>
   );
 }
