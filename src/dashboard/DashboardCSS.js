@@ -5,6 +5,9 @@ const drawerWidth = 200;
 export default theme => {
   return makeStyles(theme => {
     return {
+      userLable: {
+        marginRight: theme.spacing(1),
+      },
       rootZoom: {
         position: 'fixed',
         top: theme.spacing(8),
@@ -15,7 +18,6 @@ export default theme => {
         minHeight: 22,
         overflow: 'hidden',
       },
-
       rootTab: {
         border: 0,
         height: 20,
@@ -95,7 +97,7 @@ export default theme => {
       },
       fixedHeight: {
         height: 200,
-      }
+      },
     };
   })();
 };

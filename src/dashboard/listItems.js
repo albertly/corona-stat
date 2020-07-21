@@ -89,10 +89,10 @@ export function MainListItems({ handleDrawerClose }) {
   };
 
   const handleLogIn = () => {
-    logInUser(dispatch);
-    //  const authService = new AuthService();
+    //logInUser(dispatch);
+    const authService = new AuthService();
 
-    //  authService.login();
+    authService.login();
   };
 
   return (

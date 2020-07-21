@@ -29,6 +29,7 @@ import Main from './Main/Main';
 import DailyCases from './Graph/DailyCases';
 import { EventsContext } from '../shared/context';
 import { getRandomInt } from '../shared/utils';
+import AuthService from '../shared/services/AuthService';
 
 import makeStyles from './DashboardCSS';
 
@@ -44,7 +45,21 @@ export default function Dashboard(props) {
   const [refreshGraph, setRefreshGraph] = useState({ v: true });
   const [change, setChange] = useState(0);
   const [changeText, setChangeText] = useState([]);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const authService = new AuthService();
+
+    authService.getUser().then(u => {
+      if (u) {
+        setUser(u);
+        console.log('User has been successfully loaded from store. 1', u);
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (!('Notification' in window)) {
@@ -185,6 +200,17 @@ export default function Dashboard(props) {
           >
             COVID-19 CORONAVIRUS PANDEMIC
           </Typography>
+
+          {user && (
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              className={classes.userLable}
+            >
+              Hello, {user.profile.name}
+            </Typography>
+          )}
+
           <FormGroup row>
             <FormControlLabel
               control={
@@ -200,7 +226,6 @@ export default function Dashboard(props) {
               label={`${darkTheme_ ? 'light' : 'dark'}`}
             />
           </FormGroup>
-
           <IconButton color="inherit" onClick={handleResetChange}>
             <Badge badgeContent={changeText.length} color="secondary">
               <NotificationsIcon aria-describedby={idPopover} />

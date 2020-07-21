@@ -1,4 +1,4 @@
-import { UserManager } from 'oidc-client';
+import { UserManager, WebStorageStateStore } from 'oidc-client';
 
 class AuthService {
   constructor() {
@@ -11,6 +11,7 @@ class AuthService {
       post_logout_redirect_uri: `${window.location.href}`,
       response_type: 'code',
       scope: `${process.env.REACT_APP_CLIENT_SCOPE}`,
+      userStore: new WebStorageStateStore({ store: window.localStorage }),
     };
     console.log('setting', settings);
     this.userManager = new UserManager(settings);
