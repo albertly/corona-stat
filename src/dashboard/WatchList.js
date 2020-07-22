@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 
+import AuthService from '../shared/services/AuthService';
 import { countryCodes } from '../shared/CountryCodes';
 import { Flag } from '../shared/utils';
 
@@ -57,7 +58,28 @@ export default function WatchList(props) {
 
   const handleChange = event => {
     const c = { ...countries, [event.target.name]: event.target.checked };
+
     setCountries(c);
+
+    const authService = new AuthService();
+
+    authService.getUser().then(u => {
+      if (u) {
+        //  setUser(u);
+
+        if (!('Notification' in window)) {
+          console.log('This browser does not support desktop notification');
+        } else {
+          Notification.requestPermission();
+          console.log('requestPermission');
+        }
+
+        console.log('User has been successfully loaded from store. 1', u);
+      } else {
+        //  setUser(null);
+      }
+    });
+
     localStorage.setItem('countries', JSON.stringify(c));
   };
 

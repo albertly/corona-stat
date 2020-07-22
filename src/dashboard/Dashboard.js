@@ -61,14 +61,14 @@ export default function Dashboard(props) {
     });
   }, []);
 
-  useEffect(() => {
-    if (!('Notification' in window)) {
-      console.log('This browser does not support desktop notification');
-    } else {
-      Notification.requestPermission();
-      console.log('requestPermission');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!('Notification' in window)) {
+  //     console.log('This browser does not support desktop notification');
+  //   } else {
+  //     Notification.requestPermission();
+  //     console.log('requestPermission');
+  //   }
+  // }, []);
 
   useEffect(() => {
     let countries = {};
