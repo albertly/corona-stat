@@ -13,6 +13,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 
 import AuthService from '../shared/services/AuthService';
+import ApiService from '../shared/services/ApiService';
+
 import { countryCodes } from '../shared/CountryCodes';
 import { Flag } from '../shared/utils';
 
@@ -59,14 +61,16 @@ export default function WatchList(props) {
   const handleChange = event => {
     const c = { ...countries, [event.target.name]: event.target.checked };
 
+    console.log('handleChange 1');
     setCountries(c);
 
     const authService = new AuthService();
 
     authService.getUser().then(u => {
+      console.log('handleChange 2');
       if (u) {
         //  setUser(u);
-
+        console.log('handleChange 3');
         if (!('Notification' in window)) {
           console.log('This browser does not support desktop notification');
         } else {
@@ -74,13 +78,31 @@ export default function WatchList(props) {
           console.log('requestPermission');
         }
 
+        console.log('handleChange 4');
+        const sub = localStorage.getItem('sub');
+        if (sub) {
+          console.log('handleChange 5');
+          const apiService = new ApiService();
+
+          const subO = JSON.parse(sub);
+          const notifyFor = Object.keys(c).filter(k => c[k]);
+          console.log('handleChange 6 ', notifyFor);
+          subO.countries = notifyFor;
+
+          apiService.callApi(JSON.stringify(subO)).then(
+            r => console.log('Api call ', r),
+            e => console.log('Api call error ', e)
+          );
+        }
         console.log('User has been successfully loaded from store. 1', u);
       } else {
         //  setUser(null);
+        console.log('Cannot get user');
       }
     });
 
     localStorage.setItem('countries', JSON.stringify(c));
+    console.log('handleChange End');
   };
 
   useEffect(() => {

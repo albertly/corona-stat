@@ -16,6 +16,12 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+// navigator.serviceWorker.addEventListener('message', ... ) should work too
+navigator.serviceWorker.onmessage = function (e) {
+  // messages from service worker.
+  console.log('e.data from SW', e.data);
+};
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

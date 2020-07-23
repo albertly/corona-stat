@@ -8,6 +8,7 @@ console.log('file', file);
 const search = 'workbox.core.clientsClaim();';
 
 const replaceWith = `  
+  workbox.setConfig({debug: false});
   self.addEventListener('push', function (evt) {
     console.log('Push Message Received');
     var options = {

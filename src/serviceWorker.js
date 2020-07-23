@@ -11,6 +11,7 @@
 // opt-in, read https://bit.ly/CRA-PWA
 
 import axios from 'axios';
+import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -173,19 +174,34 @@ function subscribeToPush() {
       reg.pushManager
         .subscribe({ userVisibleOnly: true, applicationServerKey: publicKey })
         .then(function (sub) {
-          axios
-            .post('/subscribe', sub)
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+          console.log('Start..............');
+          console.log('reg', reg);
+          console.log('navigator.serviceWorker', navigator.serviceWorker);
+          console.log('navigator', navigator);
+
+          console.log('End..............');
+
+          // Clients.matchAll().then(function (clients) {
+          //   clients.forEach(function (client) {
+          //     console.log(client);
+          //     client.postMessage('The service worker just started up. My Msg');
+          //   });
+          // });
+
+          // axios
+          //   .post('/subscribe', sub)
+          //   .then(function (response) {
+          //     console.log(response);
+          //   })
+          //   .catch(function (error) {
+          //     console.log(error);
+          //   });
 
           console.log('subscribeToPush 2');
           console.log(JSON.stringify(sub));
           console.log('Endpoint: ' + sub.endpoint);
           console.log('User Subscribed');
+          localStorage.setItem('sub', JSON.stringify(sub));
         })
         .catch(err => console.log('subscribeToPush 2 ' + err));
     })
