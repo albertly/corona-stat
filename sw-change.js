@@ -12,7 +12,7 @@ const replaceWith = `
   self.addEventListener('push', function (evt) {
     console.log('Push Message Received');
     var options = {
-      body: 'See What New',
+      body: evt.data.text(),
       data: {
         timestamp: Date.now(),
         loc: 'index.html#info',
