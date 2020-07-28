@@ -21,6 +21,8 @@ import Paper from '@material-ui/core/Paper';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 import Error404 from './Error/Error404';
 import { MainListItems } from './listItems';
@@ -47,6 +49,8 @@ export default function Dashboard(props) {
   const [changeText, setChangeText] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
+  const theme = useTheme();
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const authService = new AuthService();
@@ -193,17 +197,17 @@ export default function Dashboard(props) {
 
           <Typography
             component="h1"
-            variant="h6"
+            variant={smallScreen ? 'subtitle2' : 'subtitle1'}
             color="inherit"
             noWrap
             className={classes.title}
           >
-            COVID-19 CORONAVIRUS PANDEMIC
+            {smallScreen ? 'COVID-19' : 'COVID-19 CORONAVIRUS PANDEMIC'}
           </Typography>
 
           {user && (
             <Typography
-              variant="subtitle1"
+              variant={smallScreen ? 'subtitle2' : 'subtitle1'}
               gutterBottom
               className={classes.userLable}
             >
@@ -223,7 +227,11 @@ export default function Dashboard(props) {
                   icon={<Brightness4Icon />}
                 />
               }
-              label={`${darkTheme_ ? 'light' : 'dark'}`}
+              label={
+                <Typography
+                  variant={smallScreen ? 'subtitle2' : 'subtitle1'}
+                >{`${darkTheme_ ? 'light' : 'dark'}`}</Typography>
+              }
             />
           </FormGroup>
           <IconButton color="inherit" onClick={handleResetChange}>
