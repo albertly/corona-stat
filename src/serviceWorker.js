@@ -34,12 +34,15 @@ export function register(config) {
       return;
     }
 
-    console.log(
-      'SW registration ' + `${process.env.PUBLIC_URL}/service-worker.js`
-    );
-
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      let customSW = '';
+      if (process.env.NODE_ENV === 'development') {
+        customSW = '-custom';
+      }
+
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker${customSW}.js`;
+
+      console.log(`SW registration -  ${swUrl}`);
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
