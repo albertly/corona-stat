@@ -103,7 +103,7 @@ const reducer = (state, action) => {
       };
     }
     case NOP:
-      return { ...state, lastUpdate: action.payload };
+      return state;
     case GET_YESTERDAY_EVENTS_FAILURE:
     case GET_EVENTS_FAILURE:
       return { ...state, errorMessage: action.error };
@@ -140,6 +140,7 @@ const getEventsAction = async (dispatch, state) => {
     response = await axios.get('');
     const { res: delta } = compareArr(response.data, state.events);
     if (delta.length) {
+      console.log('Change');
       dispatch({
         type: GET_EVENTS_SUCCESS,
         payload: {
@@ -149,6 +150,7 @@ const getEventsAction = async (dispatch, state) => {
         },
       });
     } else {
+      console.log('No Change');
       dispatch({ type: NOP, payload: response.headers.date });
     }
   } catch (ex) {
