@@ -14,6 +14,7 @@ import AddLocationIcon from '@material-ui/icons/AddLocation';
 import WatchList from './WatchList';
 import ColumnsSelector from './ColumnsSelector';
 import AuthService from '../shared/services/AuthService';
+import { subscribeToPush } from '../shared/utils';
 
 import { AuthContext, logInUser } from '../shared/contextAuth';
 
@@ -89,10 +90,24 @@ export function MainListItems({ handleDrawerClose }) {
   };
 
   const handleLogIn = () => {
-    //logInUser(dispatch);
     const authService = new AuthService();
 
     authService.login();
+
+    authService.getUser().then(user => {
+      if (!('Notification' in window)) {
+        console.log('This browser does not support desktop notification');
+      } else {
+        if (user) {
+          console.log('requesting permission for notification');
+          Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+              subscribeToPush();
+            }
+          });
+        }
+      }
+    });
   };
 
   return (

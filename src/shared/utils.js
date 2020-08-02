@@ -305,4 +305,38 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+export function subscribeToPush() {
+  const publicKey = urlBase64ToUint8Array(
+    'BJ9TCBKYU5q7uuPyhpU8vLzD2_V0FaKA4lvOD9jiRuJ56zAX2QUflgQyBkpDHcFeLGKZGQ7dAGq-SBKZ3NNUkLM'
+  );
+
+  navigator.serviceWorker.ready
+    .then(function (reg) {
+      console.log('subscribeToPush 1');
+      reg.pushManager
+        .subscribe({ userVisibleOnly: true, applicationServerKey: publicKey })
+        .then(function (sub) {
+          console.log(JSON.stringify(sub));
+          console.log('Endpoint: ' + sub.endpoint);
+
+          localStorage.setItem('sub', JSON.stringify(sub)); // ToDo: Maybe save it in context;
+        })
+        .catch(err => console.log('subscribeToPush Error 2 ' + err));
+    })
+    .catch(err => console.log('subscribeToPush Error 1 ' + err));
+}
+
 export default useInterval;

@@ -10,9 +10,6 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-import axios from 'axios';
-import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
-
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -68,9 +65,6 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
-      console.log('before subscribeToPush');
-      subscribeToPush();
-      console.log('after subscribeToPush');
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -151,62 +145,4 @@ export function unregister() {
         console.error(error.message);
       });
   }
-}
-
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
-
-function subscribeToPush() {
-  const publicKey = urlBase64ToUint8Array(
-    'BJ9TCBKYU5q7uuPyhpU8vLzD2_V0FaKA4lvOD9jiRuJ56zAX2QUflgQyBkpDHcFeLGKZGQ7dAGq-SBKZ3NNUkLM'
-  );
-
-  navigator.serviceWorker.ready
-    .then(function (reg) {
-      console.log('subscribeToPush 1');
-      reg.pushManager
-        .subscribe({ userVisibleOnly: true, applicationServerKey: publicKey })
-        .then(function (sub) {
-          console.log('Start..............');
-          console.log('reg', reg);
-          console.log('navigator.serviceWorker', navigator.serviceWorker);
-          console.log('navigator', navigator);
-
-          console.log('End..............');
-
-          // Clients.matchAll().then(function (clients) {
-          //   clients.forEach(function (client) {
-          //     console.log(client);
-          //     client.postMessage('The service worker just started up. My Msg');
-          //   });
-          // });
-
-          // axios
-          //   .post('/subscribe', sub)
-          //   .then(function (response) {
-          //     console.log(response);
-          //   })
-          //   .catch(function (error) {
-          //     console.log(error);
-          //   });
-
-          console.log('subscribeToPush 2');
-          console.log(JSON.stringify(sub));
-          console.log('Endpoint: ' + sub.endpoint);
-          console.log('User Subscribed');
-          localStorage.setItem('sub', JSON.stringify(sub));
-        })
-        .catch(err => console.log('subscribeToPush 2 ' + err));
-    })
-    .catch(err => console.log('subscribeToPush 1 ' + err));
 }
