@@ -1,9 +1,11 @@
-var express = require('express');
-var server = express();
-var options = {
+const compression = require('compression');
+const express = require('express');
+const server = express();
+const options = {
   index: 'index.html', //Fill path here.
 };
 
+server.use(compression());
 //'/home/site/wwwroot'
 server.use('/', express.static('./build', options));
 
