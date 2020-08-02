@@ -11,9 +11,14 @@ class ApiService {
       if (user && user.access_token) {
         return this._callApi(sub, user.access_token).catch(error => {
           if (error.response.status === 401) {
-            return this.authService.renewToken().then(renewedUser => {
-              return this._callApi(sub, renewedUser.access_token);
-            });
+            return this.authService
+              .login()
+              .then(renewedUser => {
+                return this._callApi(sub, renewedUser.access_token);
+              })
+              .catch(error => {
+                console.log('Auth error: ', error);
+              });
           }
           throw error;
         });
