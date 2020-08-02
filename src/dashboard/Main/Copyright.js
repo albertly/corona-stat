@@ -12,8 +12,8 @@ function Copyright() {
       <Link color="inherit" href="https://www.worldometers.info/coronavirus/">
         Data from www.worldometers.info
       </Link>
-      {' - '} Corona Statistics v{appInfo.version}
-      <p>Last Update: {state.lastUpdate} </p>
+      {' - '} Corona Statistics v{`${appInfo.version} `} Last Update:{' '}
+      {state.lastUpdate}
     </Typography>
   );
 }
