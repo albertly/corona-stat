@@ -1,35 +1,39 @@
 import axios from 'axios';
-import AuthService from './AuthService';
 
 class ApiService {
-  constructor() {
-    this.authService = new AuthService();
+  constructor(auth) {
+    this.authService = auth;
+  }
+
+  callGetSubscriber(subscription) {
+    const user = this.authService.userData;
+    if (user) {
+      subscription.uid = user.sub;
+      return axios.post('/subscriber', subscription);
+    }
+    return Promise.reject('Not logged');
   }
 
   callApi(sub) {
-    return this.authService.getUser().then(user => {
-      if (user && user.access_token) {
-        return this._callApi(sub, user.access_token).catch(error => {
-          if (error.response.status === 401) {
-            return this.authService
-              .login()
-              .then(renewedUser => {
-                return this._callApi(sub, renewedUser.access_token);
-              })
-              .catch(error => {
-                console.log('Auth error: ', error);
-              });
-          }
-          throw error;
-        });
-      } else if (user) {
-        return this.authService.renewToken().then(renewedUser => {
+    const user = this.authService.userData;
+
+    if (user && user.access_token) {
+      return this._callApi(sub, user.access_token).catch(error => {
+        if (error.response.status === 401) {
+          this.authService.signIn();
+          const renewedUser = this.authService.userData;
           return this._callApi(sub, renewedUser.access_token);
-        });
-      } else {
-        throw new Error('user is not logged in');
-      }
-    });
+        }
+        throw error;
+      });
+    } else if (user) {
+      this.authService.signIn();
+      const renewedUser = this.authService.userData;
+
+      return this._callApi(sub, renewedUser.access_token);
+    } else {
+      throw new Error('user is not logged in');
+    }
   }
 
   _callApi(sub, token) {

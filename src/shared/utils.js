@@ -318,6 +318,20 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
+export async function getSubscribtion() {
+  if ('serviceWorker' in navigator) {
+    try {
+      const reg = await navigator.serviceWorker.ready;
+      const sub = await reg.pushManager.getSubscription();
+      return sub;
+    } catch (err) {
+      console.log('Error in getSubscribtion ', err);
+      return null;
+    }
+  }
+  return null;
+}
+
 export function subscribeToPush() {
   const publicKey = urlBase64ToUint8Array(
     'BJ9TCBKYU5q7uuPyhpU8vLzD2_V0FaKA4lvOD9jiRuJ56zAX2QUflgQyBkpDHcFeLGKZGQ7dAGq-SBKZ3NNUkLM'
@@ -326,15 +340,21 @@ export function subscribeToPush() {
   navigator.serviceWorker.ready
     .then(function (reg) {
       console.log('subscribeToPush 1');
-      reg.pushManager
-        .subscribe({ userVisibleOnly: true, applicationServerKey: publicKey })
-        .then(function (sub) {
-          console.log(JSON.stringify(sub));
-          console.log('Endpoint: ' + sub.endpoint);
 
-          localStorage.setItem('sub', JSON.stringify(sub)); // ToDo: Maybe save it in context;
-        })
-        .catch(err => console.log('subscribeToPush Error 2 ' + err));
+      reg.pushManager.getSubscription().then(sub => {
+        if (sub === null) {
+          reg.pushManager
+            .subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: publicKey,
+            })
+            .then(sub => localStorage.setItem('sub', JSON.stringify(sub)))
+            .catch(err => console.log('subscribeToPush Error 2 ' + err));
+        } else {
+          // We have a subscription, update the database
+          // localStorage.setItem('sub', JSON.stringify(sub));
+        }
+      });
     })
     .catch(err => console.log('subscribeToPush Error 1 ' + err));
 }

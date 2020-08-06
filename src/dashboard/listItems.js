@@ -10,21 +10,18 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import UnsubscribeIcon from '@material-ui/icons/Unsubscribe';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
+import { useAuth } from 'oidc-react';
 
 import WatchList from './WatchList';
 import ColumnsSelector from './ColumnsSelector';
-import AuthService from '../shared/services/AuthService';
 import { subscribeToPush } from '../shared/utils';
-
-import { AuthContext, logInUser } from '../shared/contextAuth';
 
 export function MainListItems({ handleDrawerClose }) {
   const history = useHistory();
+  const auth = useAuth();
   const [open, setOpen] = useState(false);
   const [openColumnsSelector, setOpenColumnsSelector] = useState(false);
   const [logged, setLogged] = useState(false);
-
-  const { state, dispatch } = useContext(AuthContext);
 
   // useEffect(() => {
   //   const getUserEffect = async () => {
@@ -53,17 +50,16 @@ export function MainListItems({ handleDrawerClose }) {
   // }, [state]);
 
   useEffect(() => {
-    const authService = new AuthService();
-
-    authService.getUser().then(user => {
-      if (user) {
-        setLogged(true);
-        console.log('User has been successfully loaded from store. ', user);
-      } else {
-        setLogged(false);
-        console.log('You are not logged in.');
-      }
-    });
+    if (auth.userData) {
+      setLogged(true);
+      console.log(
+        'User has been successfully loaded from store. ',
+        auth.userData
+      );
+    } else {
+      setLogged(false);
+      console.log('You are not logged in.');
+    }
   });
 
   const handleClickOpen = () => {
@@ -90,24 +86,7 @@ export function MainListItems({ handleDrawerClose }) {
   };
 
   const handleLogIn = () => {
-    const authService = new AuthService();
-
-    authService.login();
-
-    authService.getUser().then(user => {
-      if (!('Notification' in window)) {
-        console.log('This browser does not support desktop notification');
-      } else {
-        if (user) {
-          console.log('requesting permission for notification');
-          Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-              subscribeToPush();
-            }
-          });
-        }
-      }
-    });
+    auth.signIn();
   };
 
   return (

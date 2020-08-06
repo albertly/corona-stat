@@ -24,6 +24,8 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 
+import { useAuth } from 'oidc-react';
+
 import Error404 from './Error/Error404';
 import { MainListItems } from './listItems';
 import ScrollTop from './ScrollTop';
@@ -31,13 +33,13 @@ import Main from './Main/Main';
 import DailyCases from './Graph/DailyCases';
 import { EventsContext } from '../shared/context';
 import { getRandomInt } from '../shared/utils';
-import AuthService from '../shared/services/AuthService';
 
 import makeStyles from './DashboardCSS';
 
 const URL = process.env.REACT_APP_WS_URL;
 
 export default function Dashboard(props) {
+  const auth = useAuth();
   const classes = makeStyles();
   const [open, setOpen] = useState(false);
   const { state } = useContext(EventsContext);
@@ -53,17 +55,17 @@ export default function Dashboard(props) {
   const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    const authService = new AuthService();
-
-    authService.getUser().then(u => {
-      if (u) {
-        setUser(u);
-        console.log('User has been successfully loaded from store. 1', u);
-      } else {
-        setUser(null);
-      }
-    });
-  }, []);
+   // debugger;
+    if (auth.userData) {
+      setUser(auth.userData);
+      console.log(
+        'User has been successfully loaded from store. 1',
+        auth.userData
+      );
+    } else {
+      setUser(null);
+    }
+  }, [auth.userData]);
 
   // useEffect(() => {
   //   if (!('Notification' in window)) {
