@@ -14,7 +14,6 @@ import { useAuth } from 'oidc-react';
 
 import WatchList from './WatchList';
 import ColumnsSelector from './ColumnsSelector';
-import { subscribeToPush } from '../shared/utils';
 
 export function MainListItems({ handleDrawerClose }) {
   const history = useHistory();
@@ -23,42 +22,11 @@ export function MainListItems({ handleDrawerClose }) {
   const [openColumnsSelector, setOpenColumnsSelector] = useState(false);
   const [logged, setLogged] = useState(false);
 
-  // useEffect(() => {
-  //   const getUserEffect = async () => {
-  //     const user = await getUser(dispatch);
-
-  //     if (user) {
-  //       setLogged(true);
-  //       console.log('User has been successfully loaded from store.', user);
-  //     } else {
-  //       setLogged(false);
-  //       console.log('You are not logged in.');
-  //     }
-  //   };
-
-  //   getUserEffect();
-  // }, [state, dispatch]);
-
-  // useEffect(() => {
-  //   if (state.user) {
-  //     setLogged(true);
-  //     console.log('User has been successfully loaded from store.', state.user);
-  //   } else {
-  //     setLogged(false);
-  //     console.log('You are not logged in.');
-  //   }
-  // }, [state]);
-
   useEffect(() => {
-    if (auth.userData) {
+    if (auth.userData && !auth.userData.expired) {
       setLogged(true);
-      console.log(
-        'User has been successfully loaded from store. ',
-        auth.userData
-      );
     } else {
       setLogged(false);
-      console.log('You are not logged in.');
     }
   });
 

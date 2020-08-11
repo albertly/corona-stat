@@ -16,7 +16,8 @@ import { useAuth } from 'oidc-react';
 import ApiService from '../shared/services/ApiService';
 
 import { countryCodes } from '../shared/CountryCodes';
-import { Flag, getSubscribtion } from '../shared/utils';
+import { Flag, not } from '../shared/utils';
+import { getSubscribtion } from '../shared/PushNotification';
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -41,39 +42,39 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-//ToDo: what is selectedValue ?
-export default function WatchList(props) {
+export default function WatchList({ onClose, open }) {
   const classes = useStyles();
-  const { onClose, selectedValue, open } = props;
-  const [countries, setCountries] = useState({});
+  const [countries, setCountries] = useState([]);
+  const [countriesOrig, setCountriesOrig] = useState([]);
   const [search, setSearch] = useState('');
   const auth = useAuth();
 
   const handleClose = () => {
-    const user = auth.userData;
+    onClose();
+  };
 
-    if (user) {
-      const sub = getSubscribtion();
-      if (sub) {
-        const apiService = new ApiService(auth);
+  const handleCloseAndSave = async () => {
+    if (not(countries, countriesOrig).length > 0) {
+      const user = auth.userData;
+      if (user && !user.expired) {
+        const sub = await getSubscribtion();
+        if (sub) {
+          const apiService = new ApiService(auth);
 
-        const subPayload = JSON.parse(sub);
-        const notifyFor = Object.keys(countries).filter(k => countries[k]);
-        console.log('handleChange 6 ', notifyFor);
-        subPayload.countries = notifyFor;
+          sub.countries = countries;
 
-        apiService.callApi(JSON.stringify(subPayload)).then(
-          r => console.log('Api call ', r),
-          e => console.log('Api call error ', e)
-        );
+          apiService.callApi(sub).then(
+            r => console.log('Api call ', r),
+            e => console.log('Api call error ', e) // ToDo: give error to client
+          );
+        }
+      } else if (user && user.expired) {
+        alert('Cannot save data. Plz, log in');
+      } else {
+        localStorage.setItem('countries', JSON.stringify(countries));
       }
-    } else {
-      console.log('Cannot get user');
     }
-
-    localStorage.setItem('countries', JSON.stringify(countries));
-
-    onClose(selectedValue);
+    onClose();
   };
 
   const handleSearch = e => {
@@ -83,35 +84,42 @@ export default function WatchList(props) {
   const descriptionElementRef = useRef(null);
 
   const handleChange = event => {
-    const c = { ...countries, [event.target.name]: event.target.checked };
+    const c = [...countries];
+    if (event.target.checked) {
+      c.push(event.target.name);
+    } else {
+      const index = c.indexOf(event.target.name);
+      if (index > -1) {
+        c.splice(index, 1);
+      }
+    }
     setCountries(c);
   };
 
   useEffect(() => {
     const getSubscribtionLocal = async () => {
-      const subscription = await getSubscribtion();
-
-      if (subscription) {
+      const pushSub = await getSubscribtion();
+      let result = null;
+      if (pushSub) {
         const apiService = new ApiService(auth);
-        apiService.callGetSubscriber(subscription).then(result => {
-          console.log(result);
-        });
+        result = await apiService.callGetSubscriber(pushSub);
       }
+      return result;
     };
 
-    debugger;
-    getSubscribtionLocal().then(() => {
-      const countriesStr = localStorage.getItem('countries');
-      if (!countriesStr) {
-        const c = {};
-        countryCodes.map(e => {
-          c[e.Name] = false;
-        });
-        setCountries(c);
-        localStorage.setItem('countries', JSON.stringify(c));
+    getSubscribtionLocal().then(result => {
+      let c = [];
+      if (result.data) {
+        c = result.data.countries;
+        // ToDo: make login here - if user and user.expired then login
       } else {
-        setCountries(JSON.parse(countriesStr));
+        const countriesStr = localStorage.getItem('countries');
+        if (countriesStr) {
+          c = JSON.parse(countriesStr);
+        }
       }
+      setCountries(c);
+      setCountriesOrig(c);
     });
   }, []);
 
@@ -163,7 +171,7 @@ export default function WatchList(props) {
 
                     <Checkbox
                       color="primary"
-                      checked={countries[e.Name]}
+                      checked={countries.indexOf(e.Name) !== -1}
                       onChange={handleChange}
                       name={e.Name}
                       inputProps={{ 'aria-label': 'secondary checkbox' }}
@@ -174,7 +182,7 @@ export default function WatchList(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCloseAndSave} color="primary">
             Save
           </Button>
           <Button onClick={handleClose} color="primary">

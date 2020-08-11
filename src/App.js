@@ -7,12 +7,10 @@ import Dashboard from './dashboard/Dashboard';
 import { ContextEventsProvider } from './shared/context';
 
 import './shared/utils';
-import { subscribeToPush } from './shared/utils';
+import { subscribeToPush } from './shared/PushNotification';
 
 const oidcConfig = {
   onSignIn: async user => {
-    debugger;
-    window.location.hash = '';
     window.history.replaceState(null, null, window.location.origin);
 
     if (!('Notification' in window)) {

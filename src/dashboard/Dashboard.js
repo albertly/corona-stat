@@ -55,26 +55,12 @@ export default function Dashboard(props) {
   const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
-   // debugger;
     if (auth.userData) {
       setUser(auth.userData);
-      console.log(
-        'User has been successfully loaded from store. 1',
-        auth.userData
-      );
     } else {
       setUser(null);
     }
   }, [auth.userData]);
-
-  // useEffect(() => {
-  //   if (!('Notification' in window)) {
-  //     console.log('This browser does not support desktop notification');
-  //   } else {
-  //     Notification.requestPermission();
-  //     console.log('requestPermission');
-  //   }
-  // }, []);
 
   useEffect(() => {
     let countries = {};

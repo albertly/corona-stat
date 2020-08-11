@@ -8,8 +8,10 @@ class ApiService {
   callGetSubscriber(subscription) {
     const user = this.authService.userData;
     if (user) {
-      subscription.uid = user.sub;
-      return axios.post('/subscriber', subscription);
+      const keys = subscription.toJSON();
+      keys.uid = user.profile.sub;
+
+      return axios.post('/subscriber', keys);
     }
     return Promise.reject('Not logged');
   }
@@ -42,9 +44,11 @@ class ApiService {
       Authorization: 'Bearer ' + token,
     };
 
-    console.log('Bearer ' + token);
-    //return axios.get('/testAuth', { headers });
-    return axios.post('/subscribe', JSON.parse(sub), { headers });
+    return axios.post(
+      '/subscribe',
+      { ...sub.toJSON(), countries: sub.countries },
+      { headers }
+    );
   }
 }
 
