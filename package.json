@@ -13,7 +13,7 @@
     "compression": "^1.7.4",
     "date-fns": "^2.15.0",
     "oidc-client": "^1.9.1",
-    "oidc-react": "file:../../tmp/oidc-react/oidc-react-1.0.0-alpha.5.tgz",
+    "oidc-react": "https://github.com/albertly/oidc-react/raw/v1.0.0-alpha.5-branch/oidc-react-1.0.0-alpha.5.tgz",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.13.1",
