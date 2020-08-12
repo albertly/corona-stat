@@ -14,6 +14,7 @@ import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 
 import { toNumber, todayFormated, InfinityToZero } from '../../shared/utils';
+import DateRangeFilter from './RangeSelectionMenu';
 
 const initial = [
   { id: 'id-1', content: '0' },
@@ -76,6 +77,8 @@ export default function DailyCases(props) {
   const [data, setData] = useState('');
   const [dataDeath, setDataDeath] = useState('');
   const [dataActive, setDataActive] = useState('');
+  const [filter, setFilter] = React.useState(0);
+
   _new = InfinityToZero(_new);
   death = InfinityToZero(death);
   active = InfinityToZero(active);
@@ -106,11 +109,21 @@ export default function DailyCases(props) {
 
   const getData = (resultData, cases, f) => {
     const data = [];
+    let filteredXData = resultData.xAxis.categories;
+    let filteredYData = resultData.series[0].data;
     if (resultData.xAxis) {
-      resultData.xAxis.categories.forEach((element, index) => {
+      if (filter) {
+        filteredXData = resultData.xAxis.categories.slice(
+          Math.max(resultData.xAxis.categories.length - 30 * filter, 0)
+        );
+        filteredYData = resultData.series[0].data.slice(
+          Math.max(resultData.series[0].data.length - 30 * filter, 0)
+        );
+      }
+      filteredXData.forEach((element, index) => {
         data.push({
           name: element,
-          cases: resultData.series[0].data[index],
+          cases: filteredYData[index],
         });
       });
     }
@@ -130,7 +143,7 @@ export default function DailyCases(props) {
 
       const length = state.events.length;
       const bool = !country && length;
-
+      console.log('result.data[0]', result.data[0]);
       getData(
         result.data[0],
         bool ? +toNumber(state.events[length - 1].new) : _new,
@@ -152,7 +165,7 @@ export default function DailyCases(props) {
 
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [filter]);
 
   const handleBackClick = () => {
     history.push('/');
@@ -169,6 +182,8 @@ export default function DailyCases(props) {
 
   return (
     <Container maxWidth="lg" className={classes.container}>
+      <DateRangeFilter value={filter} setValue={setFilter} />
+
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="list">
           {provided => (

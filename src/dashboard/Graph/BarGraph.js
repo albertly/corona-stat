@@ -48,7 +48,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function BarGraph(props) {
   const { data, mainBarColor, refLine } = props;
-
+  console.log('data', data);
   let graph = <></>;
   if (data && data.length) {
     graph = (
