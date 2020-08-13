@@ -190,7 +190,7 @@ export default function Dashboard(props) {
             noWrap
             className={classes.title}
           >
-            {smallScreen ? 'COVID-19' : 'COVID-19 CORONAVIRUS PANDEMIC'}
+            {smallScreen ? '' : 'COVID-19 CORONAVIRUS PANDEMIC'}
           </Typography>
 
           {user && (
@@ -214,11 +214,6 @@ export default function Dashboard(props) {
                   checkedIcon={<Brightness7Icon />}
                   icon={<Brightness4Icon />}
                 />
-              }
-              label={
-                <Typography
-                  variant={smallScreen ? 'subtitle2' : 'subtitle1'}
-                >{`${darkTheme_ ? 'light' : 'dark'}`}</Typography>
               }
             />
           </FormGroup>
