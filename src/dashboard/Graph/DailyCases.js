@@ -121,12 +121,16 @@ export default function DailyCases(props) {
         filteredYData = resultData.series[0].data.slice(
           Math.max(resultData.series[0].data.length - 30 * filter, 0)
         );
-        filteredY3Data = resultData.series[1].data.slice(
-          Math.max(resultData.series[1].data.length - 30 * filter, 0)
-        );
-        filteredY7Data = resultData.series[2].data.slice(
-          Math.max(resultData.series[2].data.length - 30 * filter, 0)
-        );
+        if (filteredY3Data.length) {
+          filteredY3Data = resultData.series[1].data.slice(
+            Math.max(resultData.series[1].data.length - 30 * filter, 0)
+          );
+        }
+        if (filteredY7Data.length) {
+          filteredY7Data = resultData.series[2].data.slice(
+            Math.max(resultData.series[2].data.length - 30 * filter, 0)
+          );
+        }
       }
       filteredXData.forEach((element, index) => {
         data.push({
