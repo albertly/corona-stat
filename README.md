@@ -30,8 +30,6 @@ https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Installable_PW
 https://www.twilio.com/blog/2018/06/installable-web-apps-practical-introduction-progressive-web-apps.html
 https://create-react-app.dev/docs/making-a-progressive-web-app/
 
-marquee
-https://www.w3docs.com/snippets/css/how-to-have-the-marquee-effect-without-using-the-marquee-tag-with-css-javascript-and-jquery.html
 
 useInterval
 https://overreacted.io/making-setinterval-declarative-with-react-hooks/
@@ -63,14 +61,10 @@ REST Services for Typescript
 https://github.com/thiagobustamante/typescript-rest
 https://github.com/vrudikov/typescript-rest-boilerplate
 
-recharts
-http://recharts.org/en-US/examples
 
 
 VS Code - Debugger for Chrome
 https://github.com/microsoft/vscode-chrome-debug/blob/master/README.md
-
-
 
 
 WebSockets tutorial: How to go real-time with Node and React

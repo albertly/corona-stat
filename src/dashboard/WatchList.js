@@ -109,7 +109,7 @@ export default function WatchList({ onClose, open }) {
 
     getSubscribtionLocal().then(result => {
       let c = [];
-      if (result.data) {
+      if (result && result.data) {
         c = result.data.countries;
         // ToDo: make login here - if user and user.expired then login
       } else {
