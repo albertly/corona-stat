@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  BarChart,
   Bar,
   Cell,
   XAxis,
@@ -10,6 +9,8 @@ import {
   Tooltip,
   ResponsiveContainer,
   ReferenceLine,
+  ComposedChart,
+  Line,
 } from 'recharts';
 
 import { todayFormated } from '../../shared/utils';
@@ -48,12 +49,11 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function BarGraph(props) {
   const { data, mainBarColor, refLine } = props;
-  console.log('data', data);
   let graph = <></>;
   if (data && data.length) {
     graph = (
       <ResponsiveContainer width={'99%'} height={300}>
-        <BarChart
+        <ComposedChart
           data={data}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
@@ -71,6 +71,20 @@ export default function BarGraph(props) {
               />
             ))}
           </Bar>
+          <Line
+            type="monotone"
+            dataKey="cases3"
+            stroke="#ff7300"
+            dot={false}
+            strokeWidth={2}
+          />
+          <Line
+            type="monotone"
+            dataKey="cases7"
+            stroke="#82ca9d"
+            dot={false}
+            strokeWidth={2}
+          />
           {refLine && (
             <ReferenceLine
               y={data[data.length - 1].cases}
@@ -78,7 +92,7 @@ export default function BarGraph(props) {
               stroke="red"
             />
           )}
-        </BarChart>
+        </ComposedChart>
       </ResponsiveContainer>
     );
   }

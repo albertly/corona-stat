@@ -111,6 +111,8 @@ export default function DailyCases(props) {
     const data = [];
     let filteredXData = resultData.xAxis.categories;
     let filteredYData = resultData.series[0].data;
+    let filteredY3Data = resultData.series[1] ? resultData.series[1].data : [];
+    let filteredY7Data = resultData.series[2] ? resultData.series[2].data : [];
     if (resultData.xAxis) {
       if (filter) {
         filteredXData = resultData.xAxis.categories.slice(
@@ -119,11 +121,19 @@ export default function DailyCases(props) {
         filteredYData = resultData.series[0].data.slice(
           Math.max(resultData.series[0].data.length - 30 * filter, 0)
         );
+        filteredY3Data = resultData.series[1].data.slice(
+          Math.max(resultData.series[1].data.length - 30 * filter, 0)
+        );
+        filteredY7Data = resultData.series[2].data.slice(
+          Math.max(resultData.series[2].data.length - 30 * filter, 0)
+        );
       }
       filteredXData.forEach((element, index) => {
         data.push({
           name: element,
           cases: filteredYData[index],
+          cases3: filteredY3Data[index],
+          cases7: filteredY7Data[index],
         });
       });
     }
@@ -143,7 +153,6 @@ export default function DailyCases(props) {
 
       const length = state.events.length;
       const bool = !country && length;
-      console.log('result.data[0]', result.data[0]);
       getData(
         result.data[0],
         bool ? +toNumber(state.events[length - 1].new) : _new,
