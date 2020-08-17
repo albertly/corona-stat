@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import * as f from './img/flags/3x2';
 
 import { countryCodes } from './CountryCodes';
+import { green } from '@material-ui/core/colors';
 
 const _headCells = [
   {
@@ -36,6 +37,7 @@ const _headCells = [
     label: 'New Cases',
     name: 'New Cases',
     sort: true,
+    color: '#0095ff',
   },
   {
     id: 'totalDeaths',
@@ -52,6 +54,7 @@ const _headCells = [
     label: 'New Deaths',
     name: 'New Deaths',
     sort: true,
+    color: '#ff0000',
   },
   {
     id: 'totalRecovered',
@@ -68,6 +71,7 @@ const _headCells = [
     label: 'New Recovered',
     name: 'New Recovered',
     sort: true,
+    color: '#00ff00',
   },
   {
     id: 'active',
@@ -209,7 +213,7 @@ const _headCells = [
 export const headCells = _headCells;
 export const columns = _headCells
   .slice(2)
-  .map(e => ({ id: e.id, name: e.name }));
+  .map(e => ({ id: e.id, name: e.name, color: e.color }));
 
 export const Flag = (name, small = true) => {
   const code = getFlagByCountryName(name);

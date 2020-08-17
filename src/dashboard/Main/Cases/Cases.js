@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import {
   darken,
   fade,
@@ -139,6 +140,7 @@ const spanStyle = {
 function Cases({ data }) {
   const { state, dispatch } = useContext(EventsContext);
   const classes = useStyles();
+  const theme = useTheme();
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('total');
 
@@ -265,6 +267,16 @@ function Cases({ data }) {
                     return (
                       <TableCell
                         key={e.id}
+                        style={
+                          e.color
+                            ? {
+                                color: darken(
+                                  e.color,
+                                  theme.palette.type === 'light' ? 0.2 : 0
+                                ),
+                              }
+                            : {}
+                        }
                         className={`${colorForTotal(index)} ${
                           e.color ? classes[e.color] : ''
                         } `}
