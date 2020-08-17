@@ -109,18 +109,26 @@ export default function DailyCases(props) {
 
   const getData = (resultData, cases, f) => {
     const data = [];
-    let filteredXData = resultData.xAxis.categories;
-    let filteredYData = resultData.series[0].data;
-    let filteredY3Data = resultData.series[1] ? resultData.series[1].data : [];
-    let filteredY7Data = resultData.series[2] ? resultData.series[2].data : [];
-    if (resultData.xAxis) {
+    let filteredYData = [];
+    let filteredY3Data = [];
+    let filteredY7Data = [];
+    let filteredXData = resultData.xAxis ? resultData.xAxis.categories : [];
+
+    if (filteredXData.length) {
+      filteredYData = resultData.series[0] ? resultData.series[0].data : [];
+      filteredY3Data = resultData.series[1] ? resultData.series[1].data : [];
+      filteredY7Data = resultData.series[2] ? resultData.series[2].data : [];
+
       if (filter) {
         filteredXData = resultData.xAxis.categories.slice(
           Math.max(resultData.xAxis.categories.length - 30 * filter, 0)
         );
-        filteredYData = resultData.series[0].data.slice(
-          Math.max(resultData.series[0].data.length - 30 * filter, 0)
-        );
+
+        if (filteredYData.length) {
+          filteredYData = resultData.series[0].data.slice(
+            Math.max(resultData.series[0].data.length - 30 * filter, 0)
+          );
+        }
         if (filteredY3Data.length) {
           filteredY3Data = resultData.series[1].data.slice(
             Math.max(resultData.series[1].data.length - 30 * filter, 0)
