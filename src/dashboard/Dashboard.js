@@ -72,7 +72,7 @@ export default function Dashboard(props) {
       countries = JSON.parse(countriesStr);
       Object.keys(countries).map(k => {
         if (countries[k]) {
-          const index = state.change.findIndex(e => e.country === k);
+          const index = state.change.findIndex(e => e.country === countries[k]);
           if (index !== -1) {
             num += 1;
             changeArr.push(state.change[index]);
@@ -246,7 +246,7 @@ export default function Dashboard(props) {
                 >
                   {`${row.country} ${row.new ? row.new : 0} (${
                     row.newOld ? row.newOld : 0
-                  })`}
+                    })`}
                 </Typography>
               ))}
             </Paper>
